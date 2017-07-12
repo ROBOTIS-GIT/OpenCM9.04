@@ -22,7 +22,7 @@ OpenCM904.build.core=arduino
 OpenCM904.build.common_flags=-mthumb  -DSTM32F103xB -D__OPENCM904__
 
 OpenCM904.build.ldscript=bsp/opencm/ldscript/opencm_flash.ld
-OpenCM904.build.variant=OpenCM9.04
+OpenCM904.build.variant=OpenCM904
 OpenCM904.build.variant_system_lib=lib_f103.a
 OpenCM904.build.extra_flags=
 
