@@ -19,11 +19,7 @@
           },
           "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/0.0.1/opencm9.04_core_0.0.1.zip",
           "archiveFileName": "opencm9.04_core_0.0.1.zip",
-<<<<<<< HEAD
           "checksum": "SHA-256:8F4511DEAC39AB26394AA536928A66395561310E77D3B5B6A1C7EAE8BE369ADC",
-=======
-          "checksum": "SHA-256:ba8e267cd279be9c413c4fa8f7a1eea29b8eca0b178696190b66f1862914583f",
->>>>>>> 2a21e281f723bbf3c668210535cb9ef901d88eaa
           "size": "829978",
           "help": {
                     "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
