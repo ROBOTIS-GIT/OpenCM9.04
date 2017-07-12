@@ -1,0 +1,98 @@
+name=OpenCM
+version=1.0.0
+
+compiler.warning_flags=-Wall
+
+
+# compiler variables
+# ----------------------
+compiler.path={runtime.tools.opencm_gcc.path}/bin/
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=-c -g -O2 -std=gnu11 {compiler.warning_flags} -MMD -ffunction-sections -fdata-sections -DARM_MATH_CM3 -DUSE_HAL_DRIVER -DBOARD_{build.variant}
+compiler.c.elf.cmd=arm-none-eabi-g++
+compiler.c.elf.flags=-Os -Wl,--gc-sections
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.flags=-c -g -x assembler-with-cpp -MMD
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=-c -g -O2 -std=gnu++11 -Wno-write-strings {compiler.warning_flags} -MMD -ffunction-sections -fdata-sections  -fno-rtti -fno-exceptions -DARM_MATH_CM3 -DUSE_HAL_DRIVER -DBOARD_{build.variant}
+compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.flags=rcs
+compiler.objcopy.cmd=arm-none-eabi-objcopy 
+compiler.elf2hex.flags=-O binary
+compiler.elf2hex.cmd=arm-none-eabi-objcopy
+compiler.ldflags= 
+compiler.size.cmd=arm-none-eabi-size
+compiler.define=-DARDUINO=
+
+
+build.cpu_flags=
+build.hs_flag=
+build.upload_flags=
+
+
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags="-L{build.variant.path}/ld"
+compiler.cpp.extra_flags=
+compiler.S.extra_flags=
+compiler.ar.extra_flags=
+compiler.elf2hex.extra_flags=
+
+
+## Compiler include paths
+
+
+
+# sheepdoll a better more generic library include paths
+compiler.libs.c.flags= "-I{build.variant.path}/{build.inc1}" "-I{build.variant.path}/{build.inc2}" "-I{build.variant.path}/{build.inc3}" "-I{build.variant.path}/{build.inc4}" "-I{build.variant.path}/{build.inc5}" "-I{build.variant.path}/{build.inc6}" "-I{build.variant.path}/{build.inc7}"
+
+
+
+# build patterns
+# ---------------------
+
+## Compile c files
+recipe.c.o.pattern=		"{compiler.path}{compiler.c.cmd}" 	{compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {build.cpu_flags} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+###
+
+## Compile c++ files
+recipe.cpp.o.pattern=	"{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {build.cpu_flags} {build.hs_flag} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+#### {compiler.libs.c.flags}  before includes
+
+## Compile S files
+recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {build.cpu_flags} {build.hs_flag} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+recipe.s.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {build.cpu_flags} {build.hs_flag} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+
+## Create archives
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+recipe.c.combine.pattern= "{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" --specs=nano.specs -u _printf_float -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-unresolved-symbols -Wl,--start-group {object_files} -Wl,--whole-archive "{build.path}/{archive_file}" -Wl,--no-whole-archive -Wl,--end-group
+
+## Create eeprom
+recipe.objcopy.eep.pattern=
+
+## Create hex or binary
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+
+
+## Compute size
+# ---------------------
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=^(?:\.text|\.data|\.rodata|\.text.align|\.ARM.exidx)\s+([0-9]+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
+
+
+# Uploader tools
+# -------------------
+tools.opencm_ld.cmd=opencm9.04_ld
+tools.opencm_ld.cmd.windows=opencm9.04ld.exe
+tools.opencm_ld.path={runtime.tools.opencm_tools.path}/win
+tools.opencm_ld.path.macosx={runtime.tools.opencm_tools.path}/macosx
+tools.opencm_ld.path.linux={runtime.tools.opencm_tools.path}/linux
+
+tools.opencm_ld.upload.params.verbose=-d
+tools.opencm_ld.upload.params.quiet=n
+tools.opencm_ld.upload.pattern="{path}/{cmd}" "{serial.port}" "57600" "{build.path}/{build.project_name}.bin" "1" "opencm"
+#tools.opencm_ld.upload.pattern="d:\OpenCM904ld.exe" "{serial.port}" "57600" "{build.path}/{build.project_name}.bin" "1" "opencm"
+
