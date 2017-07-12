@@ -15,14 +15,14 @@
           "version": "0.0.1",
           "category": "Arduino",
           "help": {
-            "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
+            "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04/blob/master/arduino/opencm_arduino/tools/driver/opencm_driver.zip"
           },
           "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/0.0.1/opencm9.04_core_0.0.1.zip",
           "archiveFileName": "opencm9.04_core_0.0.1.zip",
           "checksum": "SHA-256:D424D3AC9FF25CEAEFCB6326F8442A7F632F2DFBD61DD9C869198F0E4B3406D2",
           "size": "829978",
           "help": {
-                    "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04/blob/master/arduino/opencm_arduino/tools/driver/opencm_driver.zip"
+                    "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
           },
           "boards": [
             {"name": "OpenCM9.04"}
