@@ -1,7 +1,7 @@
 {
   "packages": [
     {
-      "name": "OpenCM9.04",
+      "name": "OpenCM904",
       "maintainer": "ROBOTIS",
       "websiteURL": "https://github.com/ROBOTIS-GIT/OpenCM9.04",
       "email": "chc@robotis.com",
@@ -10,7 +10,7 @@
       },
       "platforms": [
         {
-          "name": "OpenCM904",
+          "name": "OpenCM9.04",
           "architecture": "OpenCM904",
           "version": "0.0.1",
           "category": "Arduino",
@@ -25,16 +25,16 @@
                     "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
           },
           "boards": [
-            {"name": "OpenCM904"}
+            {"name": "OpenCM9.04"}
           ],
           "toolsDependencies": [
             {
-              "packager": "OpenCM9.04",
+              "packager": "OpenCM904",
               "name": "opencm_gcc",
               "version": "5.4.0-2016q2"
             },
             {
-              "packager": "OpenCM9.04",
+              "packager": "OpenCM904",
               "name": "opencm_tools",
               "version": "0.0.1"
             }
