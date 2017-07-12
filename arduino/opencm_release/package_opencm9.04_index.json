@@ -19,7 +19,7 @@
           },
           "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/0.0.1/opencm9.04_core_0.0.1.zip",
           "archiveFileName": "opencm9.04_core_0.0.1.zip",
-          "checksum": "SHA-256:0BE11A7B3F009368BB6081DC1905B7B3D2B246C105F0F7DD482AEEE50B044A6B",
+          "checksum": "SHA-256:D424D3AC9FF25CEAEFCB6326F8442A7F632F2DFBD61DD9C869198F0E4B3406D2",
           "size": "829978",
           "help": {
                     "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
@@ -87,29 +87,29 @@
               "host": "i686-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.1.zip",
               "archiveFileName": "opencm_tools_0.0.1.zip",
-              "checksum": "SHA-256:A34D9354477D2CF2FCE580262C1AD729C61E580714F3131AFAF526CD414D9F90",
-              "size": "8187"
+              "checksum": "SHA-256:29A8B701BBD52ED6E443D1530C651F931078782898AA82FFB3A45C50DE24571B",
+              "size": "27085"
             },
             {
               "host": "x86_64-pc-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.1.zip",
               "archiveFileName": "opencm_tools_0.0.1.zip",
-              "checksum": "SHA-256:A34D9354477D2CF2FCE580262C1AD729C61E580714F3131AFAF526CD414D9F90",
-              "size": "8187"
+              "checksum": "SHA-256:29A8B701BBD52ED6E443D1530C651F931078782898AA82FFB3A45C50DE24571B",
+              "size": "27085"
             },
             {
               "host": "i686-mingw32",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.1.zip",
               "archiveFileName": "opencm_tools_0.0.1.zip",
-              "checksum": "SHA-256:A34D9354477D2CF2FCE580262C1AD729C61E580714F3131AFAF526CD414D9F90",
-              "size": "8187"
+              "checksum": "SHA-256:29A8B701BBD52ED6E443D1530C651F931078782898AA82FFB3A45C50DE24571B",
+              "size": "27085"
             },
             {
               "host": "i386-apple-darwin11",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.1.zip",
               "archiveFileName": "opencm_tools_0.0.1.zip",
-              "checksum": "SHA-256:A34D9354477D2CF2FCE580262C1AD729C61E580714F3131AFAF526CD414D9F90",
-              "size": "513792"
+              "checksum": "SHA-256:29A8B701BBD52ED6E443D1530C651F931078782898AA82FFB3A45C50DE24571B",
+              "size": "27085"
             }
           ]
         }

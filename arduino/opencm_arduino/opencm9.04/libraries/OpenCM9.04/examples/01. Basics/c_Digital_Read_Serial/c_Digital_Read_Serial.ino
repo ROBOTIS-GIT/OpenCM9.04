@@ -38,7 +38,7 @@
 void setup(){
   Serial.begin(115200);
 
-  pinMode(BOARD_BUTTON_PIN, INPUT);
+  pinMode(BOARD_BUTTON_PIN, INPUT_PULLDOWN);
 }
 
 void loop(){
