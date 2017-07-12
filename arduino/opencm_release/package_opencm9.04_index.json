@@ -29,12 +29,12 @@
           ],
           "toolsDependencies": [
             {
-              "packager": "OpenCM904",
+              "packager": "OpenCM9.04",
               "name": "opencm_gcc",
               "version": "5.4.0-2016q2"
             },
             {
-              "packager": "OpenCM904",
+              "packager": "OpenCM9.04",
               "name": "opencm_tools",
               "version": "0.0.1"
             }
