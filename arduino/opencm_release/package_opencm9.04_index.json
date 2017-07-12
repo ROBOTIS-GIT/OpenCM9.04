@@ -10,7 +10,7 @@
       },
       "platforms": [
         {
-          "name": "OpenCM9.04",
+          "name": "OpenCM904",
           "architecture": "OpenCM904",
           "version": "0.0.1",
           "category": "Arduino",
