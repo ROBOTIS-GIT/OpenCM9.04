@@ -111,9 +111,11 @@ void serialEventRun(void)
   if (Serial3.available()) serialEvent3();
 }
 
-
 void var_init(void)
 {
-
 }
 
+void toggleLED(void)
+{
+  digitalWrite(BOARD_LED_PIN, !digitalRead(BOARD_LED_PIN));
+}

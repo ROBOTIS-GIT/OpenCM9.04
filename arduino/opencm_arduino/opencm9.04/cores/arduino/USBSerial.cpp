@@ -88,7 +88,7 @@ size_t USBSerial::write(const uint8_t *buffer, size_t size)
   length = vcp_write((uint8_t *)buffer, (uint32_t)size);
 
   tx_cnt += length;
-  
+
   return (size_t)length;
 }
 

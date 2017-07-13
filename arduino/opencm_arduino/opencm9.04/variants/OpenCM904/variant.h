@@ -128,7 +128,7 @@ extern UARTClass Serial3;   // Serial for UART3
 #define analogPinToChannel(p)      ( (p) < 10 ? (p)+A0 : (p) )
 
 void  var_init();
-
+void  toggleLED(void);
 
 #define WIRE_INTERFACES_COUNT       1
 #define SPI_INTERFACES_COUNT        2

@@ -93,6 +93,37 @@ uint16_t RC100::readData(void)
   return rc100_rx.data;
 }
 
+void RC100::writeRaw(uint8_t temp)
+{
+  if (number == 1)
+  {
+    Serial1.write(temp);
+  }
+  else if (number == 2)
+  {
+    Serial2.write(temp);
+  }
+  else if (number == 3)
+  {
+    Serial3.write(temp);
+  }
+}
+uint8_t RC100::readRaw(void)
+{
+  if (number == 1)
+  {
+    return Serial1.read();
+  }
+  else if (number == 2)
+  {
+    return Serial2.read();
+  }
+  else if (number == 3)
+  {
+    return Serial3.read();    
+  }
+}
+
 bool RC100::rc100Update(uint8_t data)
 {
   bool ret = false;

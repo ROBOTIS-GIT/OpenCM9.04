@@ -17,10 +17,10 @@ compiler.cpp.cmd=arm-none-eabi-g++
 compiler.cpp.flags=-c -g -O2 -std=gnu++11 -Wno-write-strings {compiler.warning_flags} -MMD -ffunction-sections -fdata-sections  -fno-rtti -fno-exceptions -DARM_MATH_CM3 -DUSE_HAL_DRIVER -DBOARD_{build.variant}
 compiler.ar.cmd=arm-none-eabi-ar
 compiler.ar.flags=rcs
-compiler.objcopy.cmd=arm-none-eabi-objcopy 
+compiler.objcopy.cmd=arm-none-eabi-objcopy
 compiler.elf2hex.flags=-O binary
 compiler.elf2hex.cmd=arm-none-eabi-objcopy
-compiler.ldflags= 
+compiler.ldflags=
 compiler.size.cmd=arm-none-eabi-size
 compiler.define=-DARDUINO=
 
@@ -86,7 +86,7 @@ recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
 # Uploader tools
 # -------------------
 tools.opencm_ld.cmd=opencm9.04_ld
-tools.opencm_ld.cmd.windows=opencm9.04ld.exe
+tools.opencm_ld.cmd.windows=opencm9.04_ld.exe
 tools.opencm_ld.path={runtime.tools.opencm_tools.path}/win
 tools.opencm_ld.path.macosx={runtime.tools.opencm_tools.path}/macosx
 tools.opencm_ld.path.linux={runtime.tools.opencm_tools.path}/linux
@@ -95,4 +95,3 @@ tools.opencm_ld.upload.params.verbose=-d
 tools.opencm_ld.upload.params.quiet=n
 tools.opencm_ld.upload.pattern="{path}/{cmd}" "{serial.port}" "57600" "{build.path}/{build.project_name}.bin" "1" "opencm"
 #tools.opencm_ld.upload.pattern="d:\OpenCM904ld.exe" "{serial.port}" "57600" "{build.path}/{build.project_name}.bin" "1" "opencm"
-

@@ -96,6 +96,16 @@ int32_t vcp_write(uint8_t *p_data, uint32_t length)
   return ret;
 }
 
+void vcp_attach_rx_interrupt(voidFuncPtr handler)
+{
+  
+}
+
+void vcp_detach_rx_interrupt(void)
+{
+
+}
+
 
 int32_t vcp_printf( const char *fmt, ...)
 {

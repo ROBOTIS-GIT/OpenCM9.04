@@ -58,6 +58,10 @@ class RC100 {
    int available(void);
    uint16_t readData(void);
 
+   int writeData(int data);
+   void writeRaw(uint8_t temp);
+ 	 uint8_t readRaw(void);
+
  private:
 
    int8_t number;
