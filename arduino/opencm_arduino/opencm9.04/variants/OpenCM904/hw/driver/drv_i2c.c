@@ -341,6 +341,8 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
 
   if( hi2c->Instance == I2C1 )
   {
+    drv_i2c_reset(0);
+
     /* Enable I2Cx clock */
     __HAL_RCC_I2C1_CLK_ENABLE();
 
@@ -358,12 +360,11 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
   }
   if( hi2c->Instance == I2C2 )
   {
-
     drv_i2c_reset(1);
-
 
     /* Enable I2Cx clock */
     __HAL_RCC_I2C2_CLK_ENABLE();
+
 
     /*##-3- Configure peripheral GPIO ##########################################*/
     /* I2C SCL GPIO pin configuration  */
@@ -394,6 +395,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
     /*##-1- Reset peripherals ##################################################*/
     __HAL_RCC_I2C1_FORCE_RESET();
     __HAL_RCC_I2C1_RELEASE_RESET();
+    __HAL_RCC_I2C1_CLK_DISABLE();
 
     __HAL_AFIO_REMAP_I2C1_DISABLE();
 
@@ -411,6 +413,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef *hi2c)
     /*##-1- Reset peripherals ##################################################*/
     __HAL_RCC_I2C2_FORCE_RESET();
     __HAL_RCC_I2C2_RELEASE_RESET();
+    __HAL_RCC_I2C2_CLK_DISABLE();
 
     /*##-2- Disable peripherals and GPIO Clocks #################################*/
     /* Configure I2C SCL as alternate function  */
