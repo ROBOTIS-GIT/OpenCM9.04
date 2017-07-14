@@ -100,6 +100,17 @@ void bsp_deinit(void)
   uint32_t i;
   GPIO_InitTypeDef  GPIO_InitStruct;
 
+  __HAL_RCC_USART1_FORCE_RESET();
+  __HAL_RCC_USART1_RELEASE_RESET();
+  __HAL_RCC_USART1_CLK_DISABLE();
+
+  __HAL_RCC_USART2_FORCE_RESET();
+  __HAL_RCC_USART2_RELEASE_RESET();
+  __HAL_RCC_USART2_CLK_DISABLE();
+
+  __HAL_RCC_USART3_FORCE_RESET();
+  __HAL_RCC_USART3_RELEASE_RESET();
+  __HAL_RCC_USART3_CLK_DISABLE();
 
 
   HAL_NVIC_DisableIRQ(USB_LP_CAN1_RX0_IRQn);
@@ -173,5 +184,3 @@ void SystemClock_Config(void)
     while(1);
   }
 }
-
-

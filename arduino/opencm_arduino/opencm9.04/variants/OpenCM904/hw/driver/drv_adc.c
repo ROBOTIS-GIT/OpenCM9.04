@@ -28,7 +28,6 @@ int drv_adc_init()
   hADC1.Init.DataAlign             = ADC_DATAALIGN_RIGHT;
   hADC1.Init.NbrOfConversion       = 1;
 
-
   if (HAL_ADC_Init(&hADC1) != HAL_OK)
   {
     return -1;
@@ -157,4 +156,3 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     i++;
   }
 }
-
