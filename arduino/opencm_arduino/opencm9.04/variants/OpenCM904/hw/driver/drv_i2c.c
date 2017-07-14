@@ -78,16 +78,10 @@ int16_t drv_i2c_read(uint8_t ch, uint8_t devAddr, uint8_t regAddr, uint8_t *data
   }
   else
   {
-    vcp_printf("err\n");
-    vcp_printf("recovery...\n");
-    delay(3000);
+    //vcp_printf("err\n");
+    //vcp_printf("recovery...\n");
     drv_i2c_reset(ch);
-    //drv_i2c_setup_gpio(ch);
-    //SET_BIT(I2cHandle[ch].Instance->CR1,I2C_CR1_STOP);
-    //SET_BIT(I2cHandle[ch].Instance->CR1,I2C_CR1_SWRST);
-
     drv_i2c_recovery(ch);
-
     return -1;
   }
 #else
@@ -330,7 +324,7 @@ void I2C2_ER_IRQHandler(void)
 
 void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *I2cHandle)
 {
-  vcp_printf("err callback : %d\n", I2cHandle->ErrorCode);
+  //vcp_printf("err callback : %d\n", I2cHandle->ErrorCode);
 }
 
 
