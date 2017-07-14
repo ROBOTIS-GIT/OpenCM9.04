@@ -8,7 +8,7 @@
 
   This library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
 
   You should have received a copy of the GNU Lesser General Public
@@ -53,7 +53,7 @@ extern void analogReference( eAnalogReference ulMode ) ;
  * \param ulValue
  */
 extern void analogWrite( uint32_t ulPin, uint32_t ulValue ) ;
-
+extern void analogWriteFreq( uint32_t ulPin, uint32_t pwmFreq);
 /*
  * \brief Reads the value from the specified analog pin.
  *

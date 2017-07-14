@@ -58,7 +58,7 @@ bool swtimerInit(void)
   // 구조체 초기화
   for(i=0; i<_HW_DEF_SW_TIMER_MAX; i++)
   {
-    swtimer_tbl[i].Timer_En   = OFF;
+    swtimer_tbl[i].Timer_En   = false;
     swtimer_tbl[i].Timer_Ctn  = 0;
     swtimer_tbl[i].Timer_Init = 0;
     swtimer_tbl[i].TmrFnct    = NULL;
@@ -80,7 +80,7 @@ void swtimerISR(void)
 
   for (i=0; i<_HW_DEF_SW_TIMER_MAX && i<sw_timer_handle_index; i++)     // 타이머 갯수만큼
   {
-    if ( swtimer_tbl[i].Timer_En == ON)                         // 타이머가 활성화 됬니?
+    if ( swtimer_tbl[i].Timer_En == true)                       // 타이머가 활성화 됬니?
     {
       swtimer_tbl[i].Timer_Ctn--;                               // 타이머값 감소
 
@@ -88,7 +88,7 @@ void swtimerISR(void)
       {
         if(swtimer_tbl[i].Timer_Mode == ONE_TIME)               // 한번만 실행하는거면
         {
-          swtimer_tbl[i].Timer_En = OFF;                        // 타이머 OFF 한다.
+          swtimer_tbl[i].Timer_En = false;                      // 타이머 OFF 한다.
         }
 
         swtimer_tbl[i].Timer_Ctn = swtimer_tbl[i].Timer_Init;   // 타이머 초기화
@@ -113,7 +113,7 @@ void swtimerStart(uint8_t TmrNum)
 {
   if(TmrNum < _HW_DEF_SW_TIMER_MAX)
   {
-    swtimer_tbl[TmrNum].Timer_En = ON;
+    swtimer_tbl[TmrNum].Timer_En = true;
   }
 }
 
@@ -121,13 +121,13 @@ void swtimerStop (uint8_t TmrNum)
 {
   if(TmrNum < _HW_DEF_SW_TIMER_MAX)
   {
-    swtimer_tbl[TmrNum].Timer_En = OFF;
+    swtimer_tbl[TmrNum].Timer_En = false;
   }
 }
 
 void swtimerReset(uint8_t TmrNum)
 {
-  swtimer_tbl[TmrNum].Timer_En   = OFF;
+  swtimer_tbl[TmrNum].Timer_En   = false;
   swtimer_tbl[TmrNum].Timer_Ctn  = swtimer_tbl[TmrNum].Timer_Init;
 }
 

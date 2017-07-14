@@ -47,7 +47,7 @@ void analogReference(uint8_t mode){
 	analog_reference = mode;
 }
 
-uint32_t analogRead( uint32_t ulPin ){ 
+uint32_t analogRead( uint32_t ulPin ){
   int32_t adc_value = 0;
 
 
@@ -74,6 +74,10 @@ void analogWrite( uint32_t ulPin, uint32_t ulValue ){
 
     drv_pwm_setup(ulPin, 10000*res_data, res_data); // 10Khz, 0~_writeResolution
   }
-  
+
   drv_pwm_set_duty(ulPin, _writeResolution, ulValue);
+}
+
+void analogWriteFreq( uint32_t ulPin, uint32_t pwmFreq){
+  drv_pwm_setup_freq(ulPin, pwmFreq);
 }

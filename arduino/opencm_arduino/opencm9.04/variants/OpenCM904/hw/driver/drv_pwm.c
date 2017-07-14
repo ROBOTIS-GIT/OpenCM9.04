@@ -70,6 +70,17 @@ void drv_pwm_pin_release(uint32_t ulPin)
   }
 }
 
+void drv_pwm_setup_freq(uint32_t ulPin, uint32_t pwm_freq)
+{
+  uint32_t timer_freq;
+  uint32_t timer_period;
+
+  timer_freq   = SystemCoreClock;
+  timer_period = (uint32_t) (((SystemCoreClock)  / pwm_freq - 1));
+
+  drv_pwm_setup(ulPin, timer_freq, timer_period);
+}
+
 void drv_pwm_setup(uint32_t ulPin, uint32_t freq, uint32_t period)
 {
   TIM_HandleTypeDef  *pTIM;

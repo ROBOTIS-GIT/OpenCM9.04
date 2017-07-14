@@ -31,6 +31,7 @@ extern TIM_HandleTypeDef    hTIM4;
 int drv_pwm_init();
 
 void drv_pwm_setup(uint32_t ulPin, uint32_t freq, uint32_t period);
+void drv_pwm_setup_freq(uint32_t ulPin, uint32_t pwm_freq);
 void drv_pwm_pin_release(uint32_t ulPin);
 void drv_pwm_set_duty(uint32_t ulPin, uint32_t res, uint32_t ulDuty );
 void drv_pwm_set_data(uint32_t ulPin, uint32_t pwm_data );
