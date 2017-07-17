@@ -40,7 +40,40 @@
             }
 
           ]
+        },
+        {
+          "name": "OpenCM9.04",
+          "architecture": "OpenCM904",
+          "version": "0.0.2",
+          "category": "Arduino",
+          "help": {
+            "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
+          },
+          "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/0.0.1/opencm9.04_core_0.0.2.zip",
+          "archiveFileName": "opencm9.04_core_0.0.2.zip",
+          "checksum": "SHA-256:FA2278AD978C3420668C1DB7B24697EEB65EDEEC460B9DA6D6ABE9B7871FB4E3",
+          "size": "829978",
+          "help": {
+                    "online": "https://github.com/ROBOTIS-GIT/OpenCM9.04"
+          },
+          "boards": [
+            {"name": "OpenCM9.04"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "OpenCM904",
+              "name": "opencm_gcc",
+              "version": "5.4.0-2016q2"
+            },
+            {
+              "packager": "OpenCM904",
+              "name": "opencm_tools",
+              "version": "0.0.1"
+            }
+
+          ]
         }
+
 
 
       ],
