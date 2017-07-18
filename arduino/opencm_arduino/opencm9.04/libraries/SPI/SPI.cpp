@@ -114,7 +114,38 @@ void SPIClass::init(void){
 
 uint8_t SPIClass::transfer(uint8_t data) const{
   uint8_t ret;
+
+#if 1
+  uint32_t pre_time;
+
+  __HAL_SPI_ENABLE(_hspi);
+
+  _hspi->Instance->DR = data;
+
+  pre_time = millis();
+  while(__HAL_SPI_GET_FLAG(_hspi, SPI_FLAG_TXE) == RESET)
+  {
+    if (millis()-pre_time > 10)
+    {
+      return 0;
+    }
+  }
+
+  pre_time = millis();
+  while(__HAL_SPI_GET_FLAG(_hspi, SPI_FLAG_RXNE) == RESET)
+  {
+    if (millis()-pre_time > 10)
+    {
+      return 0;
+    }
+  }
+
+  ret = _hspi->Instance->DR;
+#else
   HAL_SPI_TransmitReceive(_hspi, &data, &ret, 1, 0xffff);
+#endif
+
+
 	return ret;
 }
 
@@ -122,6 +153,13 @@ uint16_t SPIClass::transfer16(uint16_t data) {
   uint8_t tBuf[2];
   uint8_t rBuf[2];
   uint16_t ret;
+
+#if 1
+  tBuf[1] = (uint8_t)(data>>0);
+  tBuf[0] = (uint8_t)(data>>8);
+  ret   = transfer(tBuf[0])<<0;
+  ret  |= transfer(tBuf[1])<<8;
+#else
   tBuf[1] = (uint8_t)data;
   tBuf[0] = (uint8_t)(data>>8);
   HAL_SPI_TransmitReceive(_hspi, (uint8_t *)&tBuf, (uint8_t *)&rBuf, 2, 0xffff);
@@ -129,6 +167,7 @@ uint16_t SPIClass::transfer16(uint16_t data) {
   ret = rBuf[0];
   ret <<= 8;
   ret += rBuf[1];
+#endif
 
   return ret;
 }
@@ -146,7 +185,7 @@ void SPIClass::transfer(void *buf, size_t count) {
 
 void SPIClass::transferFast(void *buf, size_t count) {
   uint32_t t_time;
-  
+
   drv_spi_start_dma_tx(_hspi, (uint8_t *)buf, count);
 
   t_time = millis();
