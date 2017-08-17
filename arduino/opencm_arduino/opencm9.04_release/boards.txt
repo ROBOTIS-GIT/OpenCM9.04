@@ -1,0 +1,40 @@
+# OpenCM9.04 Boards
+#
+menu.device_variant=Variant
+menu.bootloader_version=Bootloader version
+menu.upload_method=Upload method
+
+OpenCM904.bootloader.tool = dfu_util
+OpenCM904.bootloader.file = opencr_boot.bin
+
+OpenCM904.name=OpenCM9.04 Board
+OpenCM904.upload.maximum_size=116736
+
+OpenCM904.upload.file_type=bin
+OpenCM904.upload.ram.maximum_size=20480
+OpenCM904.upload.flash.maximum_size=116736
+OpenCM904.upload.params.quiet=no
+
+OpenCM904.build.mcu=cortex-m3
+OpenCM904.build.f_cpu=72000000L
+OpenCM904.build.board=OpenCM904
+OpenCM904.build.core=arduino
+OpenCM904.build.common_flags=-mthumb  -DSTM32F103xB -D__OPENCM904__
+
+OpenCM904.build.ldscript=bsp/opencm/ldscript/opencm_flash.ld
+OpenCM904.build.variant=OpenCM904
+OpenCM904.build.variant_system_lib=lib_f103.a
+OpenCM904.build.extra_flags=
+
+
+OpenCM904.build.inc1=bsp/opencm
+OpenCM904.build.inc2=bsp/opencm/include
+OpenCM904.build.inc3=hw
+OpenCM904.build.inc4=hw/driver
+OpenCM904.build.inc5=hw/usb_cdc
+OpenCM904.build.inc6=lib/STM32F1xx_HAL_Driver/Inc/
+OpenCM904.build.inc7=
+
+OpenCM904.menu.upload_method.UploadMethod=OpenCM Bootloader
+OpenCM904.menu.upload_method.UploadMethod.upload.protocol=opencm_ld
+OpenCM904.menu.upload_method.UploadMethod.upload.tool=opencm_ld
