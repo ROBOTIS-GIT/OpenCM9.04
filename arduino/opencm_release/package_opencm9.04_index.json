@@ -185,29 +185,29 @@
               "host": "i686-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
               "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
-              "checksum": "SHA-256:3E21333BFBA4B5E037919DF182A7616264EBACC4CB22EA9FF459B7A48D1A3A66",
-              "size": "27892"
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
             },
             {
               "host": "x86_64-pc-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
               "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
-              "checksum": "SHA-256:3E21333BFBA4B5E037919DF182A7616264EBACC4CB22EA9FF459B7A48D1A3A66",
-              "size": "27892"
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
             },
             {
               "host": "i686-mingw32",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
               "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
-              "checksum": "SHA-256:3E21333BFBA4B5E037919DF182A7616264EBACC4CB22EA9FF459B7A48D1A3A66",
-              "size": "27892"
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
             },
             {
               "host": "i386-apple-darwin11",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
               "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
-              "checksum": "SHA-256:3E21333BFBA4B5E037919DF182A7616264EBACC4CB22EA9FF459B7A48D1A3A66",
-              "size": "27892"
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
             }
           ]
         }
