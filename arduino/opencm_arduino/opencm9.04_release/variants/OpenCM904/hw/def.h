@@ -1,0 +1,43 @@
+/*
+ *  def.h
+ *
+ *  Created on: 2016. 5. 14.
+ *      Author: Baram, PBHP
+ */
+
+#ifndef DEF_H
+#define DEF_H
+
+#include <stdint.h>
+#include <stdbool.h>
+
+#ifndef BOOL
+#define BOOL uint8_t
+#endif
+
+#ifndef TRUE
+#define TRUE  1
+#endif
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+
+
+
+typedef void (*voidFuncPtr)(void);
+
+
+#include "def_err.h"
+
+
+
+
+
+
+
+
+
+
+#endif
