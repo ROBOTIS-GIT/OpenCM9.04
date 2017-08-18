@@ -48,6 +48,40 @@ word long gwTheRmistor[108] = {
   2296, 2229, 2164, 2101,
 };
 
+word gwMoistureThermistor[125] = {
+  65320,62402,59485,56567,
+  53650,51421,49192,46964,
+  44735,42506,40783,39060,
+  37338,35615,33892,32557,
+  31223,29888,28554,27219,
+  26179,25140,24100,23061,
+  22021,21202,20383,19564,
+  18745,17926,17276,16625,
+  15975,15324,14674,14155,
+  13637,13118,12600,12081,
+  11665,11249,10832,10416,
+  10000,9663,9326,8989,
+  8652,8315,8042,7768,
+  7495,7221,6948,6725,
+  6502,6280,6057,5834,
+  5651,5467,5284,5100,
+  4917,4766,4615,4463,
+  4312,4161,4036,3911,
+  3785,3660,3535,3431,
+  3327,3222,3118,3014,
+  2928,2843,2757,2672,
+  2586,2514,2443,2371,
+  2300,2228,2167,2107,
+  2046,1986,1925,1874,
+  1823,1771,1720,1669,
+  1626,1582,1539,1495,
+  1452,1415,1378,1342,
+  1305,1268,1236,1205,
+  1173,1142,1110,1083,
+  1056,1028,1001,974,
+  951,928,904,881,
+  858
+};
 
 void OLLO::begin(int devNum){
 	if( devNum == 0 ){
@@ -238,7 +272,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			return digitalRead(PORT1_ADC);
 		}else if(device_index == ULTRASONIC_SENSOR){
 			distance_value = (int)analogRead(PORT1_ADC);
-			dis_value = (((distance_value * 0.24)/4) - 3);
+			dis_value = (((distance_value * 6)/25) - 3);
 			average_cnt++;
 			average_value+=dis_value;
 			if(average_cnt >= 100){
@@ -248,7 +282,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			  return average_value;
 		}else if(device_index == TEMPERATURE_SENSOR){
 			analogValue = analogRead(PORT1_ADC);
-			vvalue = (4095 - analogValue) * 10000 /analogValue;
+			vvalue = (1023 - analogValue) * 10000 /analogValue;
 			for(scount = -20; scount < 140; scount++){
 				if(vvalue > gwTheRmistor[scount +20]){
 				      return scount;
@@ -272,7 +306,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			return digitalRead(PORT2_ADC);
 		}else if(device_index == ULTRASONIC_SENSOR){
 			distance_value = (int)analogRead(PORT2_ADC); //analogRead(PORT1_ADC); -> analogRead(PORT2_ADC); 140324
-			dis_value = (((distance_value * 0.24)/4) - 3);
+			dis_value = (((distance_value * 6)/25) - 3);
 			average_cnt++;
 			average_value+=dis_value;
 			if(average_cnt >= 100){
@@ -285,10 +319,44 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 		}
 		else if(device_index == TEMPERATURE_SENSOR){
 			analogValue = analogRead(PORT2_ADC);
-			vvalue = (4095 - analogValue) * 10000 /analogValue;
+			vvalue = (1023 - analogValue) * 10000 /analogValue;
 			for(scount = -20; scount < 140; scount++){
 				if(vvalue > gwTheRmistor[scount +20]){
 				      return scount;
+				}
+			}
+		}
+		else if(device_index == MOISTURE_SENSOR)
+		{
+			int moisture_percentage = 0;
+			digitalWrite(PORT2_SIG2, HIGH);
+			delay(1);
+			adcValue = analogRead(PORT2_ADC);
+			moisture_percentage = 14514280 / ((1023 - adcValue) * 10000 / adcValue ) / 44;
+			if(moisture_percentage > 100)
+				moisture_percentage = 100;
+			return moisture_percentage;
+		}
+		else if(device_index == MOISTURE_TEMPERATURE_SENSOR)
+		{
+			int lThermistor = 0;
+			int scCount = 0;
+			int moisture_temperature = 0;
+			digitalWrite(PORT2_SIG2, LOW);
+			delay(1);
+			adcValue = analogRead(PORT2_ADC);
+			lThermistor = (1023 - adcValue) * 10000 / adcValue;
+			for(scCount = -19; scCount < 106; scCount++)
+			{
+				if(lThermistor > gwMoistureThermistor[scCount+19])
+				{
+					moisture_temperature = scCount;
+					return scCount;
+				}
+				else if(scCount == 105)
+				{
+					moisture_temperature = 105;
+					return 105;
 				}
 			}
 		}
@@ -307,7 +375,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			return digitalRead(PORT3_ADC);
 		}else if(device_index == ULTRASONIC_SENSOR){
 			distance_value = (int)analogRead(PORT3_ADC); //analogRead(PORT1_ADC); -> analogRead(PORT3_ADC); 140324
-			dis_value = (((distance_value * 0.24)/4) - 3);
+			dis_value = (((distance_value * 6)/25) - 3);
 			average_cnt++;
 			average_value+=dis_value;
 			if(average_cnt >= 100){
@@ -317,13 +385,48 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			  return average_value;
 		}else if(device_index == TEMPERATURE_SENSOR){
 			analogValue = analogRead(PORT3_ADC);
-			vvalue = (4095 - analogValue) * 10000 /analogValue;
+			vvalue = (1023 - analogValue) * 10000 /analogValue;
 			for(scount = -20; scount < 140; scount++){
 				if(vvalue > gwTheRmistor[scount +20]){
 				      return scount;
 				}
 			}
-		}else if(device_index == COLOR_SENSOR){
+		}
+		else if(device_index == MOISTURE_SENSOR)
+		{
+			int moisture_percentage = 0;
+			digitalWrite(PORT3_SIG2, HIGH);
+			delay(1);
+			adcValue = analogRead(PORT3_ADC);
+			moisture_percentage = 14514280 / ((1023 - adcValue) * 10000 / adcValue ) / 44;
+			if(moisture_percentage > 100)
+				moisture_percentage = 100;
+			return moisture_percentage;
+		}
+		else if(device_index == MOISTURE_TEMPERATURE_SENSOR)
+		{
+			int lThermistor = 0;
+			int scCount = 0;
+			int moisture_temperature = 0;
+			digitalWrite(PORT3_SIG2, LOW);
+			delay(1);
+			adcValue = analogRead(PORT3_ADC);
+			lThermistor = (1023 - adcValue) * 10000 / adcValue;
+			for(scCount = -19; scCount < 106; scCount++)
+			{
+				if(lThermistor > gwMoistureThermistor[scCount+19])
+				{
+					moisture_temperature = scCount;
+					return scCount;
+				}
+				else if(scCount == 105)
+				{
+					moisture_temperature = 105;
+					return 105;
+				}
+			}
+		}
+		else if(device_index == COLOR_SENSOR){
 			return OLLO::detectColor(3);
 		}else{
 			return (int)analogRead(PORT3_ADC);
@@ -340,7 +443,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			return digitalRead(PORT4_ADC);
 		}else if(device_index == ULTRASONIC_SENSOR){
 			distance_value = (int)analogRead(PORT4_ADC); //analogRead(PORT1_ADC); -> analogRead(PORT4_ADC); 140324
-			dis_value = (((distance_value * 0.24)/4) - 3);
+			dis_value = (((distance_value * 6)/25) - 3);
 			average_cnt++;
 			average_value+=dis_value;
 			if(average_cnt >= 100){
@@ -350,7 +453,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index){ // IR SENSOR, Button, 
 			  return average_value;
 		}else if(device_index == TEMPERATURE_SENSOR){
 			analogValue = analogRead(PORT4_ADC);// 2014-04-17 shin
-			vvalue = (4095 - analogValue) * 10000 /analogValue;
+			vvalue = (1023 - analogValue) * 10000 /analogValue;
 			for(scount = -20; scount < 140; scount++){
 				if(vvalue > gwTheRmistor[scount +20]){
 				      return scount;
@@ -384,7 +487,7 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index, ColorIndex sub_index){ 
 		 digitalWrite(PORT1_SIG1, mMot_minus);
 		 digitalWrite(PORT1_SIG2, mMot_plus);
 		 delay(5); // after 20ms, read analog
-		 return (((int)analogRead(PORT1_ADC))/4);
+		 return (((int)analogRead(PORT1_ADC)));
 
 	case 2:
 		digitalWrite(PORT2_SIG1, mMot_minus);
@@ -396,13 +499,13 @@ int OLLO::read(int devNum, OlloDeviceIndex device_index, ColorIndex sub_index){ 
 		digitalWrite(PORT3_SIG1, mMot_minus);
 		digitalWrite(PORT3_SIG2, mMot_plus);
 		delay(5);
-		return ((int)analogRead(PORT3_ADC)/4);
+		return ((int)analogRead(PORT3_ADC));
 
 	case 4:
 		digitalWrite(PORT4_SIG1, mMot_minus);
 		digitalWrite(PORT4_SIG2, mMot_plus);
 		delay(5);
-		return ((int)analogRead(PORT4_ADC)/4);
+		return ((int)analogRead(PORT4_ADC));
 
 	default:
 		return 0;
