@@ -32,7 +32,7 @@ class DynamixelWorkbench
 {
  private:
   DynamixelDriver driver_;
-  char* dxl_;
+  char dxl_[64];
 
  public:
   DynamixelWorkbench();
