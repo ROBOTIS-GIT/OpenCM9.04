@@ -49,7 +49,7 @@
 #if defined(__OPENCM904__)
 #define TXPACKET_MAX_LEN    (2*1024)
 #define RXPACKET_MAX_LEN    (2*1024)
-#elif
+#else
 #define TXPACKET_MAX_LEN    (4*1024)
 #define RXPACKET_MAX_LEN    (4*1024)
 #endif
