@@ -45,8 +45,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Before DynamixelSDK release, it needs to apply because of OpenCM904
+#if defined(__OPENCM904__)
+#define TXPACKET_MAX_LEN    (2*1024)
+#define RXPACKET_MAX_LEN    (2*1024)
+#elif
 #define TXPACKET_MAX_LEN    (4*1024)
 #define RXPACKET_MAX_LEN    (4*1024)
+#endif
 
 ///////////////// for Protocol 2.0 Packet /////////////////
 #define PKT_HEADER0             0
@@ -319,6 +325,7 @@ int Protocol2PacketHandler::txPacket(PortHandler *port, uint8_t *txpacket)
   // tx packet
   port->clearPort();
   written_packet_length = port->writePort(txpacket, total_packet_length);
+
   if (total_packet_length != written_packet_length)
   {
     port->is_using_ = false;
@@ -445,6 +452,7 @@ int Protocol2PacketHandler::txRxPacket(PortHandler *port, uint8_t *txpacket, uin
 
   // tx packet
   result = txPacket(port, txpacket);
+  
   if (result != COMM_SUCCESS)
     return result;
 
