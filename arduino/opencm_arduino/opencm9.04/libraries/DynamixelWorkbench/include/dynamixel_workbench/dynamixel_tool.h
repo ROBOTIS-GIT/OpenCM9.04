@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Taehoon Lim (Darby) */
+/* Authors: Taehun Lim (Darby) */
 
 #ifndef DYNAMIXEL_TOOL_H
 #define DYNAMIXEL_TOOL_H
@@ -32,12 +32,12 @@
 class DynamixelTool
 {
  private:
-  char* model_name_;
+  char model_name_[64];
   uint8_t id_;
 
   uint8_t control_table_size_;
   ControlTableItem* item_;
-  ModelInfo* model_info_;
+  ModelInfo* info_;
 
  public:
   DynamixelTool();
