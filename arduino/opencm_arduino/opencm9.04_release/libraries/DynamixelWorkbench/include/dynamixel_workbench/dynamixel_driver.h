@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Taehoon Lim (Darby) */
+/* Authors: Taehun Lim (Darby) */
 
 #ifndef DYNAMIXEL_WORKBENCH_DYNAMIXEL_DRIVER_H
 #define DYNAMIXEL_WORKBENCH_DYNAMIXEL_DRIVER_H
@@ -27,64 +27,92 @@
   #include "dynamixel_sdk/dynamixel_sdk.h"
 #endif
 
-#define DXL_NUM 10
+#define DXL_NUM 16
+#define MAX_HANDLER 5
+
+#define BYTE  1
+#define WORD  2
+#define DWORD 4
+
+typedef struct 
+{
+  ControlTableItem *cti; 
+  dynamixel::GroupSyncWrite *groupSyncWrite;    
+} SyncWriteHandler;
+
+typedef struct 
+{
+  ControlTableItem *cti;
+  dynamixel::GroupSyncRead  *groupSyncRead;     
+} SyncReadHandler;
 
 class DynamixelDriver
 {
  private:
   dynamixel::PortHandler   *portHandler_;
   dynamixel::PacketHandler *packetHandler_;
+  dynamixel::PacketHandler *packetHandler_1;
+  dynamixel::PacketHandler *packetHandler_2;
 
-  dynamixel::GroupSyncWrite *groupSyncWrite_;
-  dynamixel::GroupSyncRead  *groupSyncRead_;
+  SyncWriteHandler syncWriteHandler_[MAX_HANDLER];
+  SyncReadHandler  syncReadHandler_[MAX_HANDLER];
 
-  dynamixel::GroupBulkWrite *groupBulkWrite_;
-  dynamixel::GroupBulkRead  *groupBulkRead_;
+  dynamixel::GroupBulkRead  *groupBulkRead_;  
+  dynamixel::GroupBulkWrite *groupBulkWrite_;  
  
   DynamixelTool tools_[DXL_NUM];
 
   uint8_t tools_cnt_;
+  uint8_t sync_write_handler_cnt_;
+  uint8_t sync_read_handler_cnt_;
+
+  char dxl_[64];
 
  public:
   DynamixelDriver();
   ~DynamixelDriver();
 
-  void setTools(uint16_t model_num, uint8_t id);
-  uint8_t findTools(uint8_t id);
-  uint8_t theNumberOfTools();
+  bool begin(char* device_name = "/dev/ttyUSB0", uint32_t baud_rate = 57600);
 
-  bool begin(char* model_series, char* device_name = "/dev/ttyUSB0", uint32_t baud_rate = 57600);
-
-  void setPortHandler(char* device_name, bool *error);
-  void setPacketHandler(float protocol_version, bool *error);
+  void setPortHandler(char *device_name, bool *error);
+  void setPacketHandler(bool *error);
+  void setPacketHandler(float protocol_version);
   void setBaudrate(uint32_t baud_rate, bool *error);
 
-  uint8_t  scan(uint8_t *get_id, uint8_t num = 252);
-  uint16_t ping(uint8_t id);
+  float getProtocolVersion();
+  char* getModelName(uint8_t id);
+
+  uint8_t  scan(uint8_t *get_id, uint8_t num = 252, float protocol_version = 0.0);
+  uint16_t ping(uint8_t id, float protocol_version = 0.0);
 
   bool reboot(uint8_t id);
   bool reset(uint8_t id);
 
-  bool writeRegister(uint8_t id, char* item_name, int32_t data);
-  bool readRegister(uint8_t id, char* item_name, int32_t* data);
+  bool writeRegister(uint8_t id, char *item_name, int32_t data);
+  bool readRegister(uint8_t id, char *item_name, int32_t *data);
 
-  void initSyncWrite(uint8_t id, char* item_name);
-  bool syncWrite(int32_t *data);
+  void addSyncWrite(char *item_name);
+  bool syncWrite(char *item_name, int32_t *data);
 
-  void initSyncRead(uint8_t id, char* item_name);
-  bool syncRead(char* item_name, int32_t *data);
+  void addSyncRead(char *item_name);
+  bool syncRead(char *item_name, int32_t *data);
 
   void initBulkWrite();
-  bool addBulkWriteParam(uint8_t id, char* item_name, int32_t data);
-  void bulkWrite();
+  bool addBulkWriteParam(uint8_t id, char *item_name, int32_t data);
+  bool bulkWrite();
 
   void initBulkRead();
-  void addBulkReadParam(uint8_t id, char* item_name);
-  void sendBulkReadPacket();
-  bool bulkRead(uint8_t id, char* item_name, int32_t *data);
+  bool addBulkReadParam(uint8_t id, char *item_name);
+  bool sendBulkReadPacket();
+  bool bulkRead(uint8_t id, char *item_name, int32_t *data);
 
   int32_t convertRadian2Value(int8_t id, float radian);
   float convertValue2Radian(int8_t id, int32_t value);
+
+ private:
+  void setTools(uint16_t model_num, uint8_t id);
+  uint8_t findTools(uint8_t id);
+  uint8_t theNumberOfTools();
 };
 
 #endif //DYNAMIXEL_WORKBENCH_DYNAMIXEL_DRIVER_H
