@@ -14,7 +14,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-/* Authors: Taehoon Lim (Darby) */
+/* Authors: Taehun Lim (Darby) */
 
 #include <DynamixelWorkbench.h>
 
@@ -23,26 +23,26 @@
 #define DXL_BUS_SERIAL3 "3"            //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
 #define DXL_BUS_SERIAL4 "/dev/ttyUSB0" //Dynamixel on Serial3(USART3)  <-OpenCR
 
-#define BAUDRATE  57600
-#define DXL_ID    1
+#define BAUDRATE  1000000
+#define DXL_ID 1
 
 DynamixelWorkbench dxl_wb;
 
 void setup() 
 {
-  dxl_wb.begin("XM", DXL_BUS_SERIAL3, BAUDRATE);
-  dxl_wb.ping(DXL_ID);
+  Serial.begin(57600);
+  while(!Serial);
 
-  dxl_wb.wheelMode(DXL_ID);
+  uint16_t model_num = 0;
+
+  dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
+  model_num = dxl_wb.ping(DXL_ID);
+
+  Serial.print("DXL Model Number : ");
+  Serial.println(model_num);
 }
 
 void loop() 
 {
-  dxl_wb.goalSpeed(DXL_ID, 200);
-  
-  delay(5000);
 
-  dxl_wb.goalSpeed(DXL_ID, -200);
-
-  delay(5000);
 }
