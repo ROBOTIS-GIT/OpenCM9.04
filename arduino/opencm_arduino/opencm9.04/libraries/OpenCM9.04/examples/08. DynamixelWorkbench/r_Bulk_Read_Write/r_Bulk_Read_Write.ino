@@ -80,10 +80,9 @@ void loop()
 void log(int index)
 {
   Serial.print("[ DXL 1:");
-  Serial.print(" GoalPos:");  Serial.print(goal_position[index]);
-  Serial.print(" PresPos:");  Serial.print(present_position);
-  Serial.print(" ,");
-  Serial.print(" DXL 2: ");
-  Serial.print(" LED:");      Serial.print(present_led);
+  Serial.print(" GoalPos:" + String(goal_position[index]));
+  Serial.print(" PresPos:" + String(present_position));
+  Serial.print(" , DXL 2: ");
+  Serial.print(" LED:" + String(present_led));
   Serial.println(" ]");
 }

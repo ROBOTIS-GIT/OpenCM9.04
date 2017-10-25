@@ -38,7 +38,10 @@ void setup()
 
   // Reboot is only able to support dynamixel using protocol version 2.0.
   // NOT SUPPORT PROTOCOL VERSION 1.0
-  dxl_wb.reboot(DXL_ID);
+  if (dxl_wb.reboot(DXL_ID))
+    Serial.println("Succeed to reboot");
+  else
+    Serial.println("Failed to reboot");
 }
 
 void loop() 

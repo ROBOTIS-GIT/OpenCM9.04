@@ -36,8 +36,11 @@ void setup()
   dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
   dxl_wb.ping(DXL_ID);
 
-  // Factory reset (ID : 1, Baud Rate : 57600 or 1000000(AX or MX-12W))
-  dxl_wb.reset(DXL_ID);
+  // Factory reset (ID : 1, Baud Rate : 57600 or 1000000(only AX or MX-12W))
+  if (dxl_wb.reset(DXL_ID))
+    Serial.println("Succeed to reset");
+  else
+    Serial.println("Failed to reset");
 }
 
 void loop() 
