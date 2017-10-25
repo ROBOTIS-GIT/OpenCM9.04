@@ -23,6 +23,9 @@
 #define DXL_BUS_SERIAL3 "3"            //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
 #define DXL_BUS_SERIAL4 "/dev/ttyUSB0" //Dynamixel on Serial3(USART3)  <-OpenCR
 
+#define BAUDRATE  1000000
+#define DXL_ID    1
+
 DynamixelWorkbench dxl_wb;
 
 void setup() 
@@ -30,26 +33,14 @@ void setup()
   Serial.begin(57600);
   while(!Serial);
 
-  uint8_t get_id = 0;
-  uint8_t dxl_cnt = 0;
-  uint32_t baud[5] = {9600, 57600, 115200, 1000000};
-  uint8_t index = 0;
-
-  do
-  {
-    dxl_wb.begin(DXL_BUS_SERIAL3, baud[index]);
-    dxl_cnt = dxl_wb.scan(&get_id, 200);
-    index++;
-  }while(dxl_cnt != 1);
-
-  dxl_wb.setID(get_id, 1);
-  dxl_wb.setBaud(1, 1000000);
-
-  Serial.println(" ");
-  Serial.println("ID : 1, Baudrate : 1000000");
+  dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
+  dxl_wb.ping(DXL_ID);
 }
 
 void loop() 
 {
-
+  dxl_wb.ledOn(DXL_ID, 0x01);
+  delay(500);
+  dxl_wb.ledOff(DXL_ID);
+  delay(500);
 }
