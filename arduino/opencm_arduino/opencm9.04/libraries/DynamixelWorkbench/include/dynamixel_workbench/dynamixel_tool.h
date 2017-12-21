@@ -33,7 +33,7 @@ class DynamixelTool
   ModelInfo* info_ptr_;
 
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  ControlTableItem item_[30];
+  ControlTableItem item_[10];
 #else
   ControlTableItem item_[60];
 #endif

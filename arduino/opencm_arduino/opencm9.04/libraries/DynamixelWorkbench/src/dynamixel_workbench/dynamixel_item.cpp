@@ -21,7 +21,7 @@
 static uint8_t control_table_size = 0;
 
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  static ControlTableItem item[25]  = {0, };
+  static ControlTableItem item[10]  = {0, };
 #else
   static ControlTableItem item[60]  = {0, };
 #endif
