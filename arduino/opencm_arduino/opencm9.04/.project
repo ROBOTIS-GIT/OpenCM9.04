@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>opencm</name>
+	<name>arduino</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -24,4 +24,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>opencm9.04</name>
+			<type>2</type>
+			<location>D:/Work/fw/git/OpenCM9.04/arduino/opencm_arduino/opencm9.04</location>
+		</link>
+	</linkedResources>
 </projectDescription>
