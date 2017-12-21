@@ -19,7 +19,12 @@
 #include "../../include/dynamixel_workbench/dynamixel_item.h"
 
 static uint8_t control_table_size = 0;
-static ControlTableItem item[60]  = {0, };
+
+#if defined(__OPENCR__) || defined(__OPENCM904__)
+  static ControlTableItem item[25]  = {0, };
+#else
+  static ControlTableItem item[60]  = {0, };
+#endif
 
 static ModelInfo model_info       = {0.0, };
 
@@ -1106,7 +1111,7 @@ void setXHInfo()
 
 void setPROItem()
 {
-  #if defined(__OPENCR__) || defined(__OPENCM904__)
+#if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
   item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
   item[2]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
