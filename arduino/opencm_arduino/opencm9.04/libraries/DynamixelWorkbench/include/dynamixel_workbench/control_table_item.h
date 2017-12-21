@@ -19,12 +19,7 @@
 #ifndef CONTROL_TABLE_ITEM_H
 #define CONTROL_TABLE_ITEM_H
 
-#if defined(__OPENCR__) || defined(__OPENCM904__)
-#include <Arduino.h>
-#elif defined(__linux__)
-#include <stdio.h>
-#endif
-
+#include <stdint.h>
 
 enum ACCESS_TYPE {
   READ,
