@@ -40,4 +40,11 @@ typedef struct
   MEMORY_TYPE memory_type;  
 } ControlTableItem;
 
+typedef struct 
+{
+  uint16_t    address;
+  char*       item_name;  
+  uint8_t     data_length;
+} LightControlTableItem;
+
 #endif //CONTROL_TABLE_ITEM_H
