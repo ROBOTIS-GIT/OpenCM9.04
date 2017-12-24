@@ -36,15 +36,13 @@ typedef struct
   uint16_t    address;
   char*       item_name;  
   uint8_t     data_length;
-  ACCESS_TYPE access_type;
-  MEMORY_TYPE memory_type;  
 } ControlTableItem;
 
 typedef struct 
 {
-  uint16_t    address;
-  char*       item_name;  
-  uint8_t     data_length;
-} LightControlTableItem;
+  ControlTableItem item;
+  ACCESS_TYPE access_type;
+  MEMORY_TYPE memory_type;  
+} ItemAndType;
 
 #endif //CONTROL_TABLE_ITEM_H
