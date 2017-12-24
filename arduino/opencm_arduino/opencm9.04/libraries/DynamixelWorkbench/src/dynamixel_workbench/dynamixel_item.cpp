@@ -40,7 +40,7 @@ void setAXItem(void)
   light_item[5]  = {25 , "LED"                           , 1};
   light_item[6]  = {30 , "Goal Position"                 , 2};
   light_item[7]  = {32 , "Moving Speed"                  , 2};
-  light_item[8]  = {35 , "Torque Limit"                  , 2};
+  light_item[8]  = {34 , "Torque Limit"                  , 2};
   light_item[9]  = {36 , "Present Position"              , 2};
   light_item[10] = {38 , "Present Speed"                 , 2};
   light_item[11] = {40 , "Present Load"                  , 2};
@@ -71,7 +71,7 @@ void setAXItem(void)
   item[19] = {29 , "CCW Compliance Slope"          , 1 , READ_WRITE , RAM};
   item[20] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
   item[21] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[22] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
+  item[22] = {34 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[23] = {36 , "Present Position"              , 2 , READ       , RAM};
   item[24] = {38 , "Present Speed"                 , 2 , READ       , RAM};
   item[25] = {40 , "Present Load"                  , 2 , READ       , RAM};
@@ -110,7 +110,7 @@ void setRXItem()
   light_item[5]  = {25 , "LED"                           , 1};
   light_item[6]  = {30 , "Goal Position"                 , 2};
   light_item[7]  = {32 , "Moving Speed"                  , 2};
-  light_item[8]  = {35 , "Torque Limit"                  , 2};
+  light_item[8]  = {34 , "Torque Limit"                  , 2};
   light_item[9]  = {36 , "Present Position"              , 2};
   light_item[10] = {38 , "Present Speed"                 , 2};
   light_item[11] = {40 , "Present Load"                  , 2};
@@ -141,7 +141,7 @@ void setRXItem()
   item[19] = {29 , "CCW Compliance Slope"          , 1 , READ_WRITE , RAM};
   item[20] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
   item[21] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[22] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
+  item[22] = {34 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[23] = {36 , "Present Position"              , 2 , READ       , RAM};
   item[24] = {38 , "Present Speed"                 , 2 , READ       , RAM};
   item[25] = {40 , "Present Load"                  , 2 , READ       , RAM};
@@ -181,7 +181,7 @@ void setEXItem()
   light_item[6]  = {25 , "LED"                           , 1};
   light_item[7]  = {30 , "Goal Position"                 , 2};
   light_item[8]  = {32 , "Moving Speed"                  , 2};
-  light_item[9]  = {35 , "Torque Limit"                  , 2};
+  light_item[9]  = {34 , "Torque Limit"                  , 2};
   light_item[10] = {36 , "Present Position"              , 2};
   light_item[11] = {38 , "Present Speed"                 , 2};
   light_item[12] = {40 , "Present Load"                  , 2};
@@ -212,7 +212,7 @@ void setEXItem()
   item[19] = {28 , "CW Compliance Slope"           , 1 , READ_WRITE , RAM};
   item[20] = {29 , "CCW Compliance Slope"          , 1 , READ_WRITE , RAM};
   item[21] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
-  item[22] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
+  item[22] = {34 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
   item[23] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[24] = {36 , "Present Position"              , 2 , READ       , RAM};
   item[25] = {38 , "Present Speed"                 , 2 , READ       , RAM};
@@ -253,7 +253,7 @@ void setMXItem()
   light_item[5]  = {25 , "LED"                           , 1};
   light_item[6]  = {30 , "Goal Position"                 , 2};
   light_item[7]  = {32 , "Moving Speed"                  , 2};
-  light_item[8]  = {35 , "Torque Limit"                  , 2};
+  light_item[8]  = {34 , "Torque Limit"                  , 2};
   light_item[9]  = {36 , "Present Position"              , 2};
   light_item[10] = {38 , "Present Speed"                 , 2};
   light_item[11] = {40 , "Present Load"                  , 2};
@@ -286,7 +286,7 @@ void setMXItem()
   item[20] = {28 , "P gain"                        , 1 , READ_WRITE , RAM};
   item[21] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
   item[22] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[23] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
+  item[23] = {34 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[24] = {36 , "Present Position"              , 2 , READ       , RAM};
   item[25] = {38 , "Present Speed"                 , 2 , READ       , RAM};
   item[26] = {40 , "Present Load"                  , 2 , READ       , RAM};
@@ -317,31 +317,23 @@ void setMXInfo()
 void setMX2Item(void)
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[8]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[9]  = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[10] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[11] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[12] = {122, "Moving"                , 1 , READ       , RAM};
-  item[13] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[14] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[15] = {126, "Present Load"          , 2 , READ       , RAM};
-  item[16] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[17] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[18] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[19] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[20] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[21] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {104, "Goal Velocity"         , 4};
+  light_item[7]  = {108, "Profile Acceleration"  , 4};
+  light_item[8]  = {112, "Profile Velocity"      , 4};
+  light_item[9]  = {116, "Goal Position"         , 4};
+  light_item[10] = {122, "Moving"                , 1};
+  light_item[11] = {126, "Present Load"          , 2};
+  light_item[12] = {128, "Present Velocity"      , 4};
+  light_item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 22;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -413,34 +405,26 @@ void setMX2Info(void)
 void setExtMXItem()
 {
   #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {3  , "ID"                            , 1 , READ_WRITE , EEPROM};
-  item[1]  = {4  , "Baud Rate"                     , 1 , READ_WRITE , EEPROM};
-  item[2]  = {6  , "CW Angle Limit"                , 2 , READ_WRITE , EEPROM};
-  item[3]  = {8  , "CCW Angle Limit"               , 2 , READ_WRITE , EEPROM};
+  light_item[0]  = {3  , "ID"                            , 1};
+  light_item[1]  = {4  , "Baud Rate"                     , 1};
+  light_item[2]  = {6  , "CW Angle Limit"                , 2};
+  light_item[3]  = {8  , "CCW Angle Limit"               , 2};
 
-  item[4]  = {24 , "Torque Enable"                 , 1 , READ_WRITE , RAM};
-  item[5]  = {25 , "LED"                           , 1 , READ_WRITE , RAM};
-  item[6]  = {26 , "D gain"                        , 1 , READ_WRITE , RAM};
-  item[7]  = {27 , "I gain"                        , 1 , READ_WRITE , RAM};
-  item[8]  = {28 , "P gain"                        , 1 , READ_WRITE , RAM};
-  item[9]  = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
-  item[10] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[11] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
-  item[12] = {36 , "Present Position"              , 2 , READ       , RAM};
-  item[13] = {38 , "Present Speed"                 , 2 , READ       , RAM};
-  item[14] = {40 , "Present Load"                  , 2 , READ       , RAM};
-  item[15] = {42 , "Present Voltage"               , 1 , READ       , RAM};
-  item[16] = {43 , "Present Temperature"           , 1 , READ       , RAM};
-  item[17] = {44 , "Registered"                    , 1 , READ       , RAM};
-  item[18] = {46 , "Moving"                        , 1 , READ       , RAM};
-  item[19] = {47 , "Lock"                          , 1 , READ_WRITE , RAM};
-  item[20] = {48 , "Punch"                         , 2 , READ_WRITE , RAM};
-  item[21] = {68 , "Current"                       , 2 , READ       , RAM};
-  item[22] = {70 , "Torque Control Mode Enable"    , 1 , READ_WRITE , RAM};
-  item[23] = {71 , "Goal Torque"                   , 2 , READ_WRITE , RAM};
-  item[24] = {73 , "Goal Acceleration"             , 1 , READ_WRITE , RAM};
+  light_item[4]  = {24 , "Torque Enable"                 , 1};
+  light_item[5]  = {25 , "LED"                           , 1};
+  light_item[6]  = {30 , "Goal Position"                 , 2};
+  light_item[7]  = {32 , "Moving Speed"                  , 2};
+  light_item[8]  = {34 , "Torque Limit"                  , 2};
+  light_item[9]  = {36 , "Present Position"              , 2};
+  light_item[10] = {38 , "Present Speed"                 , 2};
+  light_item[11] = {40 , "Present Load"                  , 2};
+  light_item[12] = {46 , "Moving"                        , 1};
+  // item[13] = {68 , "Current"                       , 2 , READ       , RAM};
+  // item[14] = {70 , "Torque Control Mode Enable"    , 1 , READ_WRITE , RAM};
+  // item[15] = {71 , "Goal Torque"                   , 2 , READ_WRITE , RAM};
+  // item[16] = {73 , "Goal Acceleration"             , 1 , READ_WRITE , RAM};
 
-  control_table_size = 25;
+  control_table_size = 13;
 #else
   item[0]  = {0  , "Model Number"                  , 2 , READ       , EEPROM};
   item[1]  = {2  , "Firmware Version"              , 1 , READ       , EEPROM};
@@ -466,7 +450,7 @@ void setExtMXItem()
   item[20] = {28 , "P gain"                        , 1 , READ_WRITE , RAM};
   item[21] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
   item[22] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[23] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
+  item[23] = {34 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[24] = {36 , "Present Position"              , 2 , READ       , RAM};
   item[25] = {38 , "Present Speed"                 , 2 , READ       , RAM};
   item[26] = {40 , "Present Load"                  , 2 , READ       , RAM};
@@ -500,32 +484,24 @@ void setExtMXInfo()
 void setExtMX2Item(void)
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {102, "Goal Current"          , 2 , READ_WRITE , RAM};
-  item[8]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[9]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[10] = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[11] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[12] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[13] = {122, "Moving"                , 1 , READ       , RAM};
-  item[14] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[15] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[16] = {126, "Present Current"       , 2 , READ       , RAM};
-  item[17] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[18] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[19] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[20] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[21] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[22] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {102, "Goal Current"          , 2};
+  light_item[7]  = {104, "Goal Velocity"         , 4};
+  light_item[8]  = {108, "Profile Acceleration"  , 4};
+  light_item[9]  = {112, "Profile Velocity"      , 4};
+  light_item[10] = {116, "Goal Position"         , 4};
+  light_item[11] = {122, "Moving"                , 1};
+  light_item[12] = {126, "Present Current"       , 2};
+  light_item[13] = {128, "Present Velocity"      , 4};
+  light_item[14] = {132, "Present Position"      , 4};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -599,31 +575,23 @@ void setExtMX2Info(void)
 void setXL320Item()
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {3  , "ID"                            , 1 , READ_WRITE , EEPROM};
-  item[1]  = {4  , "Baud Rate"                     , 1 , READ_WRITE , EEPROM};
-  item[2]  = {6  , "CW Angle Limit"                , 2 , READ_WRITE , EEPROM};
-  item[3]  = {8  , "CCW Angle Limit"               , 2 , READ_WRITE , EEPROM};
-  item[4]  = {11 , "Control Mode"                  , 1 , READ_WRITE , EEPROM};
+  item[0]  = {3  , "ID"                            , 1};
+  item[1]  = {4  , "Baud Rate"                     , 1};
+  item[2]  = {6  , "CW Angle Limit"                , 2};
+  item[3]  = {8  , "CCW Angle Limit"               , 2};
+  item[4]  = {11 , "Control Mode"                  , 1};
 
-  item[5]  = {24 , "Torque ON/OFF"                 , 1 , READ_WRITE , RAM};
-  item[6]  = {25 , "LED"                           , 1 , READ_WRITE , RAM};
-  item[7]  = {27 , "D gain"                        , 1 , READ_WRITE , RAM};
-  item[8]  = {28 , "I gain"                        , 1 , READ_WRITE , RAM};
-  item[9]  = {29 , "P gain"                        , 1 , READ_WRITE , RAM};
-  item[10] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
-  item[11] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[12] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
-  item[13] = {37 , "Present Position"              , 2 , READ       , RAM};
-  item[14] = {39 , "Present Speed"                 , 2 , READ       , RAM};
-  item[15] = {41 , "Present Load"                  , 2 , READ       , RAM};
-  item[16] = {45 , "Present Voltage"               , 1 , READ       , RAM};
-  item[17] = {46 , "Present Temperature"           , 1 , READ       , RAM};
-  item[18] = {47 , "Registered Instruction"        , 1 , READ       , RAM};
-  item[19] = {49 , "Moving"                        , 1 , READ       , RAM};
-  item[20] = {50 , "Hardware Error Status"         , 1 , READ       , RAM};
-  item[21] = {51 , "Punch"                         , 2 , READ_WRITE , RAM};
+  item[5]  = {24 , "Torque ON/OFF"                 , 1};
+  item[6]  = {25 , "LED"                           , 1};
+  item[7]  = {30 , "Goal Position"                 , 2};
+  item[8]  = {32 , "Moving Speed"                  , 2};
+  item[9]  = {34 , "Torque Limit"                  , 2};
+  item[10] = {37 , "Present Position"              , 2};
+  item[11] = {39 , "Present Speed"                 , 2};
+  item[12] = {41 , "Present Load"                  , 2};
+  item[13] = {49 , "Moving"                        , 1};
 
-  control_table_size = 22;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"                  , 2 , READ       , EEPROM};
   item[1]  = {2  , "Firmware Version"              , 1 , READ       , EEPROM};
@@ -647,7 +615,7 @@ void setXL320Item()
   item[18] = {29 , "P gain"                        , 1 , READ_WRITE , RAM};
   item[19] = {30 , "Goal Position"                 , 2 , READ_WRITE , RAM};
   item[20] = {32 , "Moving Speed"                  , 2 , READ_WRITE , RAM};
-  item[21] = {35 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
+  item[21] = {34 , "Torque Limit"                  , 2 , READ_WRITE , RAM};
   item[22] = {37 , "Present Position"              , 2 , READ       , RAM};
   item[23] = {39 , "Present Speed"                 , 2 , READ       , RAM};
   item[24] = {41 , "Present Load"                  , 2 , READ       , RAM};
@@ -677,32 +645,24 @@ void setXL320Info()
 void setXLItem()
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {102, "Goal Current"          , 2 , READ_WRITE , RAM};
-  item[8]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[9]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[10] = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[11] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[12] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[13] = {122, "Moving"                , 1 , READ       , RAM};
-  item[14] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[15] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[16] = {126, "Present Load"          , 2 , READ       , RAM};
-  item[17] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[18] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[19] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[20] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[21] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[22] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {102, "Goal Current"          , 2};
+  light_item[7]  = {104, "Goal Velocity"         , 4};
+  light_item[8]  = {108, "Profile Acceleration"  , 4};
+  light_item[9]  = {112, "Profile Velocity"      , 4};
+  light_item[10] = {116, "Goal Position"         , 4};
+  light_item[11] = {122, "Moving"                , 1};
+  light_item[12] = {126, "Present Load"          , 2};
+  light_item[13] = {128, "Present Velocity"      , 4};
+  light_item[14] = {132, "Present Position"      , 4};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -775,32 +735,24 @@ void setXLInfo()
 void setXMItem()
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {102, "Goal Current"          , 2 , READ_WRITE , RAM};
-  item[8]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[9]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[10] = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[11] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[12] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[13] = {122, "Moving"                , 1 , READ       , RAM};
-  item[14] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[15] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[16] = {126, "Present Current"       , 2 , READ       , RAM};
-  item[17] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[18] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[19] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[20] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[21] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[22] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {102, "Goal Current"          , 2};
+  light_item[7]  = {104, "Goal Velocity"         , 4};
+  light_item[8]  = {108, "Profile Acceleration"  , 4};
+  light_item[9] =  {112, "Profile Velocity"      , 4};
+  light_item[10] = {116, "Goal Position"         , 4};
+  light_item[11] = {122, "Moving"                , 1};
+  light_item[12] = {126, "Present Current"       , 2};
+  light_item[13] = {128, "Present Velocity"      , 4};
+  light_item[14] = {132, "Present Position"      , 4};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -875,32 +827,24 @@ void setXMInfo()
 void setExtXMItem(void)
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {102, "Goal Current"          , 2 , READ_WRITE , RAM};
-  item[8]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[9]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[10] = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[11] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[12] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[13] = {122, "Moving"                , 1 , READ       , RAM};
-  item[14] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[15] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[16] = {126, "Present Current"       , 2 , READ       , RAM};
-  item[17] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[18] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[19] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[20] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[21] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[22] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {102, "Goal Current"          , 2};
+  light_item[7]  = {104, "Goal Velocity"         , 4};
+  light_item[8]  = {108, "Profile Acceleration"  , 4};
+  light_item[9]  = {112, "Profile Velocity"      , 4};
+  light_item[10] = {116, "Goal Position"         , 4};
+  light_item[11] = {122, "Moving"                , 1};
+  light_item[12] = {126, "Present Current"       , 2};
+  light_item[13] = {128, "Present Velocity"      , 4};
+  light_item[14] = {132, "Present Position"      , 4};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -977,32 +921,24 @@ void setExtXMInfo(void)
 void setXHItem()
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {10 , "Drive Mode"            , 1 , READ_WRITE , EEPROM};
-  item[3]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {10 , "Drive Mode"            , 1};
+  light_item[3]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[5]  = {65 , "LED"                   , 1 , READ_WRITE , RAM};
-  item[6]  = {100, "Goal PWM"              , 2 , READ_WRITE , RAM};
-  item[7]  = {102, "Goal Current"          , 2 , READ_WRITE , RAM};
-  item[8]  = {104, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[9]  = {108, "Profile Acceleration"  , 4 , READ_WRITE , RAM};
-  item[10] = {112, "Profile Velocity"      , 4 , READ_WRITE , RAM};
-  item[11] = {116, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[12] = {120, "Realtime Tick"         , 2 , READ       , RAM};
-  item[13] = {122, "Moving"                , 1 , READ       , RAM};
-  item[14] = {123, "Moving Status"         , 1 , READ       , RAM};
-  item[15] = {124, "Present PWM"           , 2 , READ       , RAM};
-  item[16] = {126, "Present Current"       , 2 , READ       , RAM};
-  item[17] = {128, "Present Velocity"      , 4 , READ       , RAM};
-  item[18] = {132, "Present Position"      , 4 , READ       , RAM};
-  item[19] = {136, "Velocity Trajectory"   , 4 , READ       , RAM};
-  item[20] = {140, "Position Trajectory"   , 4 , READ       , RAM};
-  item[21] = {144, "Present Input Voltage" , 2 , READ       , RAM};
-  item[22] = {146, "Present Temperature"   , 1 , READ       , RAM};
+  light_item[4]  = {64 , "Torque Enable"         , 1};
+  light_item[5]  = {65 , "LED"                   , 1};
+  light_item[6]  = {102, "Goal Current"          , 2};
+  light_item[7]  = {104, "Goal Velocity"         , 4};
+  light_item[8]  = {108, "Profile Acceleration"  , 4};
+  light_item[9]  = {112, "Profile Velocity"      , 4};
+  light_item[10] = {116, "Goal Position"         , 4};
+  light_item[11] = {122, "Moving"                , 1};
+  light_item[12] = {126, "Present Current"       , 2};
+  light_item[13] = {128, "Present Velocity"      , 4};
+  light_item[14] = {132, "Present Position"      , 4};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -1076,32 +1012,24 @@ void setXHInfo()
 void setPROItem()
 {
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  item[0]  = {7  , "ID"                    , 1 , READ_WRITE , EEPROM};
-  item[1]  = {8  , "Baud Rate"             , 1 , READ_WRITE , EEPROM};
-  item[2]  = {11 , "Operating Mode"        , 1 , READ_WRITE , EEPROM};
+  light_item[0]  = {7  , "ID"                    , 1};
+  light_item[1]  = {8  , "Baud Rate"             , 1};
+  light_item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[3]  = {562, "Torque Enable"         , 1 , READ_WRITE , RAM};
-  item[4]  = {563, "LED RED"               , 1 , READ_WRITE , RAM};
-  item[5]  = {564, "LED GREEN"             , 1 , READ_WRITE , RAM};
-  item[6]  = {565, "LED BLUE"              , 1 , READ_WRITE , RAM};
-  item[7]  = {586, "Velocity I Gain"       , 2 , READ_WRITE , RAM};
-  item[8]  = {588, "Velocity P Gain"       , 2 , READ_WRITE , RAM};
-  item[9]  = {594, "Position P Gain"       , 2 , READ_WRITE , RAM};
-  item[10] = {596, "Goal Position"         , 4 , READ_WRITE , RAM};
-  item[11] = {600, "Goal Velocity"         , 4 , READ_WRITE , RAM};
-  item[12] = {604, "Goal Torque"           , 2 , READ_WRITE , RAM};
-  item[13] = {606, "Goal Acceleration"     , 4 , READ_WRITE , RAM};
-  item[14] = {610, "Moving"                , 1 , READ       , RAM};
-  item[15] = {611, "Present Position"      , 4 , READ       , RAM};
-  item[16] = {615, "Present Velocity"      , 4 , READ       , RAM};
-  item[17] = {621, "Present Current"       , 2 , READ       , RAM};
-  item[18] = {623, "Present Input Voltage" , 2 , READ       , RAM};
-  item[19] = {625, "Present Temperature"   , 1 , READ       , RAM};
-  item[20] = {890, "Registered Instruction", 1 , READ       , RAM};
-  item[21] = {891, "Status Return Level"   , 1 , READ_WRITE , RAM};
-  item[22] = {892, "Hardware Error Status" , 1 , READ       , RAM};
+  light_item[3]  = {562, "Torque Enable"         , 1};
+  light_item[4]  = {563, "LED RED"               , 1};
+  light_item[5]  = {564, "LED GREEN"             , 1};
+  light_item[6]  = {565, "LED BLUE"              , 1};
+  light_item[7]  = {596, "Goal Position"         , 4};
+  light_item[8]  = {600, "Goal Velocity"         , 4};
+  light_item[9]  = {604, "Goal Torque"           , 2};
+  light_item[10] = {606, "Goal Acceleration"     , 4};
+  light_item[11] = {610, "Moving"                , 1};
+  light_item[12] = {611, "Present Position"      , 4};
+  light_item[13] = {615, "Present Velocity"      , 4};
+  light_item[14] = {621, "Present Current"       , 2};
 
-  control_table_size = 23;
+  control_table_size = 15;
 #else
   item[0]  = {0  , "Model Number"          , 2 , READ       , EEPROM};
   item[1]  = {6  , "Firmware Version"      , 1 , READ       , EEPROM};
@@ -1227,7 +1155,11 @@ ControlTableItem* getItem(uint16_t num)
     setXMItem();
   }
 
+#if defined(__OPENCR__) || defined(__OPENCM904__)
+  return light_item;
+#else
   return item;
+#endif
 }
 
 ModelInfo* getInfo(uint16_t num)
@@ -1272,7 +1204,7 @@ ModelInfo* getInfo(uint16_t num)
   {
     setXMInfo();
   }
-    else if (num == XM540_W150 || num == XM540_W270)
+  else if (num == XM540_W150 || num == XM540_W270)
   {
     setExtXMInfo();
   }
