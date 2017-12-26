@@ -21,7 +21,7 @@
 static uint8_t control_table_size = 0;
 
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  static ControlTableItem item[15]  = {0, };
+  static ControlTableItem item[14]  = {0, };
 #else
   static ControlTableItem item[60]  = {0, };
 #endif
@@ -243,7 +243,7 @@ void setEXInfo()
 
 void setMXItem()
 {
-  #if defined(__OPENCR__) || defined(__OPENCM904__)
+#if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {3  , "ID"                            , 1};
   item[1]  = {4  , "Baud Rate"                     , 1};
   item[2]  = {6  , "CW Angle Limit"                , 2};
@@ -486,22 +486,21 @@ void setExtMX2Item(void)
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1};
   item[1]  = {8  , "Baud Rate"             , 1};
-  item[2]  = {10 , "Drive Mode"            , 1};
-  item[3]  = {11 , "Operating Mode"        , 1};
+  item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1};
-  item[5]  = {65 , "LED"                   , 1};
-  item[6]  = {102, "Goal Current"          , 2};
-  item[7]  = {104, "Goal Velocity"         , 4};
-  item[8]  = {108, "Profile Acceleration"  , 4};
-  item[9]  = {112, "Profile Velocity"      , 4};
-  item[10] = {116, "Goal Position"         , 4};
-  item[11] = {122, "Moving"                , 1};
-  item[12] = {126, "Present Current"       , 2};
-  item[13] = {128, "Present Velocity"      , 4};
-  item[14] = {132, "Present Position"      , 4};
+  item[3]  = {64 , "Torque Enable"         , 1};
+  item[4]  = {65 , "LED"                   , 1};
+  item[5]  = {102, "Goal Current"          , 2};
+  item[6]  = {104, "Goal Velocity"         , 4};
+  item[7]  = {108, "Profile Acceleration"  , 4};
+  item[8]  = {112, "Profile Velocity"      , 4};
+  item[9]  = {116, "Goal Position"         , 4};
+  item[10] = {122, "Moving"                , 1};
+  item[11] = {126, "Present Current"       , 2};
+  item[12] = {128, "Present Velocity"      , 4};
+  item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 15;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
@@ -647,22 +646,21 @@ void setXLItem()
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1};
   item[1]  = {8  , "Baud Rate"             , 1};
-  item[2]  = {10 , "Drive Mode"            , 1};
-  item[3]  = {11 , "Operating Mode"        , 1};
+  item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1};
-  item[5]  = {65 , "LED"                   , 1};
-  item[6]  = {102, "Goal Current"          , 2};
-  item[7]  = {104, "Goal Velocity"         , 4};
-  item[8]  = {108, "Profile Acceleration"  , 4};
-  item[9]  = {112, "Profile Velocity"      , 4};
-  item[10] = {116, "Goal Position"         , 4};
-  item[11] = {122, "Moving"                , 1};
-  item[12] = {126, "Present Load"          , 2};
-  item[13] = {128, "Present Velocity"      , 4};
-  item[14] = {132, "Present Position"      , 4};
+  item[3]  = {64 , "Torque Enable"         , 1};
+  item[4]  = {65 , "LED"                   , 1};
+  item[5]  = {102, "Goal Current"          , 2};
+  item[6]  = {104, "Goal Velocity"         , 4};
+  item[7]  = {108, "Profile Acceleration"  , 4};
+  item[8]  = {112, "Profile Velocity"      , 4};
+  item[9]  = {116, "Goal Position"         , 4};
+  item[10] = {122, "Moving"                , 1};
+  item[11] = {126, "Present Load"          , 2};
+  item[12] = {128, "Present Velocity"      , 4};
+  item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 15;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
@@ -737,22 +735,21 @@ void setXMItem()
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1};
   item[1]  = {8  , "Baud Rate"             , 1};
-  item[2]  = {10 , "Drive Mode"            , 1};
-  item[3]  = {11 , "Operating Mode"        , 1};
+  item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1};
-  item[5]  = {65 , "LED"                   , 1};
-  item[6]  = {102, "Goal Current"          , 2};
-  item[7]  = {104, "Goal Velocity"         , 4};
-  item[8]  = {108, "Profile Acceleration"  , 4};
-  item[9] =  {112, "Profile Velocity"      , 4};
-  item[10] = {116, "Goal Position"         , 4};
-  item[11] = {122, "Moving"                , 1};
-  item[12] = {126, "Present Current"       , 2};
-  item[13] = {128, "Present Velocity"      , 4};
-  item[14] = {132, "Present Position"      , 4};
+  item[3]  = {64 , "Torque Enable"         , 1};
+  item[4]  = {65 , "LED"                   , 1};
+  item[5]  = {102, "Goal Current"          , 2};
+  item[6]  = {104, "Goal Velocity"         , 4};
+  item[7]  = {108, "Profile Acceleration"  , 4};
+  item[8] =  {112, "Profile Velocity"      , 4};
+  item[9] = {116, "Goal Position"         , 4};
+  item[10] = {122, "Moving"                , 1};
+  item[11] = {126, "Present Current"       , 2};
+  item[12] = {128, "Present Velocity"      , 4};
+  item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 15;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
@@ -829,22 +826,21 @@ void setExtXMItem(void)
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1};
   item[1]  = {8  , "Baud Rate"             , 1};
-  item[2]  = {10 , "Drive Mode"            , 1};
-  item[3]  = {11 , "Operating Mode"        , 1};
+  item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1};
-  item[5]  = {65 , "LED"                   , 1};
-  item[6]  = {102, "Goal Current"          , 2};
-  item[7]  = {104, "Goal Velocity"         , 4};
-  item[8]  = {108, "Profile Acceleration"  , 4};
-  item[9]  = {112, "Profile Velocity"      , 4};
-  item[10] = {116, "Goal Position"         , 4};
-  item[11] = {122, "Moving"                , 1};
-  item[12] = {126, "Present Current"       , 2};
-  item[13] = {128, "Present Velocity"      , 4};
-  item[14] = {132, "Present Position"      , 4};
+  item[3]  = {64 , "Torque Enable"         , 1};
+  item[4]  = {65 , "LED"                   , 1};
+  item[5]  = {102, "Goal Current"          , 2};
+  item[6]  = {104, "Goal Velocity"         , 4};
+  item[7]  = {108, "Profile Acceleration"  , 4};
+  item[8]  = {112, "Profile Velocity"      , 4};
+  item[9] = {116, "Goal Position"         , 4};
+  item[10] = {122, "Moving"                , 1};
+  item[11] = {126, "Present Current"       , 2};
+  item[12] = {128, "Present Velocity"      , 4};
+  item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 15;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
@@ -923,22 +919,21 @@ void setXHItem()
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   item[0]  = {7  , "ID"                    , 1};
   item[1]  = {8  , "Baud Rate"             , 1};
-  item[2]  = {10 , "Drive Mode"            , 1};
-  item[3]  = {11 , "Operating Mode"        , 1};
+  item[2]  = {11 , "Operating Mode"        , 1};
 
-  item[4]  = {64 , "Torque Enable"         , 1};
-  item[5]  = {65 , "LED"                   , 1};
-  item[6]  = {102, "Goal Current"          , 2};
-  item[7]  = {104, "Goal Velocity"         , 4};
-  item[8]  = {108, "Profile Acceleration"  , 4};
-  item[9]  = {112, "Profile Velocity"      , 4};
-  item[10] = {116, "Goal Position"         , 4};
-  item[11] = {122, "Moving"                , 1};
-  item[12] = {126, "Present Current"       , 2};
-  item[13] = {128, "Present Velocity"      , 4};
-  item[14] = {132, "Present Position"      , 4};
+  item[3]  = {64 , "Torque Enable"         , 1};
+  item[4]  = {65 , "LED"                   , 1};
+  item[5]  = {102, "Goal Current"          , 2};
+  item[6]  = {104, "Goal Velocity"         , 4};
+  item[7]  = {108, "Profile Acceleration"  , 4};
+  item[8]  = {112, "Profile Velocity"      , 4};
+  item[9]  = {116, "Goal Position"         , 4};
+  item[10] = {122, "Moving"                , 1};
+  item[11] = {126, "Present Current"       , 2};
+  item[12] = {128, "Present Velocity"      , 4};
+  item[13] = {132, "Present Position"      , 4};
 
-  control_table_size = 15;
+  control_table_size = 14;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
@@ -1018,18 +1013,16 @@ void setPROItem()
 
   item[3]  = {562, "Torque Enable"         , 1};
   item[4]  = {563, "LED RED"               , 1};
-  item[5]  = {564, "LED GREEN"             , 1};
-  item[6]  = {565, "LED BLUE"              , 1};
-  item[7]  = {596, "Goal Position"         , 4};
-  item[8]  = {600, "Goal Velocity"         , 4};
-  item[9]  = {604, "Goal Torque"           , 2};
-  item[10] = {606, "Goal Acceleration"     , 4};
-  item[11] = {610, "Moving"                , 1};
-  item[12] = {611, "Present Position"      , 4};
-  item[13] = {615, "Present Velocity"      , 4};
-  item[14] = {621, "Present Current"       , 2};
+  item[5]  = {596, "Goal Position"         , 4};
+  item[6]  = {600, "Goal Velocity"         , 4};
+  item[7]  = {604, "Goal Torque"           , 2};
+  item[8]  = {606, "Goal Acceleration"     , 4};
+  item[9]  = {610, "Moving"                , 1};
+  item[10] = {611, "Present Position"      , 4};
+  item[11] = {615, "Present Velocity"      , 4};
+  item[12] = {621, "Present Current"       , 2};
 
-  control_table_size = 15;
+  control_table_size = 13;
 #else
   item[0]  = {0  , "Model Number"          , 2};
   item[1]  = {6  , "Firmware Version"      , 1};
