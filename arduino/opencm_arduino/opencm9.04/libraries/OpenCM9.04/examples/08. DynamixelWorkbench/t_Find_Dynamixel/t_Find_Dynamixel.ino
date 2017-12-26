@@ -41,7 +41,7 @@ void setup()
   {
     Serial.println(String(baud[index]) + " bps");
 
-    dxl_wb.begin(DXL_BUS_SERIAL3, baud[index]);
+    dxl_wb.begin(DXL_BUS_SERIAL1, baud[index]);
     dxl_cnt = dxl_wb.scan(&scanned_id[0], 200);
 
     for (int i = 0; i < dxl_cnt; i++)
