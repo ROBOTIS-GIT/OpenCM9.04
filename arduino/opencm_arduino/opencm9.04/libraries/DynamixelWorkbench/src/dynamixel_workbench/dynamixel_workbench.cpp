@@ -158,7 +158,7 @@ bool DynamixelWorkbench::ledOff(uint8_t id)
 bool DynamixelWorkbench::jointMode(uint8_t id, uint16_t vel, uint16_t acc)
 {
   strcpy(dxl_, driver_.getModelName(id));
-
+Serial.println("BB");
   torque(id, FALSE);
 
   setPositionControlMode(id);
@@ -258,9 +258,9 @@ bool DynamixelWorkbench::goalSpeed(uint8_t id, int32_t goal)
   return check;
 }
 
-bool DynamixelWorkbench::regWrite(uint8_t id, char* item_name, int32_t value)
+bool DynamixelWorkbench::itemWrite(uint8_t id, char* item_name, int32_t value)
 {
-  driver_.writeRegister(id, item_name, value);
+  return driver_.writeRegister(id, item_name, value);
 }
 
 bool DynamixelWorkbench::syncWrite(char *item_name, int32_t* value)
@@ -273,7 +273,7 @@ bool DynamixelWorkbench::bulkWrite()
   return driver_.bulkWrite();
 }
 
-int32_t DynamixelWorkbench::regRead(uint8_t id, char* item_name)
+int32_t DynamixelWorkbench::itemRead(uint8_t id, char* item_name)
 {
   static int32_t value = 0;
 
@@ -345,23 +345,7 @@ bool DynamixelWorkbench::setBulkRead()
 
 bool DynamixelWorkbench::torque(uint8_t id, bool onoff)
 {
-  strcpy(dxl_, driver_.getModelName(id));
-
-  if (driver_.getProtocolVersion() == 1.0)
-  {
-    driver_.writeRegister(id, "Torque ON/OFF", onoff);
-  }
-  else if (driver_.getProtocolVersion() == 2.0)
-  {
-    if (!strncmp(dxl_, "XL-320", 6))
-    {
-      driver_.writeRegister(id, "Torque ON/OFF", onoff);
-    }
-    else
-    {
-      driver_.writeRegister(id, "Torque Enable", onoff);
-    }
-  }
+  driver_.writeRegister(id, "Torque Enable", onoff);
 }
 
 bool DynamixelWorkbench::setPositionControlMode(uint8_t id)
