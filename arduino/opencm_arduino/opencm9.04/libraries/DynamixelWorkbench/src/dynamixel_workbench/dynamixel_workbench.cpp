@@ -158,7 +158,7 @@ bool DynamixelWorkbench::ledOff(uint8_t id)
 bool DynamixelWorkbench::jointMode(uint8_t id, uint16_t vel, uint16_t acc)
 {
   strcpy(dxl_, driver_.getModelName(id));
-Serial.println("BB");
+
   torque(id, FALSE);
 
   setPositionControlMode(id);
