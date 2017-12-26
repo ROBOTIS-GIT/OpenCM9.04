@@ -45,11 +45,11 @@ void loop()
   int32_t present_position = 0;
   int32_t goal_position[2] = {1000, 2000};
   
-  dxl_wb.regWrite(DXL_ID, "Goal Position", goal_position[index]);
+  dxl_wb.itemWrite(DXL_ID, "Goal Position", goal_position[index]);
 
   do
   {
-    present_position = dxl_wb.regRead(DXL_ID, "Present Position");
+    present_position = dxl_wb.itemRead(DXL_ID, "Present Position");
     Serial.print("[ ID:" + String(DXL_ID)); 
     Serial.print(" GoalPos:" + String(goal_position[index]));  
     Serial.println(" PresPos:" + String(present_position) + " ]");  

@@ -164,7 +164,7 @@ void loop()
 
       int32_t value = cmd[++index].toInt(); 
            
-      if (dxl_wb.regWrite(id, buf, value))
+      if (dxl_wb.itemWrite(id, buf, value))
       {
         Serial.print(buf);
         Serial.print(" : ");
@@ -217,7 +217,7 @@ void loop()
       char buf[address_name.length() + 1];
       address_name.toCharArray(buf, address_name.length()+1);
       
-      int32_t value = dxl_wb.regRead(id, buf);
+      int32_t value = dxl_wb.itemRead(id, buf);
 
       Serial.print(buf);
       Serial.print(" : ");
