@@ -33,7 +33,7 @@ class DynamixelTool
   ModelInfo* info_ptr_;
 
 #if defined(__OPENCR__) || defined(__OPENCM904__)
-  ControlTableItem item_[10];
+  ControlTableItem item_[14];
 #else
   ControlTableItem item_[60];
 #endif
@@ -67,7 +67,7 @@ class DynamixelTool
 
   uint8_t getControlTableSize();    
   ControlTableItem* getControlItem(char* item_name); 
-  ControlTableItem* getControlItem(); 
-  ModelInfo* getModelInfo();
+  ControlTableItem* getControlItemPtr(); 
+  ModelInfo* getModelInfoPtr();
 };
 #endif //DYNAMIXEL_TOOL_H

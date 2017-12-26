@@ -143,15 +143,15 @@ void DynamixelTool::setControlTable(uint16_t num)
   else if (num == MX_28)
     strcpy(model_name_, "MX-28");
   else if (num == MX_28_2)
-    strcpy(model_name_, "MX-28_2");
+    strcpy(model_name_, "MX-28-2");
   else if (num == MX_64)
     strcpy(model_name_, "MX-64");
   else if (num == MX_64_2)
-    strcpy(model_name_, "MX-64_2");
+    strcpy(model_name_, "MX-64-2");
   else if (num == MX_106)
     strcpy(model_name_, "MX-106");
   else if (num == MX_106_2)
-    strcpy(model_name_, "MX-106_2");
+    strcpy(model_name_, "MX-106-2");
 
   else if (num == XL_320)
     strcpy(model_name_, "XL-320");
@@ -226,37 +226,37 @@ char* DynamixelTool::getModelName()
 
 float DynamixelTool::getVelocityToValueRatio()
 {
-  return info_ptr_->velocity_to_value_ratio;
+  return info_.velocity_to_value_ratio;
 }
 
 float DynamixelTool::getTorqueToCurrentValueRatio()
 {
-  return info_ptr_->torque_to_current_value_ratio;
+  return info_.torque_to_current_value_ratio;
 }
 
 int32_t DynamixelTool::getValueOfMinRadianPosition()
 {
-  return info_ptr_->value_of_min_radian_position;
+  return info_.value_of_min_radian_position;
 }
 
 int32_t DynamixelTool::getValueOfMaxRadianPosition()
 {
-  return info_ptr_->value_of_max_radian_position;
+  return info_.value_of_max_radian_position;
 }
 
 int32_t DynamixelTool::getValueOfZeroRadianPosition()
 {
-  return info_ptr_->value_of_0_radian_position;
+  return info_.value_of_0_radian_position;
 }
 
 float DynamixelTool::getMinRadian()
 {
-  return info_ptr_->min_radian;
+  return info_.min_radian;
 }
 
 float DynamixelTool::getMaxRadian()
 {
-  return info_ptr_->max_radian;
+  return info_.max_radian;
 }
 
 uint8_t DynamixelTool::getControlTableSize()
@@ -288,12 +288,12 @@ ControlTableItem* DynamixelTool::getControlItem(char* item_name)
   }
 }
 
-ControlTableItem* DynamixelTool::getControlItem()
+ControlTableItem* DynamixelTool::getControlItemPtr()
 {
   return item_ptr_;
 }
 
-ModelInfo* DynamixelTool::getModelInfo()
+ModelInfo* DynamixelTool::getModelInfoPtr()
 {
   return info_ptr_;
 }
