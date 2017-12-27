@@ -285,6 +285,13 @@
           "version": "0.0.2",
           "systems": [
             {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
+              "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
+            },
+            {
               "host": "i686-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
               "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
