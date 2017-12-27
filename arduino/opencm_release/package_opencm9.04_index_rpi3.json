@@ -210,6 +210,13 @@
           "version": "5.4.0-2016q2",
           "systems": [
             {
+              "host": "arm-linux-gnueabihf",
+              "url": "http://downloads.arduino.cc/gcc-arm-none-eabi-4.8.3-2014q1-arm.tar.bz2",
+              "archiveFileName": "gcc-arm-none-eabi-4.8.3-2014q1-arm.tar.bz2",
+              "checksum": "SHA-256:ebe96b34c4f434667cab0187b881ed585e7c7eb990fe6b69be3c81ec7e11e845",
+              "size": "44423906"
+            },
+            {
               "host": "i686-linux-gnu",
               "url": "https://launchpad.net/gcc-arm-embedded/5.0/5-2016-q2-update/+download/gcc-arm-none-eabi-5_4-2016q2-20160622-linux.tar.bz2",
               "archiveFileName": "gcc-arm-none-eabi-5_4-2016q2-20160622-linux.tar.bz2",
@@ -277,6 +284,13 @@
           "name": "opencm_tools",
           "version": "0.0.2",
           "systems": [
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
+              "archiveFileName": "opencm_tools_0.0.2.tar.bz2",
+              "checksum": "SHA-256:d61094b075ab76c9d24eefa253818ea156003626a4623418c60619bd40823959",
+              "size": "27681"
+            },            
             {
               "host": "i686-linux-gnu",
               "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/tools/opencm_tools_0.0.2.tar.bz2",
