@@ -28,7 +28,7 @@ DynamixelWorkbench::~DynamixelWorkbench()
 
 }
 
-bool DynamixelWorkbench::begin(char* device_name, uint32_t baud_rate)
+bool DynamixelWorkbench::begin(const char* device_name, uint32_t baud_rate)
 {
   bool error = false;
 
@@ -77,14 +77,14 @@ bool DynamixelWorkbench::setID(uint8_t id, uint8_t new_id)
 {
   bool check = false;
 
-  torque(id, FALSE);
+  torque(id, false);
 
   check = driver_.writeRegister(id, "ID", new_id);
 
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   delay(1000);
 #else
-  sleep(1);
+  usleep(1000*1000);
 #endif
 
   return check;
@@ -94,7 +94,7 @@ bool DynamixelWorkbench::setBaud(uint8_t id, uint32_t new_baud)
 {
   bool check = false;
 
-  torque(id, FALSE);
+  torque(id, false);
 
   if (driver_.getProtocolVersion() == 1.0)
   {
@@ -129,7 +129,7 @@ bool DynamixelWorkbench::setBaud(uint8_t id, uint32_t new_baud)
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   delay(1000);
 #else
-  sleep(1);
+  usleep(1000*1000);
 #endif
 
   return check;
@@ -159,11 +159,11 @@ bool DynamixelWorkbench::jointMode(uint8_t id, uint16_t vel, uint16_t acc)
 {
   strcpy(dxl_, driver_.getModelName(id));
 
-  torque(id, FALSE);
+  torque(id, false);
 
   setPositionControlMode(id);
 
-  torque(id, TRUE);
+  torque(id, true);
 
   if (driver_.getProtocolVersion() == 1.0)
   {
@@ -187,11 +187,11 @@ bool DynamixelWorkbench::wheelMode(uint8_t id, uint16_t vel, uint16_t acc)
 {
   strcpy(dxl_, driver_.getModelName(id));
 
-  torque(id, FALSE);
+  torque(id, false);
 
   setVelocityControlMode(id);
 
-  torque(id, TRUE);
+  torque(id, true);
 
   if (driver_.getProtocolVersion() == 2.0 && (strncmp(dxl_, "PRO", 3) != 0))
   {   
@@ -204,11 +204,11 @@ bool DynamixelWorkbench::currentMode(uint8_t id, uint8_t cur)
 {
   strcpy(dxl_, driver_.getModelName(id));
   
-  torque(id, FALSE);
+  torque(id, false);
 
   setCurrentControlMode(id);
 
-  torque(id, TRUE);
+  torque(id, true);
 
   if (!strncmp(dxl_, "X", 1))
   {   
@@ -258,12 +258,12 @@ bool DynamixelWorkbench::goalSpeed(uint8_t id, int32_t goal)
   return check;
 }
 
-bool DynamixelWorkbench::itemWrite(uint8_t id, char* item_name, int32_t value)
+bool DynamixelWorkbench::itemWrite(uint8_t id, const char* item_name, int32_t value)
 {
   return driver_.writeRegister(id, item_name, value);
 }
 
-bool DynamixelWorkbench::syncWrite(char *item_name, int32_t* value)
+bool DynamixelWorkbench::syncWrite(const char *item_name, int32_t* value)
 {
   return driver_.syncWrite(item_name, value);
 }
@@ -273,7 +273,7 @@ bool DynamixelWorkbench::bulkWrite()
   return driver_.bulkWrite();
 }
 
-int32_t DynamixelWorkbench::itemRead(uint8_t id, char* item_name)
+int32_t DynamixelWorkbench::itemRead(uint8_t id, const char* item_name)
 {
   static int32_t value = 0;
 
@@ -281,28 +281,28 @@ int32_t DynamixelWorkbench::itemRead(uint8_t id, char* item_name)
     return value;
 }
 
-int32_t* DynamixelWorkbench::syncRead(char *item_name)
+int32_t* DynamixelWorkbench::syncRead(const char *item_name)
 {
   static int32_t data[16];
   if (driver_.syncRead(item_name, data))
     return data;
 }
 
-int32_t DynamixelWorkbench::bulkRead(uint8_t id, char* item_name)
+int32_t DynamixelWorkbench::bulkRead(uint8_t id, const char* item_name)
 {
   static int32_t data;
   if (driver_.bulkRead(id, item_name, &data))
     return data;
 }
 
-bool DynamixelWorkbench::addSyncWrite(char* item_name)
+bool DynamixelWorkbench::addSyncWrite(const char* item_name)
 {
   driver_.addSyncWrite(item_name);
 
   return true;
 }
 
-bool DynamixelWorkbench::addSyncRead(char* item_name)
+bool DynamixelWorkbench::addSyncRead(const char* item_name)
 {
   driver_.addSyncRead(item_name);
 
@@ -323,12 +323,12 @@ bool DynamixelWorkbench::initBulkRead()
   return true;
 }
 
-bool DynamixelWorkbench::addBulkWriteParam(uint8_t id, char *item_name, int32_t data)
+bool DynamixelWorkbench::addBulkWriteParam(uint8_t id, const char *item_name, int32_t data)
 {
   return driver_.addBulkWriteParam(id, item_name, data);
 }
 
-bool DynamixelWorkbench::addBulkReadParam(uint8_t id, char *item_name)
+bool DynamixelWorkbench::addBulkReadParam(uint8_t id, const char *item_name)
 {
   return driver_.addBulkReadParam(id, item_name);
 }
@@ -379,7 +379,7 @@ bool DynamixelWorkbench::setPositionControlMode(uint8_t id)
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   delay(10);
 #else
-  sleep(0.01);
+  usleep(1000*10);
 #endif
 }
 
@@ -406,7 +406,7 @@ bool DynamixelWorkbench::setVelocityControlMode(uint8_t id)
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   delay(10);
 #else
-  sleep(0.01);
+  usleep(1000*10);
 #endif  
 }
 
@@ -418,13 +418,10 @@ bool DynamixelWorkbench::setCurrentControlMode(uint8_t id)
   {
     driver_.writeRegister(id, "Operating Mode", X_SERIES_CURRENT_BASED_POSITION_CONTROL_MODE);
   }   
-  else
-  {
-    Serial.println("Position control based current control is only support in X series");
-  }
+
 #if defined(__OPENCR__) || defined(__OPENCM904__)
   delay(10);
 #else
-  sleep(0.01);
+  usleep(1000*10);
 #endif
 }

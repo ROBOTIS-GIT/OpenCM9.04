@@ -21,28 +21,11 @@
 
 #include <stdint.h>
 
-enum ACCESS_TYPE {
-  READ,
-  READ_WRITE
-};
-
-enum MEMORY_TYPE {
-  EEPROM,
-  RAM
-};
-
 typedef struct 
 {
   uint16_t    address;
-  char*       item_name;  
+  const char* item_name;
   uint8_t     data_length;
 } ControlTableItem;
-
-typedef struct 
-{
-  ControlTableItem item;
-  ACCESS_TYPE access_type;
-  MEMORY_TYPE memory_type;  
-} ItemAndType;
 
 #endif //CONTROL_TABLE_ITEM_H
