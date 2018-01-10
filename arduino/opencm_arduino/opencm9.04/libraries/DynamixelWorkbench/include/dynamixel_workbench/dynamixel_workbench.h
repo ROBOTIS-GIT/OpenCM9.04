@@ -48,8 +48,8 @@ class DynamixelWorkbench
 
   bool begin(const char* device_name = "/dev/ttyUSB0", uint32_t baud_rate = 57600);
  
-  uint8_t  scan(uint8_t *get_id, float protocol_version = 0.0);
-  uint16_t ping(uint8_t id, float protocol_version = 0.0);
+  bool scan(uint8_t *get_id, uint8_t *get_id_num = 0, float protocol_version = 0.0);
+  bool ping(uint8_t id, uint16_t *get_model_number = 0, float protocol_version = 0.0);
 
   bool reboot(uint8_t id);
   bool reset(uint8_t id);
@@ -60,7 +60,7 @@ class DynamixelWorkbench
 
   char* getModelName(uint8_t id);
 
-  bool ledOn(uint8_t id, int32_t data);
+  bool ledOn(uint8_t id);
   bool ledOff(uint8_t id);
 
   bool jointMode(uint8_t id, uint16_t vel = 0, uint16_t acc = 0);
@@ -72,23 +72,25 @@ class DynamixelWorkbench
 
   bool itemWrite(uint8_t id, const char* item_name, int32_t value);  // write value to item
   bool syncWrite(const char *item_name, int32_t* value);             // sync write
-  bool bulkWrite(void);                                        // bulk write
+  bool bulkWrite(void);                                              // bulk write
 
-  int32_t  itemRead(uint8_t id, const char* item_name);   // read value from item
+  int32_t  itemRead(uint8_t id, const char* item_name);  // read value from item
   int32_t* syncRead(const char* item_name);              // sync read
   int32_t  bulkRead(uint8_t id, const char* item_name);  // bulk read
 
-  bool addSyncWrite(const char* item_name);
-  bool addSyncRead(const char* item_name);
+  void addSyncWrite(const char* item_name);
+  void addSyncRead(const char* item_name);
 
-  bool initBulkWrite();
-  bool initBulkRead();
+  void initBulkWrite();
+  void initBulkRead();
 
   bool addBulkWriteParam(uint8_t id, const char *item_name, int32_t data);
   bool addBulkReadParam(uint8_t id, const char *item_name);
   bool setBulkRead();
 
  private:
+  void millis(uint16_t msec);
+
   bool torque(uint8_t id, bool onoff);
   bool setPositionControlMode(uint8_t id);
   bool setVelocityControlMode(uint8_t id);
