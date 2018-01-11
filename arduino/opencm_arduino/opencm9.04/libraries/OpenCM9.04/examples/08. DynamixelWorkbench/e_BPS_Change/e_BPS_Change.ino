@@ -32,19 +32,17 @@ DynamixelWorkbench dxl_wb;
 void setup() 
 {
   Serial.begin(57600);
-  while(!Serial);
+  while(!Serial); // Open a Serial Monitor
 
-  dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
+  dxl_wb.begin(DXL_BUS_SERIAL3, BAUDRATE);
   dxl_wb.ping(DXL_ID);
 
   if (dxl_wb.setBaud(DXL_ID, NEW_BAUDRATE))
   {
     Serial.println("Succeed to change Baudrate");
-    dxl_wb.begin(DXL_BUS_SERIAL3, NEW_BAUDRATE);
-    
     Serial.print("Baud Rate: " + String(NEW_BAUDRATE));
 
-    dxl_wb.ping(DXL_ID);
+    dxl_wb.begin(DXL_BUS_SERIAL3, NEW_BAUDRATE);
     dxl_wb.jointMode(DXL_ID);
   }
   else
