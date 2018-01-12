@@ -43,6 +43,7 @@ void setup()
   Serial.println("ping   (ID)");
   Serial.println("id     (ID) (NEW_ID)");
   Serial.println("baud   (ID) (NEW_BAUD)");
+  Serial.println("torque (ID) (VALUE)");
   Serial.println("joint  (ID) (GOAL_POSITION)");
   Serial.println("wheel  (ID) (GOAL_VELOCITY)");
   Serial.println("write  (ID) (ADDRESS_NAME) (VALUE)");
@@ -66,7 +67,7 @@ void loop()
     if (cmd[0] == "begin")
     {
       uint32_t baud = cmd[1].toInt();
-      if (dxl_wb.begin(DXL_BUS_SERIAL3, baud))
+      if (dxl_wb.begin(DXL_BUS_SERIAL4, baud))
         Serial.println("Succeed to begin");
       else
         Serial.println("Failed to begin");
@@ -109,10 +110,20 @@ void loop()
     else if (cmd[0] == "baud")
     {
       uint8_t  id       = cmd[1].toInt();
-      uint32_t new_baud = cmd[2].toInt();
+      uint32_t  new_baud  = cmd[2].toInt();
 
       if (dxl_wb.setBaud(id, new_baud))
         Serial.println("Succeed to change BaudRate");
+      else
+        Serial.println("Failed");
+    }
+    else if (cmd[0] == "torque")
+    {
+      uint8_t id       = cmd[1].toInt();
+      uint8_t onoff    = cmd[2].toInt();
+
+      if (dxl_wb.itemWrite(id, "Torque_Enable", onoff))
+        Serial.println("Succeed to torque command!!");
       else
         Serial.println("Failed");
     }
