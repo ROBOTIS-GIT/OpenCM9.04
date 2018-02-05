@@ -33,10 +33,19 @@ DynamixelDriver::~DynamixelDriver()
   portHandler_->closePort();
 }
 
+void DynamixelDriver::initDXLinfo(void)
+{
+  for (int i = 0; i <= tools_cnt_; i++)
+  {
+    tools_[i].dxl_info_cnt_ = 0;
+  }
+}
+
 void DynamixelDriver::setTools(uint16_t model_number, uint8_t id)
 {
   if (tools_cnt_ == 0)
   {
+    initDXLinfo();
     tools_[tools_cnt_].addTool(model_number, id);
   }
   else
@@ -317,9 +326,13 @@ bool DynamixelDriver::reset(uint8_t id)
       {
         millis(2000);
 
-        if (!strncmp(model_name, "MX-28-2", strlen("MX-28-2")) ||
-            !strncmp(model_name, "MX-64-2", strlen("MX-64-2")) ||
-            !strncmp(model_name, "MX-106-2", strlen("MX-106-2")))
+        if (!strncmp(model_name, "MX-28-2", strlen("MX-28-2"))   ||
+            !strncmp(model_name, "MX-64-2", strlen("MX-64-2"))   ||
+            !strncmp(model_name, "MX-106-2", strlen("MX-106-2")) ||
+            !strncmp(model_name, "XL", strlen("XL")) ||
+            !strncmp(model_name, "XM", strlen("XM")) ||
+            !strncmp(model_name, "XH", strlen("XH")) ||
+            !strncmp(model_name, "PRO", strlen("PRO")))
           isOK = setPacketHandler(2.0);
         else
           isOK = setPacketHandler(1.0);
@@ -585,12 +598,10 @@ void DynamixelDriver::addSyncWrite(const char *item_name)
 
   syncWriteHandler_[sync_write_handler_cnt_].cti = cti;
 
-  syncWriteHandler_[sync_write_handler_cnt_].groupSyncWrite = new dynamixel::GroupSyncWrite(portHandler_,
-                                                                                            packetHandler_,
-                                                                                            cti->address,
-                                                                                            cti->data_length);
-
-  sync_write_handler_cnt_++;
+  syncWriteHandler_[sync_write_handler_cnt_++].groupSyncWrite = new dynamixel::GroupSyncWrite(portHandler_,
+                                                                                              packetHandler_,
+                                                                                              cti->address,
+                                                                                              cti->data_length);
 }
 
 bool DynamixelDriver::syncWrite(const char *item_name, int32_t *data)
@@ -607,8 +618,7 @@ bool DynamixelDriver::syncWrite(const char *item_name, int32_t *data)
   {
     if (!strncmp(syncWriteHandler_[index].cti->item_name, item_name, strlen(item_name)))
     {
-      swh.groupSyncWrite = syncWriteHandler_[index].groupSyncWrite;
-      swh.cti = syncWriteHandler_[index].cti;
+      swh = syncWriteHandler_[index];
     }
   }
 
@@ -647,12 +657,10 @@ void DynamixelDriver::addSyncRead(const char *item_name)
 
   syncReadHandler_[sync_read_handler_cnt_].cti = cti;
   
-  syncReadHandler_[sync_read_handler_cnt_].groupSyncRead = new dynamixel::GroupSyncRead(portHandler_,
-                                                                                        packetHandler_,
-                                                                                        cti->address,
-                                                                                        cti->data_length);
-
-  sync_read_handler_cnt_++;
+  syncReadHandler_[sync_read_handler_cnt_++].groupSyncRead = new dynamixel::GroupSyncRead(portHandler_,
+                                                                                          packetHandler_,
+                                                                                          cti->address,
+                                                                                          cti->data_length);
 }
 
 bool DynamixelDriver::syncRead(const char *item_name, int32_t *data)
@@ -669,8 +677,7 @@ bool DynamixelDriver::syncRead(const char *item_name, int32_t *data)
   {
     if (!strncmp(syncReadHandler_[index].cti->item_name, item_name, strlen(item_name)))
     {
-      srh.groupSyncRead = syncReadHandler_[index].groupSyncRead;
-      srh.cti = syncReadHandler_[index].cti;
+      srh = syncReadHandler_[index];
     }
   }
 
@@ -876,7 +883,7 @@ int32_t DynamixelDriver::convertVelocity2Value(uint8_t id, float velocity)
 
 float DynamixelDriver::convertValue2Velocity(uint8_t id, int32_t value)
 {
-  int32_t velocity = 0;
+  float velocity = 0;
   int8_t factor = getToolsFactor(id);
 
   velocity = value / tools_[factor].getVelocityToValueRatio();
