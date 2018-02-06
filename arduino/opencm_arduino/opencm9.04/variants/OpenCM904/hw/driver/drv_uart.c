@@ -207,14 +207,14 @@ int drv_uart_peek(uint8_t uart_num)
 
 int drv_uart_read(uint8_t uart_num)
 {
-    int ret = -1;
-    int index;
+    int ret   = -1;
+    int index = drv_uart_rx_buf_tail[uart_num];
 
-    index = drv_uart_rx_buf_tail[uart_num];
-
-    ret = drv_uart_rx_buf[uart_num][index];
-
-    drv_uart_rx_buf_tail[uart_num] = (drv_uart_rx_buf_tail[uart_num] + 1) % DRV_UART_RX_BUF_LENGTH;
+    if((drv_uart_rx_buf_head[uart_num] - index) > 0 )
+    {
+      ret = drv_uart_rx_buf[uart_num][index];
+      drv_uart_rx_buf_tail[uart_num] = (drv_uart_rx_buf_tail[uart_num] + 1) % DRV_UART_RX_BUF_LENGTH;
+    }
 
     return ret;
 }

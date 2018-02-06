@@ -18,23 +18,24 @@
 
 #include <DynamixelWorkbench.h>
 
-#define DXL_BUS_SERIAL1 "1"            //Dynamixel on Serial1(USART1)  <-OpenCM9.04
-#define DXL_BUS_SERIAL2 "2"            //Dynamixel on Serial2(USART2)  <-LN101,BT210
-#define DXL_BUS_SERIAL3 "3"            //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
-#define DXL_BUS_SERIAL4 "/dev/ttyUSB0" //Dynamixel on Serial3(USART3)  <-OpenCR
+#if defined(__OPENCM904__)
+  #define DEVICE_NAME "3" //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
+#elif defined(__OPENCR__)
+  #define DEVICE_NAME ""
+#endif     
 
-#define BAUDRATE  1000000
-#define DXL_JOINT_ID    1
-#define DXL_WHEEL_ID    2
+#define BAUDRATE      57600
+#define DXL_JOINT_ID  1
+#define DXL_WHEEL_ID  2
 
 DynamixelWorkbench dxl_wb;
 
 void setup() 
 {
   Serial.begin(57600);
-  while(!Serial);
+  // while(!Serial); // If this line is activated, you need to open Serial Terminal.
 
-  dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
+  dxl_wb.begin(DEVICE_NAME, BAUDRATE);
   dxl_wb.ping(DXL_JOINT_ID);
   dxl_wb.ping(DXL_WHEEL_ID);
 
@@ -45,12 +46,12 @@ void setup()
 void loop() 
 {
   dxl_wb.goalPosition(DXL_JOINT_ID, 0);
-  dxl_wb.goalSpeed(DXL_WHEEL_ID, 500);
+  dxl_wb.goalSpeed(DXL_WHEEL_ID, 300);
   
   delay(3000);
 
   dxl_wb.goalPosition(DXL_JOINT_ID, 2000);
-  dxl_wb.goalSpeed(DXL_WHEEL_ID, -500);
+  dxl_wb.goalSpeed(DXL_WHEEL_ID, -300);
 
   delay(3000);
 }
