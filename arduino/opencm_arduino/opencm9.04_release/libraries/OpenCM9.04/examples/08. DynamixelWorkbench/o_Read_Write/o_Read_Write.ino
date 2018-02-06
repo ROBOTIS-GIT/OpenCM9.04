@@ -18,12 +18,13 @@
 
 #include <DynamixelWorkbench.h>
 
-#define DXL_BUS_SERIAL1 "1"            //Dynamixel on Serial1(USART1)  <-OpenCM9.04
-#define DXL_BUS_SERIAL2 "2"            //Dynamixel on Serial2(USART2)  <-LN101,BT210
-#define DXL_BUS_SERIAL3 "3"            //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
-#define DXL_BUS_SERIAL4 "/dev/ttyUSB0" //Dynamixel on Serial3(USART3)  <-OpenCR
+#if defined(__OPENCM904__)
+  #define DEVICE_NAME "3" //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
+#elif defined(__OPENCR__)
+  #define DEVICE_NAME ""
+#endif   
 
-#define BAUDRATE  1000000
+#define BAUDRATE  57600
 #define DXL_ID    1
 
 DynamixelWorkbench dxl_wb;
@@ -31,9 +32,9 @@ DynamixelWorkbench dxl_wb;
 void setup() 
 {
   Serial.begin(57600);
-  while(!Serial);
+  // while(!Serial); // If this line is activated, you need to open Serial Terminal.
 
-  dxl_wb.begin(DXL_BUS_SERIAL1, BAUDRATE);
+  dxl_wb.begin(DEVICE_NAME, BAUDRATE);
   dxl_wb.ping(DXL_ID);
 
   dxl_wb.jointMode(DXL_ID);
@@ -45,14 +46,17 @@ void loop()
   int32_t present_position = 0;
   int32_t goal_position[2] = {1000, 2000};
   
-  dxl_wb.regWrite(DXL_ID, "Goal Position", goal_position[index]);
+  dxl_wb.itemWrite(DXL_ID, "Goal_Position", goal_position[index]);
 
   do
   {
-    present_position = dxl_wb.regRead(DXL_ID, "Present Position");
-    Serial.print("[ ID:" + String(DXL_ID)); 
-    Serial.print(" GoalPos:" + String(goal_position[index]));  
-    Serial.println(" PresPos:" + String(present_position) + " ]");  
+    present_position = dxl_wb.itemRead(DXL_ID, "Present_Position");
+    Serial.print("[ ID :"     + String(DXL_ID)                + 
+                 " GoalPos :" + String(goal_position[index])  + 
+                 " PresPos :" + String(present_position)      + 
+                 " ]");
+                 
+    Serial.println("");
   }while(abs(goal_position[index] - present_position) > 20);
 
   if (index == 0)
