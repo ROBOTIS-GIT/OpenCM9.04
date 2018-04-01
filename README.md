@@ -1,4 +1,5 @@
 # OpenCM 9.04: Open Source Control Module 9.04
+![](http://emanual.robotis.com/assets/images/parts/controller/opencm904/opencm904_product.png)
 
 ## Open Source related to OpenCM
 - [OpenCM 9.04](https://github.com/ROBOTIS-GIT/OpenCM9.04)
