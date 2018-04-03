@@ -9,7 +9,7 @@
 - [dynamixel_sdk](https://github.com/ROBOTIS-GIT/DynamixelSDK)
 - [dynamixel_workbench](https://github.com/ROBOTIS-GIT/dynamixel-workbench)
 
-## Documents and Videos related OpenCM
+## Documents and Videos related to OpenCM
 - [ROBOTIS e-Manual for OpenCM 9.04](http://emanual.robotis.com/docs/en/parts/controller/opencm904/)
 - [ROBOTIS e-Manual for OpenCM 485 Expansion Board](http://emanual.robotis.com/docs/en/parts/controller/opencm485exp/)
 - [ROBOTIS e-Manual for OpenCR](http://emanual.robotis.com/docs/en/parts/controller/opencr10/)
