@@ -95,7 +95,7 @@ function build_platform()
   declare -a examples
 
   # loop through results and add them to the array
-  examples=($(find "$HOME/Arduino/hardware/OpenCM904/OpenCM904/libraries/OpenCM9.04/examples/08. DynamixelWorkbench" -name "*.pde" -o -name "*.ino"))
+  examples=($(find $HOME/Arduino/hardware/OpenCM904/OpenCM904/libraries/OpenCM9.04/examples/08_DynamixelWorkbench -name "*.pde" -o -name "*.ino"))
 
   # get the last example in the array
   local last="${examples[@]:(-1)}"
