@@ -43,7 +43,7 @@ void setup()
     Serial.println("Succeed to change Baudrate");
     Serial.print("Baud Rate: " + String(NEW_BAUDRATE));
 
-    dxl_wb.begin(DXL_BUS_SERIAL3, NEW_BAUDRATE);
+    dxl_wb.begin(DEVICE_NAME, NEW_BAUDRATE);
     dxl_wb.jointMode(DXL_ID);
   }
   else
