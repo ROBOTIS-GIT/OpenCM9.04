@@ -47,7 +47,7 @@ rm -rf $HOME/.arduino15/packages/OpenCM904/hardware
 mkdir $HOME/Arduino/hardware
 mkdir $HOME/Arduino/hardware/OpenCM904
 echo -n "UPDATE OpenCM904: "
-DEPENDENCY_OUTPUT=$(mv $PWD/OpenCM9.04/opencm_arduino/opencm9.04 $HOME/Arduino/hardware/OpenCM904/OpenCM904 2>&1)
+DEPENDENCY_OUTPUT=$(mv $PWD/OpenCM9.04/arduino/opencm_arduino/opencm9.04 $HOME/Arduino/hardware/OpenCM904/OpenCM904 2>&1)
 if [ $? -ne 0 ]; then echo -e "\xe2\x9c\x96"; else echo -e "\xe2\x9c\x93"; fi
 
 # install random lib so the arduino IDE grabs a new library index
