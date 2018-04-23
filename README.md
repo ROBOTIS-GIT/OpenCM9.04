@@ -1,6 +1,10 @@
 # OpenCM 9.04: Open Source Control Module 9.04
 ![](http://emanual.robotis.com/assets/images/parts/controller/opencm904/opencm904_product.png)
 
+|master|develop|
+|:---:|:---:|
+|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/OpenCM9.04.svg?branch=master)](https://travis-ci.org/ROBOTIS-GIT/OpenCM9.04)|[![Build Status](https://travis-ci.org/ROBOTIS-GIT/OpenCM9.04.svg?branch=develop)](https://travis-ci.org/ROBOTIS-GIT/OpenCM9.04/branches)|
+
 ## Open Source related to OpenCM
 - [OpenCM 9.04](https://github.com/ROBOTIS-GIT/OpenCM9.04)
 - [OpenCM 7.0](https://github.com/ROBOTIS-GIT/OpenCM7.0)
