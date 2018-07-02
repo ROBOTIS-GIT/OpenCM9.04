@@ -37,7 +37,7 @@
 
 // Default setting
 #define DXL_ID                          1                   // Dynamixel ID: 1
-#define BAUDRATE                        1000000             // XL-320 default baudrate : 1000000 (Default Baudrate for X series and MX series(with Protocol 2.0) is 57600)
+#define BAUDRATE                        57600               // XL-320 default baudrate : 1000000 (Default Baudrate for X series and MX series(with Protocol 2.0) is 57600)
 #define DEVICENAME                      "3"                 // Check which port is being used on your controller
                                                             // DEVICENAME "1" -> Serial1
                                                             // DEVICENAME "2" -> Serial2
