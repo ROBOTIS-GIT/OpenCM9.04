@@ -1,3 +1,11 @@
+/*
+ * Controller : OpenCM9.04 with 485 EXP board
+ * Dynamixel : All Dynamixel using Protocol 2.0
+ * Power source : 12V SMPS to 485 EXP board(or 24V for Dynamixel Pro series)
+ * 
+ * Dynamixels are connected to Dynamixel BUS on 485 EXP board
+ * http://emanual.robotis.com/docs/en/parts/controller/opencm485exp/#layout
+*/
 
 #include <DynamixelSDK.h>
 

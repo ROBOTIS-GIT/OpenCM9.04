@@ -1,10 +1,18 @@
+/*
+ * Controller : OpenCM9.04C with 485 EXP board
+ * Dynamixel : X Series(except XL-320)
+ * Power source : 12V SMPS2Dynamixel for 485 EXP board
+ * 
+ * Dynamixels are connected to Dynamixel BUS on 485 EXP board
+ * http://emanual.robotis.com/docs/en/parts/controller/opencm485exp/#layout
+*/
+
 #include <DynamixelSDK.h>
 
-
-// Control table address (XM430-W210-R)
-#define ADDR_PRO_TORQUE_ENABLE          64                 // Control table address is different in Dynamixel model
-#define ADDR_PRO_GOAL_POSITION          116
-#define ADDR_PRO_PRESENT_POSITION       132
+// Control table address could be differ by Dynamixel Series
+#define ADDRESS_TORQUE_ENABLE           64
+#define ADDRESS_GOAL_POSITION           116
+#define ADDRESS_PRESENT_POSITION        132
 
 // Protocol version
 #define PROTOCOL_VERSION                1.0                 // See which protocol version is used in the Dynamixel
@@ -78,7 +86,7 @@ void setup() {
   }
 
   // Enable Dynamixel Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDRESS_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);
@@ -107,7 +115,7 @@ void setup() {
       break;
 
     // Write goal position
-    dxl_comm_result = packetHandler->write4ByteTxRx(portHandler, DXL_ID, ADDR_PRO_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
+    dxl_comm_result = packetHandler->write4ByteTxRx(portHandler, DXL_ID, ADDRESS_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
     {
       packetHandler->getTxRxResult(dxl_comm_result);
@@ -120,7 +128,7 @@ void setup() {
     do
     {
       // Read present position
-      dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, DXL_ID, ADDR_PRO_PRESENT_POSITION, (uint32_t*)&dxl_present_position, &dxl_error);
+      dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, DXL_ID, ADDRESS_PRESENT_POSITION, (uint32_t*)&dxl_present_position, &dxl_error);
       if (dxl_comm_result != COMM_SUCCESS)
       {
         packetHandler->getTxRxResult(dxl_comm_result);
@@ -150,7 +158,7 @@ void setup() {
   }
 
   // Disable Dynamixel Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDRESS_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);
