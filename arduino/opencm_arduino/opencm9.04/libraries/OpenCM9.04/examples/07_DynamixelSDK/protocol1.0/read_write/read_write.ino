@@ -13,7 +13,9 @@
 #define DXL_ID                          1                   // Dynamixel ID: 1
 #define BAUDRATE                        1000000
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-                                                            // ex) Windows: "COM1"   Linux: "/dev/ttyUSB0"
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 #define TORQUE_ENABLE                   1                   // Value for enabling the torque
 #define TORQUE_DISABLE                  0                   // Value for disabling the torque
@@ -79,11 +81,11 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
   else
   {
@@ -108,11 +110,11 @@ void setup() {
     dxl_comm_result = packetHandler->write4ByteTxRx(portHandler, DXL_ID, ADDR_PRO_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
     {
-      packetHandler->printTxRxResult(dxl_comm_result);
+      packetHandler->getTxRxResult(dxl_comm_result);
     }
     else if (dxl_error != 0)
     {
-      packetHandler->printRxPacketError(dxl_error);
+      packetHandler->getRxPacketError(dxl_error);
     }
 
     do
@@ -121,11 +123,11 @@ void setup() {
       dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, DXL_ID, ADDR_PRO_PRESENT_POSITION, (uint32_t*)&dxl_present_position, &dxl_error);
       if (dxl_comm_result != COMM_SUCCESS)
       {
-        packetHandler->printTxRxResult(dxl_comm_result);
+        packetHandler->getTxRxResult(dxl_comm_result);
       }
       else if (dxl_error != 0)
       {
-        packetHandler->printRxPacketError(dxl_error);
+        packetHandler->getRxPacketError(dxl_error);
       }
 
       Serial.print("[ID:");      Serial.print(DXL_ID);
@@ -151,11 +153,11 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Close port

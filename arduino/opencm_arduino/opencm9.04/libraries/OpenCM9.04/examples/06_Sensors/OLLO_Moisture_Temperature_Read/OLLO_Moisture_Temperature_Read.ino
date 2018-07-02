@@ -3,11 +3,10 @@
  connect Moisture Temperature Sensor Module to port 2.
  
  You can buy Temperature Sensor (TMS-10) in ROBOTIS-SHOP
- https://goo.gl/S8EpNq
- www.robotis-shop-kr.com/?act=shop.goods_view&GS=2571&GC=GD010201
+ http://www.robotis.com/shop/item.php?it_id=902-0116-000
  
  You can also find all information 
- http://support.robotis.com/
+ http://emanual.robotis.com/docs/kr/parts/sensor/tms-10/
  
                   Compatibility
  CM900                  X

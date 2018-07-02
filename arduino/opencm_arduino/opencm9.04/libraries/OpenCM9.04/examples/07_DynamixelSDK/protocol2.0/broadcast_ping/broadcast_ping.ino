@@ -7,7 +7,9 @@
 // Default setting
 #define BAUDRATE                        1000000
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 void setup() {
   // put your setup code here, to run once:
@@ -63,7 +65,7 @@ void setup() {
 
   // Try to broadcast ping the Dynamixel
   dxl_comm_result = packetHandler->broadcastPing(portHandler, vec);
-  if (dxl_comm_result != COMM_SUCCESS) packetHandler->printTxRxResult(dxl_comm_result);
+  if (dxl_comm_result != COMM_SUCCESS) packetHandler->getTxRxResult(dxl_comm_result);
 
   Serial.print("Detected Dynamixel : \n");
   for (int i = 0; i < (int)vec.size(); i++)

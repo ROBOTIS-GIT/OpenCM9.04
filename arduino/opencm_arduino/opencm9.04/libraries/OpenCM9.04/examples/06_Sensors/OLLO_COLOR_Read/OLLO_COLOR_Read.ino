@@ -29,8 +29,19 @@
 *******************************************************************************/
 /* OLLO Color sensor Read
 
- When push OLLO Color sensor module, read digital I/O from the port 2
+ connect Color Sensor Module(CS-80) to port 2.
 
+ You can buy DMS Sensor DYNAMIXEL in ROBOTIS-SHOP
+ http://www.robotis-shop-en.com/?act=shop_en.goods_view&GS=1615&GC=GD0B0103
+
+ You can also find all information
+ http://emanual.robotis.com/docs/en/parts/sensor/cs-10/
+
+                 Compatibility
+  OpenCM9.04             O
+
+ created 16 Nov 2012
+ by ROBOTIS CO,.LTD.
 */
 
 #include <OLLO.h>

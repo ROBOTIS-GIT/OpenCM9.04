@@ -33,9 +33,10 @@
  connect DMS Sensor Module(DMS-80) to port 1.
 
  You can buy DMS Sensor DYNAMIXEL in ROBOTIS-SHOP
- http://www.robotis-shop-en.com/shop/step1.php?number=834&b_code=B20070914051413&c_code=C20100528062452
+ http://www.robotis-shop-en.com/?act=shop_en.goods_view&GS=1344&GC=GD0B0103
+ 
  You can also find all information
- http://support.robotis.com/
+ http://emanual.robotis.com/docs/en/parts/sensor/dms-80/
 
                  Compatibility
   OpenCM9.04             O

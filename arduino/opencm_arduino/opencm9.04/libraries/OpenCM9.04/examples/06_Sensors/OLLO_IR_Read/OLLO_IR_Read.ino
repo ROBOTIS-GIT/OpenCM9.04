@@ -33,12 +33,6 @@
 
  connect IR Sensor Module(OIS-10) to port 1.
 
- You can buy IR Sensor DYNAMIXEL in ROBOTIS-SHOP
- http://www.robotis-shop-en.com/shop/step1.php?number=750&b_code=B20070914051413&c_code=C20100528062452
- You can also find all information
- http://support.robotis.com/
-
-
  created 16 Nov 2012
  by ROBOTIS CO,.LTD.
  */

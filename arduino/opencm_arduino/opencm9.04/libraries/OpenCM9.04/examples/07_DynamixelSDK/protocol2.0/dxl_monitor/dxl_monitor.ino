@@ -8,7 +8,9 @@
 
 // Default setting
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-                                                            // ex) Windows: "COM1"   Linux: "/dev/ttyUSB0"
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 
 #define CMD_SERIAL    Serial                                // USB Serial
@@ -259,12 +261,12 @@ void write(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packet
 
   if (dxl_comm_result == COMM_SUCCESS)
   {
-    if (dxl_error != 0) packetHandler->printRxPacketError(dxl_error);
+    if (dxl_error != 0) packetHandler->getRxPacketError(dxl_error);
     _fprintf(stderr, "\n Success to write\n\n");
   }
   else
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
     _fprintf(stderr, "\n Fail to write! \n\n");
   }
 }
@@ -294,7 +296,7 @@ void read(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packetH
 
   if (dxl_comm_result == COMM_SUCCESS)
   {
-    if (dxl_error != 0) packetHandler->printRxPacketError(dxl_error);
+    if (dxl_error != 0) packetHandler->getRxPacketError(dxl_error);
 
     if (length == 1)
     {
@@ -311,7 +313,7 @@ void read(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packetH
   }
   else
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
     _fprintf(stderr, "\n Fail to read! \n\n");
   }
 }
@@ -326,7 +328,7 @@ void dump(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packetH
   if (dxl_comm_result == COMM_SUCCESS)
   {
     if (dxl_error != 0)
-      packetHandler->printRxPacketError(dxl_error);
+      packetHandler->getRxPacketError(dxl_error);
 
     if (id != BROADCAST_ID)
     {
@@ -338,7 +340,7 @@ void dump(dynamixel::PortHandler *portHandler, dynamixel::PacketHandler *packetH
   }
   else
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
     _fprintf(stderr, "\n Fail to read! \n\n");
   }
 
@@ -490,7 +492,7 @@ void dxl_monitor_main(void)
         std::vector<unsigned char> vec;
 
         int dxl_comm_result = packetHandler2->broadcastPing(portHandler, vec);
-        if (dxl_comm_result != COMM_SUCCESS) packetHandler2->printTxRxResult(dxl_comm_result);
+        if (dxl_comm_result != COMM_SUCCESS) packetHandler2->getTxRxResult(dxl_comm_result);
 
         for (unsigned int i = 0; i < vec.size(); i++)
         {
@@ -641,12 +643,12 @@ void dxl_monitor_main(void)
         int dxl_comm_result = packetHandler2->reboot(portHandler, atoi(param[0]), &dxl_error);
         if (dxl_comm_result == COMM_SUCCESS)
         {
-          if (dxl_error != 0) packetHandler2->printRxPacketError(dxl_error);
+          if (dxl_error != 0) packetHandler2->getRxPacketError(dxl_error);
           _fprintf(stderr, "\n Success to reboot! \n\n");
         }
         else
         {
-          packetHandler2->printTxRxResult(dxl_comm_result);
+          packetHandler2->getTxRxResult(dxl_comm_result);
           _fprintf(stderr, "\n Fail to reboot! \n\n");
         }
       }
@@ -663,12 +665,12 @@ void dxl_monitor_main(void)
         if (dxl_comm_result == COMM_SUCCESS)
         {
           if (dxl_error != 0)
-            packetHandler1->printRxPacketError(dxl_error);
+            packetHandler1->getRxPacketError(dxl_error);
           _fprintf(stderr, "\n Success to reset! \n\n");
         }
         else
         {
-          packetHandler1->printTxRxResult(dxl_comm_result);
+          packetHandler1->getTxRxResult(dxl_comm_result);
           _fprintf(stderr, "\n Fail to reset! \n\n");
         }
       }
@@ -684,12 +686,12 @@ void dxl_monitor_main(void)
         int dxl_comm_result = packetHandler2->factoryReset(portHandler, atoi(param[0]), atoi(param[1]), &dxl_error);
         if (dxl_comm_result == COMM_SUCCESS)
         {
-          if (dxl_error != 0) packetHandler2->printRxPacketError(dxl_error);
+          if (dxl_error != 0) packetHandler2->getRxPacketError(dxl_error);
           _fprintf(stderr, "\n Success to reset! \n\n");
         }
         else
         {
-          packetHandler2->printTxRxResult(dxl_comm_result);
+          packetHandler2->getTxRxResult(dxl_comm_result);
           _fprintf(stderr, "\n Fail to reset! \n\n");
         }
       }
