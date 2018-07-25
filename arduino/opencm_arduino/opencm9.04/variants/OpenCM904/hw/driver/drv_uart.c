@@ -172,6 +172,7 @@ uint32_t drv_uart_available(uint8_t uart_num)
 
 uint32_t drv_uart_tx_available(uint8_t uart_num)
 {
+  (void)(uart_num);
   uint32_t length;
 
   length = 1;
