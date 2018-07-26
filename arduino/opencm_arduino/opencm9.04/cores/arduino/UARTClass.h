@@ -52,6 +52,7 @@ class UARTClass : public HardwareSerial
     int peek(void);
     int read(void);
     void flush(void);
+    void flushRx( uint32_t timeout_ms );
     size_t write(const uint8_t c);
     using Print::write; // pull in write(str) and write(buf, size) from Print
 

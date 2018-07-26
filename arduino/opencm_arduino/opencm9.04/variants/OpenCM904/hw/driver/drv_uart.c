@@ -119,6 +119,14 @@ void drv_uart_flush(uint8_t uart_num)
   (void)(uart_num); //Currently uart just transmit using polling method.
 }
 
+void drv_uart_rx_flush(uint8_t uart_num, uint32_t timeout_ms)
+{
+  uint32_t pre_time_ms = millis();
+  while((drv_uart_read(uart_num) != -1) || (millis() - pre_time_ms < timeout_ms))
+  {
+  }
+}
+
 void drv_uart_start_rx(uint8_t uart_num)
 {
   if(is_uart_mode[uart_num] == DRV_UART_IRQ_MODE)
