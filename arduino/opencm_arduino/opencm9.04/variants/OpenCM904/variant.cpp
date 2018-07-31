@@ -72,6 +72,41 @@ extern const Pin2PortMapArray g_Pin2PortMapArray[]=
     {NULL , 0          ,  NULL,     NO_ADC        , NULL   ,   NO_PWM       , NO_EXTI }
 };
 
+const uint32_t *digital_pin_bitband_table[]
+{
+    GPIO_BITBAND_PTR(GPIOA->ODR, 4),  // 0
+    GPIO_BITBAND_PTR(GPIOA->ODR, 5),  // 1                  SPI1_SCK
+    GPIO_BITBAND_PTR(GPIOA->ODR, 0),  // 2
+    GPIO_BITBAND_PTR(GPIOA->ODR, 1),  // 3
+    GPIO_BITBAND_PTR(GPIOA->ODR, 2),  // 4                              UART1_TXD
+    GPIO_BITBAND_PTR(GPIOA->ODR, 3),  // 5                              UART1_RXD
+    GPIO_BITBAND_PTR(GPIOA->ODR, 6),  // 6                  SPI1_MISO
+    GPIO_BITBAND_PTR(GPIOA->ODR, 7),  // 7                  SPI1_MOSI
+    GPIO_BITBAND_PTR(GPIOB->ODR, 0),  // 8
+    GPIO_BITBAND_PTR(GPIOB->ODR, 1),  // 9
+    GPIO_BITBAND_PTR(GPIOA->ODR, 8),  // 10
+    GPIO_BITBAND_PTR(GPIOA->ODR, 9),  // 11                             UART2_TXD
+    GPIO_BITBAND_PTR(GPIOA->ODR, 10),  // 12                             UART2_RXD
+    GPIO_BITBAND_PTR(GPIOB->ODR, 8),  // 13                 I2C1 SCL
+    GPIO_BITBAND_PTR(GPIOB->ODR, 9),  // 14 LED             I2C1 SDA
+    GPIO_BITBAND_PTR(GPIOA->ODR, 15),  // 15
+    GPIO_BITBAND_PTR(GPIOB->ODR, 3),  // 16
+    GPIO_BITBAND_PTR(GPIOB->ODR, 4),  // 17
+    GPIO_BITBAND_PTR(GPIOB->ODR, 12),  // 18
+    GPIO_BITBAND_PTR(GPIOB->ODR, 13),  // 19                 SPI2_SCK
+    GPIO_BITBAND_PTR(GPIOB->ODR, 14),  // 20                 SPI2_MISO
+    GPIO_BITBAND_PTR(GPIOB->ODR, 15),  // 21                 SPI2_MOSI
+    GPIO_BITBAND_PTR(GPIOC->ODR, 14),  // 22
+    GPIO_BITBAND_PTR(GPIOC->ODR, 15),  // 23 USER_BUTTON
+    GPIO_BITBAND_PTR(GPIOB->ODR, 10),  // 24                 I2C2 SCL    UART3_TXD
+    GPIO_BITBAND_PTR(GPIOB->ODR, 11),  // 25                 I2C2 SCL    UART3_RXD
+    GPIO_BITBAND_PTR(GPIOA->ODR, 13),  // 26 JTAG SWDIO
+    GPIO_BITBAND_PTR(GPIOA->ODR, 14),  // 27 JTAG SWDCLK
+    GPIO_BITBAND_PTR(GPIOB->ODR, 5),  // 28 DXL DIR
+    GPIO_BITBAND_PTR(GPIOB->ODR, 6),  // 29 DXL TXD
+    GPIO_BITBAND_PTR(GPIOB->ODR, 7)  // 30 DXL RXD
+};
+
 
 #ifdef __cplusplus
 }
