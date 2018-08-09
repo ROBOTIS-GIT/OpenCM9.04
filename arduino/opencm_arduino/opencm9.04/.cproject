@@ -101,7 +101,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="cores/arduino/avr|libraries|opencm9.04/cores/arduino/avr|opencm9.04/variants/OpenCM904/bsp|opencm9.04/libraries|opencm9.04/variants/OpenCM904/variant.cpp|opencm9.04/variants/OpenCM904/main.cpp|variants/OpenCM904/variant.cpp|variants/OpenCM904/main.cpp|variants/OpenCM904/bsp|bsp/opencm/startup/startup_stm32f103xb.S|bsp/opencm/syscalls.c|bsp/opencm/system_stm32f1xx.c|bsp/opencm/stm32f1xx_it.c|bsp/opencm/bsp.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="libraries|cores/arduino/avr|opencm9.04/cores/arduino/avr|opencm9.04/variants/OpenCM904/bsp|opencm9.04/libraries|opencm9.04/variants/OpenCM904/variant.cpp|opencm9.04/variants/OpenCM904/main.cpp|variants/OpenCM904/variant.cpp|variants/OpenCM904/main.cpp|variants/OpenCM904/bsp|bsp/opencm/startup/startup_stm32f103xb.S|bsp/opencm/syscalls.c|bsp/opencm/system_stm32f1xx.c|bsp/opencm/stm32f1xx_it.c|bsp/opencm/bsp.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -113,8 +113,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/arduino"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/OpenCM904"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/arduino/Release"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/OpenCM904/Release"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="arduino" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="OpenCM904" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -185,7 +188,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="cores/arduino/avr|libraries|opencm9.04/cores/arduino/avr|opencm9.04/variants/OpenCM904/bsp|opencm9.04/libraries|opencm9.04/variants/OpenCM904/variant.cpp|opencm9.04/variants/OpenCM904/main.cpp|variants/OpenCM904/variant.cpp|variants/OpenCM904/main.cpp|variants/OpenCM904/bsp|bsp/opencm/startup/startup_stm32f103xb.S|bsp/opencm/syscalls.c|bsp/opencm/system_stm32f1xx.c|bsp/opencm/stm32f1xx_it.c|bsp/opencm/bsp.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="libraries|cores/arduino/avr|opencm9.04/cores/arduino/avr|opencm9.04/variants/OpenCM904/bsp|opencm9.04/libraries|opencm9.04/variants/OpenCM904/variant.cpp|opencm9.04/variants/OpenCM904/main.cpp|variants/OpenCM904/variant.cpp|variants/OpenCM904/main.cpp|variants/OpenCM904/bsp|bsp/opencm/startup/startup_stm32f103xb.S|bsp/opencm/syscalls.c|bsp/opencm/system_stm32f1xx.c|bsp/opencm/stm32f1xx_it.c|bsp/opencm/bsp.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
