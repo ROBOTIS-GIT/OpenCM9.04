@@ -84,7 +84,6 @@ void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate)
     huart[uart_num].Init.HwFlowCtl    = UART_HWCONTROL_NONE;
     huart[uart_num].Init.OverSampling = UART_OVERSAMPLING_16;
 
-
     drv_uart_num = uart_num;
 
 
@@ -117,15 +116,14 @@ uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data)
 
 void drv_uart_flush(uint8_t uart_num)
 {
-  if(is_uart_mode[uart_num] == DRV_UART_IRQ_MODE)
+  (void)(uart_num); //Currently uart just transmit using polling method.
+}
+
+void drv_uart_rx_flush(uint8_t uart_num, uint32_t timeout_ms)
+{
+  uint32_t pre_time_ms = millis();
+  while((drv_uart_read(uart_num) != -1) || (millis() - pre_time_ms < timeout_ms))
   {
-    drv_uart_rx_buf_head[uart_num] = 0;
-    drv_uart_rx_buf_tail[uart_num] = 0;
-  }
-  else
-  {
-    drv_uart_rx_buf_head[uart_num] = DRV_UART_RX_BUF_LENGTH - hdma_rx[uart_num].Instance->CNDTR;
-    drv_uart_rx_buf_tail[uart_num] = drv_uart_rx_buf_head[uart_num];
   }
 }
 
@@ -182,10 +180,10 @@ uint32_t drv_uart_available(uint8_t uart_num)
 
 uint32_t drv_uart_tx_available(uint8_t uart_num)
 {
+  (void)(uart_num);
   uint32_t length;
 
-
-  length = DRV_UART_RX_BUF_LENGTH - drv_uart_available(uart_num) - 1;
+  length = 1;
 
   return length;
 }

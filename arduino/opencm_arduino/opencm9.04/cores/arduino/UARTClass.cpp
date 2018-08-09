@@ -79,6 +79,11 @@ void UARTClass::flush( void )
   drv_uart_flush(_uart_num);
 }
 
+void UARTClass::flushRx( uint32_t timeout_ms )
+{
+  drv_uart_rx_flush(_uart_num, timeout_ms);
+}
+
 size_t UARTClass::write( const uint8_t uc_data )
 {
   tx_cnt++;

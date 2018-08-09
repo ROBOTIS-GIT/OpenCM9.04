@@ -109,6 +109,7 @@ void PortHandlerArduino::clearPort()
   DYNAMIXEL_SERIAL.flush();
 #elif defined(__OPENCM904__)
   p_dxl_serial->flush();
+  p_dxl_serial->flushRx(0);
 #endif
 }
 

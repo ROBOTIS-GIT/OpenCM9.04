@@ -32,9 +32,10 @@
  connect LED Module to port 3.
 
  You can buy LED Module DYNAMIXEL in ROBOTIS-SHOP
-  http://www.robotis-shop-en.com/shop/step1.php?number=751&b_code=B20070914051413&c_code=C20100528064118
+  http://www.robotis-shop-en.com/?act=shop_en.goods_view&GS=1275&GC=GD0B0104
+  
   You can also find all information
-  http://support.robotis.com/
+  http://emanual.robotis.com/docs/en/parts/display/lm-10/
 
 */
 

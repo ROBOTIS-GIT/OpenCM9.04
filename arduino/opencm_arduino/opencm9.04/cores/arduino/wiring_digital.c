@@ -144,16 +144,15 @@ extern void digitalWrite( uint32_t ulPin, uint32_t ulVal )
 {
 
   switch(ulVal) {
-
-    case HIGH:
-      HAL_GPIO_WritePin(g_Pin2PortMapArray[ulPin].GPIOx_Port,g_Pin2PortMapArray[ulPin].Pin_abstraction,GPIO_PIN_SET);
-			break;
-
     case LOW:
       HAL_GPIO_WritePin(g_Pin2PortMapArray[ulPin].GPIOx_Port,g_Pin2PortMapArray[ulPin].Pin_abstraction,GPIO_PIN_RESET);
 			break;
-
-    default:
+		
+		case HIGH:
+		default:
+      HAL_GPIO_WritePin(g_Pin2PortMapArray[ulPin].GPIOx_Port,g_Pin2PortMapArray[ulPin].Pin_abstraction,GPIO_PIN_SET);
+			break;
+    
 			break;
   }
 }

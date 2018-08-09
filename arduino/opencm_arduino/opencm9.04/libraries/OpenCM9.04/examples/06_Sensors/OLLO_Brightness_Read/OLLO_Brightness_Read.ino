@@ -3,11 +3,10 @@
  connect Brightness Sensor Module(CDS-10) to port 1.
  
  You can buy Brightness Sensor (CDS-10) in ROBOTIS-SHOP
- https://goo.gl/in8evW
- www.robotis-shop-kr.com/?act=shop.goods_view&GS=2572&GC=GD010201
+ http://www.robotis.com/shop/item.php?it_id=902-0117-000
  
   You can also find all information 
- http://support.robotis.com/
+ http://emanual.robotis.com/docs/kr/parts/sensor/cds-10/#개요
  
                  Compatibility
  CM900                  X
