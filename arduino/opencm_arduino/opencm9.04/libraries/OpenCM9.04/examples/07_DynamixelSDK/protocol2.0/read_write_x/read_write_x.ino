@@ -1,7 +1,9 @@
 /*
- * Controller : OpenCM9.04
+ * Controller : OpenCM9.04 + OpenCM 485 EXP
  * Dynamixel : XL-320, X-Series, MX-Series with Protocol 2.0
- * Power source : LB-040/041(x2) for OpenCM9.04C
+ * Power source
+ *   - XL-320 : LB-040/041(x2) on OpenCM9.04C
+ *   - X-Series/MX-Series : SMPS 12V 5A on OpenCM 485 EXP
  * 
  * XL-320 is connected to Dynamixel TTL 3PIN of the OpenCM9.04
  * http://emanual.robotis.com/docs/en/parts/controller/opencm904/#layoutpin-map
@@ -14,30 +16,43 @@
 
 #include <DynamixelSDK.h>
 
-// Definition 1 : Control table address for XL-320
-// Use "Definition 1" for XL-320
-// #define ADDRESS_XL320_TORQUE_ENABLE     24
-// #define ADDRESS_XL320_GOAL_POSITION     30
-// #define ADDRESS_XL320_PRESENT_POSITION  37
-// #define ADDRESS_TORQUE_ENABLE           ADDRESS_XL320_TORQUE_ENABLE
-// #define ADDRESS_GOAL_POSITION           ADDRESS_XL320_GOAL_POSITION
-// #define ADDRESS_PRESENT_POSITION        ADDRESS_XL320_PRESENT_POSITION
+#define ADDRESS_XL320_TORQUE_ENABLE     24
+#define ADDRESS_XL320_GOAL_POSITION     30
+#define ADDRESS_XL320_PRESENT_POSITION  37
 
-// Definition 2 : Control table address for X Series and MX Series with Protocol 2.0
-// Ues "Definition 2" for X Series or MX Series with Protocol 2.0
 #define ADDRESS_X_TORQUE_ENABLE         64
 #define ADDRESS_X_GOAL_POSITION         116
 #define ADDRESS_X_PRESENT_POSITION      132
-#define ADDRESS_TORQUE_ENABLE           ADDRESS_X_TORQUE_ENABLE
-#define ADDRESS_GOAL_POSITION           ADDRESS_X_GOAL_POSITION
-#define ADDRESS_PRESENT_POSITION        ADDRESS_X_PRESENT_POSITION
+
+/* Uncomment below definition in order to use the sketch for X series/MX-series with Protocol 2.0 other than XL-320*/
+// #define use_XL_320
+
+#ifdef use_XL_320
+  // Definition 1 : Control table address for XL-320
+  // Use "Definition 1" for XL-320
+  #define ADDRESS_TORQUE_ENABLE           ADDRESS_XL320_TORQUE_ENABLE
+  #define ADDRESS_GOAL_POSITION           ADDRESS_XL320_GOAL_POSITION
+  #define ADDRESS_PRESENT_POSITION        ADDRESS_XL320_PRESENT_POSITION
+#else
+  // Definition 2 : Control table address for X Series and MX Series with Protocol 2.0
+  // Ues "Definition 2" for X Series or MX Series with Protocol 2.0
+  #define ADDRESS_TORQUE_ENABLE           ADDRESS_X_TORQUE_ENABLE
+  #define ADDRESS_GOAL_POSITION           ADDRESS_X_GOAL_POSITION
+  #define ADDRESS_PRESENT_POSITION        ADDRESS_X_PRESENT_POSITION
+#endif
 
 // Protocol version
 #define PROTOCOL_VERSION                2.0                 // See which protocol version is used in the Dynamixel
 
 // Default setting
 #define DXL_ID                          1                   // Dynamixel ID: 1
-#define BAUDRATE                        57600               // XL-320 default baudrate : 1000000 (Default Baudrate for X series and MX series(with Protocol 2.0) is 57600)
+
+#ifdef use_XL_320
+  #define BAUDRATE                        1000000             // XL-320 default baudrate : 1000000 (Default Baudrate for X series and MX series(with Protocol 2.0) is 57600)
+#else
+  #define BAUDRATE                        57600               // XL-320 default baudrate : 1000000 (Default Baudrate for X series and MX series(with Protocol 2.0) is 57600)
+#endif
+
 #define DEVICENAME                      "3"                 // Check which port is being used on your controller
                                                             // DEVICENAME "1" -> Serial1
                                                             // DEVICENAME "2" -> Serial2
@@ -78,10 +93,13 @@ void setup() {
 
   uint8_t dxl_error = 0;                          // Dynamixel error
   
-  // Variable to save 2 Byte Present Position for XL-320
-  //int16_t dxl_present_position = 0;
-  // Variable to save 4 Byte Present Position for X-Series and MX-Series with Protocol 2.0
-  int32_t dxl_present_position = 0;
+  #ifdef use_XL_320
+    // Variable to save 2 Byte Present Position for XL-320
+    int16_t dxl_present_position = 0;
+  #else
+    // Variable to save 4 Byte Present Position for X-Series and MX-Series with Protocol 2.0
+    int32_t dxl_present_position = 0;
+  #endif
 
   // Open port
   if (portHandler->openPort())
@@ -136,10 +154,13 @@ void setup() {
     if (ch == 'q')
       break;
 
-    // Write 2Byte Goal Position data for XL-320
-    //dxl_comm_result = packetHandler->write2ByteTxRx(portHandler, DXL_ID, ADDRESS_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
-    // Write 4Byte Goal Position data for X-Series and MX-Series with Protocol 2.0
-    dxl_comm_result = packetHandler->write4ByteTxRx(portHandler, DXL_ID, ADDRESS_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
+    #ifdef use_XL_320
+      // Write 2Byte Goal Position data for XL-320
+      dxl_comm_result = packetHandler->write2ByteTxRx(portHandler, DXL_ID, ADDRESS_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
+    #else
+      // Write 4Byte Goal Position data for X-Series and MX-Series with Protocol 2.0
+      dxl_comm_result = packetHandler->write4ByteTxRx(portHandler, DXL_ID, ADDRESS_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
+    #endif
 
     if (dxl_comm_result != COMM_SUCCESS)
     {
@@ -152,10 +173,13 @@ void setup() {
 
     do
     {
-      // Read 2Byte Present Position data for XL-320
-      //dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, DXL_ID, ADDRESS_PRESENT_POSITION, (uint16_t*)&dxl_present_position, &dxl_error);
-      // Read 4Byte Present Position data for X-Series and MX-Series with Protocol 2.0
-      dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, DXL_ID, ADDRESS_PRESENT_POSITION, (uint32_t*)&dxl_present_position, &dxl_error);
+      #ifdef use_XL_320
+        // Read 2Byte Present Position data for XL-320
+        dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, DXL_ID, ADDRESS_PRESENT_POSITION, (uint16_t*)&dxl_present_position, &dxl_error);
+      #else
+        // Read 4Byte Present Position data for X-Series and MX-Series with Protocol 2.0
+        dxl_comm_result = packetHandler->read4ByteTxRx(portHandler, DXL_ID, ADDRESS_PRESENT_POSITION, (uint32_t*)&dxl_present_position, &dxl_error);
+      #endif
 
       if (dxl_comm_result != COMM_SUCCESS)
       {
