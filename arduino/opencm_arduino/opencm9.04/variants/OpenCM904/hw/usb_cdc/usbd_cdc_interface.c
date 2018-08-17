@@ -492,4 +492,10 @@ int32_t CDC_Itf_Peek( void )
   return rxd_buffer[rxd_BufPtrOut];
 }
 
+
+BOOL CDC_Itf_IsTxTransmitted( void )
+{
+  return (UserTxBufPtrIn == UserTxBufPtrOut) ? TRUE : FALSE;
+}
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
