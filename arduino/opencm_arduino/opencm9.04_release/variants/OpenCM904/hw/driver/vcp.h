@@ -27,7 +27,7 @@ BOOL     vcp_is_connected(void);
 void     vcp_putch(uint8_t ch);
 uint8_t  vcp_getch(void);
 int32_t  vcp_write(uint8_t *p_data, uint32_t length);
-BOOL     vcp_is_transmitted(void);
+void 	 vcp_flush_tx(void);
 
 int32_t  vcp_printf( const char *fmt, ...);
 
