@@ -106,9 +106,9 @@ void vcp_detach_rx_interrupt(void)
 
 }
 
-BOOL vcp_is_transmitted( void )
+void vcp_flush_tx( void ) 
 {
-  return CDC_Itf_IsTxTransmitted();
+  CDC_Itf_flush_tx();
 }
 
 int32_t vcp_printf( const char *fmt, ...)

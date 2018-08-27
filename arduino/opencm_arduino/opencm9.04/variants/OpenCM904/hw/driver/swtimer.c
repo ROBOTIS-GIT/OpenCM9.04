@@ -109,6 +109,14 @@ void swtimerSet(uint8_t TmrNum, uint32_t TmrData, uint8_t TmrMode, void (*Fnct)(
   swtimer_tbl[TmrNum].Timer_Init = TmrData;
 }
 
+void swTimerSetCnt (uint8_t TmrNum, uint32_t TmrCnt) 
+{
+  if(TmrNum < _HW_DEF_SW_TIMER_MAX)
+  {
+    swtimer_tbl[TmrNum].Timer_Ctn = TmrCnt; 
+  }
+}
+
 void swtimerStart(uint8_t TmrNum)
 {
   if(TmrNum < _HW_DEF_SW_TIMER_MAX)

@@ -77,8 +77,9 @@ int USBSerial::read(void)
   return vcp_getch();
 }
 
-void USBSerial::flush(void){
-  while(vcp_is_transmitted() == FALSE);
+void USBSerial::flush(void)
+{
+  vcp_flush_tx();
 }
 
 size_t USBSerial::write(const uint8_t *buffer, size_t size)

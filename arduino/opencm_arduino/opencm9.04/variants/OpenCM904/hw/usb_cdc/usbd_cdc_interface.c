@@ -78,9 +78,9 @@ uint8_t UserTxBuffer[APP_TX_DATA_SIZE];/* Received Data over UART (CDC interface
 uint8_t UserTxBufferForUSB[APP_TX_DATA_SIZE];/* Received Data over UART (CDC interface) are stored in this buffer */
 
 uint32_t BuffLength;
-uint32_t UserTxBufPtrIn = 0;/* Increment this pointer or roll it back to
+volatile uint32_t UserTxBufPtrIn = 0;/* Increment this pointer or roll it back to
                                start address when data are received over USART */
-uint32_t UserTxBufPtrOut = 0; /* Increment this pointer or roll it back to
+volatile uint32_t UserTxBufPtrOut = 0; /* Increment this pointer or roll it back to
                                  start address when data are sent over USB */
 
 
@@ -146,7 +146,7 @@ static int8_t CDC_Itf_Init(void)
   if (h_cdc_tx_timer < 0)
   {
     h_cdc_tx_timer = swtimerGetHandle();
-    swtimerSet(h_cdc_tx_timer, 5, LOOP_TIME, CDC_Itf_TxISR, NULL );
+    swtimerSet(h_cdc_tx_timer, 3, LOOP_TIME, CDC_Itf_TxISR, NULL );
     swtimerStart(h_cdc_tx_timer);
   }
 
@@ -492,6 +492,18 @@ int32_t CDC_Itf_Peek( void )
   return rxd_buffer[rxd_BufPtrOut];
 }
 
+void CDC_Itf_flush_tx ( )
+{
+  // Try to speed it up as well...
+  if (UserTxBufPtrIn != UserTxBufPtrOut) {
+    swTimerSetCnt(h_cdc_tx_timer, 1);  // try to force output on the next ms
+
+    // Wait for the a flush to complete 
+    while (UserTxBufPtrIn != UserTxBufPtrOut) {
+      ;
+    }
+  }
+}
 
 BOOL CDC_Itf_IsTxTransmitted( void )
 {
