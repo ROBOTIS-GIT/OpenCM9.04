@@ -114,6 +114,16 @@ uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data)
   return 1;
 }
 
+uint32_t drv_uart_write_buf(uint8_t uart_num, const uint8_t *p_buf, uint32_t length)
+{
+  if (HAL_UART_Transmit(&huart[uart_num], (uint8_t*)p_buf, length, 10) == HAL_OK) 
+  {
+    return length;
+  }
+  
+  return 0;
+}
+
 void drv_uart_flush(uint8_t uart_num)
 {
   (void)(uart_num); //Currently uart just transmit using polling method.
