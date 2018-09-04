@@ -24,7 +24,7 @@
 
 //-- internal definition
 //
-#define DRV_UART_RX_BUF_LENGTH      256
+#define DRV_UART_RX_BUF_LENGTH      128
 
 
 //-- internal variable
@@ -66,12 +66,13 @@ int drv_uart_init()
 
     drv_uart_rx_buf_head[i] = 0;
     drv_uart_rx_buf_tail[i] = 0;
+    huart[i]._transmit_pin_output = NULL;
   }
 
   return 0;
 }
 
-void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate)
+void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, RingBuffer_Typedef* tx_buffer, uint32_t baudrate)
 {
   if(uart_num < DRV_UART_NUM_MAX)
   {
@@ -85,7 +86,13 @@ void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate)
     huart[uart_num].Init.OverSampling = UART_OVERSAMPLING_16;
 
     drv_uart_num = uart_num;
+    if (tx_buffer) 
+    {
+      tx_buffer->_iHead = 0;
+      tx_buffer->_iTail = 0;
+    }
 
+    huart[uart_num]._tx_buffer = tx_buffer;
 
     HAL_UART_DeInit(&huart[uart_num]);
     HAL_UART_Init(&huart[uart_num]);
@@ -108,25 +115,62 @@ void drv_uart_set_dxl_mode(uint8_t uart_num, BOOL dxl_mode)
   }
 }
 
+void drv_uart_set_transmit_enable_pin(uint8_t uart_num, uint8_t pin)
+{
+  // Validate Pin?  Should define max pin in variant?  
+  if (pin < 0x100) 
+  {
+    huart[uart_num]._transmit_pin_output = portOutputRegister(pin);
+  }
+  else 
+  {
+    huart[uart_num]._transmit_pin_output = NULL;  // no output pin...
+  }
+}
+
+
 uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data)
 {
-  HAL_UART_Transmit(&huart[uart_num], (uint8_t *)&wr_data, 1, 10);
+  if (huart[uart_num]._tx_buffer == NULL) 
+  {
+    HAL_UART_Transmit(&huart[uart_num], (uint8_t *)&wr_data, 1, 10);
+  } 
+  else 
+  {
+    HAL_UART_Transmit_FIFO(&huart[uart_num], (uint8_t *)&wr_data, 1);
+  }   
   return 1;
 }
 
 uint32_t drv_uart_write_buf(uint8_t uart_num, const uint8_t *p_buf, uint32_t length)
 {
-  if (HAL_UART_Transmit(&huart[uart_num], (uint8_t*)p_buf, length, 10) == HAL_OK) 
+  if (huart[uart_num]._tx_buffer == NULL) 
   {
-    return length;
-  }
-  
+    if (HAL_UART_Transmit(&huart[uart_num], (uint8_t*)p_buf, length, 10) == HAL_OK) 
+    {
+      return length;
+    }
+  } 
+  else 
+  {
+    if (HAL_UART_Transmit_FIFO(&huart[uart_num], (uint8_t*)p_buf, length) == HAL_OK) 
+    {
+      return length;
+    }
+  }   
   return 0;
 }
 
 void drv_uart_flush(uint8_t uart_num)
 {
-  (void)(uart_num); //Currently uart just transmit using polling method.
+  if (huart[uart_num]._tx_buffer)
+  {
+    while (huart[uart_num].State & HAL_UART_STATE_BUSY_TX_BIT)
+    {
+      // Wait until system says write is no longer active
+      delayMicroseconds(1);
+    }
+  }
 }
 
 void drv_uart_rx_flush(uint8_t uart_num, uint32_t timeout_ms)
@@ -190,12 +234,15 @@ uint32_t drv_uart_available(uint8_t uart_num)
 
 uint32_t drv_uart_tx_available(uint8_t uart_num)
 {
-  (void)(uart_num);
   uint32_t length;
-
-  length = 1;
-
-  return length;
+  if (huart[uart_num]._tx_buffer == NULL)   
+  {
+    return 1; // No buffering maybe should return 0, but...
+  } 
+  int head = huart[uart_num]._tx_buffer->_iHead;
+  int tail = huart[uart_num]._tx_buffer->_iTail;
+  if (head >= tail) return RING_BUFFER_SIZE - 1 - head + tail;
+  return tail - head - 1;
 }
 
 int drv_uart_peek(uint8_t uart_num)
@@ -255,6 +302,12 @@ void USART3_IRQHandler(void)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
+  // The text completed...
+  if (UartHandle->_transmit_pin_output)
+  {
+    *(UartHandle->_transmit_pin_output) = 0;  // Set Transmit pin low after we complete
+  }
+
 }
 
 

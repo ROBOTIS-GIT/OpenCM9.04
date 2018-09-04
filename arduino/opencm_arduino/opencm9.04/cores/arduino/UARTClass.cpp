@@ -20,17 +20,18 @@
 #include <stdio.h>
 #include <string.h>
 #include "UARTClass.h"
-
-
+#include "wiring_digital.h"
+#include "wiring_constants.h"
 // Constructors ////////////////////////////////////////////////////////////////
 UARTClass::UARTClass(void){
 
 }
 
-UARTClass::UARTClass(uint8_t uart_num, uint8_t uart_mode)
+UARTClass::UARTClass(uint8_t uart_num, uint8_t uart_mode, RingBuffer_Typedef* tx_buffer)
 {
   _uart_num  = uart_num;
   _uart_mode = uart_mode;
+  _uart_tx_buffer = tx_buffer;
   _uart_baudrate = 0;
   rx_cnt = 0;
   tx_cnt = 0;
@@ -45,7 +46,7 @@ void UARTClass::begin(const uint32_t dwBaudRate, const UARTModes config)
 {
   _uart_baudrate = dwBaudRate;
 
-  drv_uart_begin(_uart_num, _uart_mode, dwBaudRate);
+  drv_uart_begin(_uart_num, _uart_mode, _uart_tx_buffer, dwBaudRate);
 }
 
 void UARTClass::end( void )
@@ -111,6 +112,13 @@ uint32_t UARTClass::getTxCnt(void)
 {
   return tx_cnt;
 }
+
+void UARTClass::transmitterEnable(uint8_t pin) 
+{
+  if (pin < 0x100)  pinMode(pin, OUTPUT); // make sure enabled as output pin. 
+  drv_uart_set_transmit_enable_pin(_uart_num, pin);
+}
+
 void UARTClass::setDxlMode(bool dxl_mode)
 {
   drv_uart_set_dxl_mode(_uart_num, dxl_mode);

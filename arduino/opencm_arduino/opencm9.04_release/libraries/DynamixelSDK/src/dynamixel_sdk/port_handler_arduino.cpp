@@ -93,6 +93,18 @@ bool PortHandlerArduino::openPort()
 
   setPowerOn();
   delay(1000);
+#elif defined(__OPENCM904__)
+  // See if we can enable having the Serial port handling switching
+  // the direction pin automatically for us. 
+  // Not sure if we should do it here or in constructor...
+  if (socket_fd_ == 0)
+  {
+    Serial1.transmitterEnable(28);
+  }
+  else if (socket_fd_ == 2) 
+  {
+    Serial3.transmitterEnable(22);
+  }
 #endif
 
   return setBaudRate(baudrate_);
@@ -109,8 +121,18 @@ void PortHandlerArduino::clearPort()
   DYNAMIXEL_SERIAL.flush();
 #elif defined(__OPENCM904__)
   p_dxl_serial->flush();
+  p_dxl_serial->flushRx(0);
 #endif
 }
+
+void PortHandlerArduino::flushPort()
+{
+#if defined(__OPENCR__)
+#elif defined(__OPENCM904__)
+  p_dxl_serial->flush();   
+#endif
+}
+
 
 void PortHandlerArduino::setPortName(const char *port_name)
 {
@@ -159,6 +181,8 @@ int PortHandlerArduino::readPort(uint8_t *packet, int length)
 #if defined(__OPENCR__)
   rx_length = DYNAMIXEL_SERIAL.available();
 #elif defined(__OPENCM904__)
+  p_dxl_serial->flush();  // make sure all writes have completed first...
+
   rx_length = p_dxl_serial->available();
 #endif
 
@@ -292,7 +316,7 @@ void PortHandlerArduino::setTxEnable()
 #if defined(__OPENCR__)
   drv_dxl_tx_enable(TRUE);
 #elif defined(__OPENCM904__)
-  drv_dxl_tx_enable(socket_fd_, TRUE);
+//  drv_dxl_tx_enable(socket_fd_, TRUE);
 #endif
 }
 
@@ -301,7 +325,7 @@ void PortHandlerArduino::setTxDisable()
 #if defined(__OPENCR__)
   drv_dxl_tx_enable(FALSE);
 #elif defined(__OPENCM904__)
-  drv_dxl_tx_enable(socket_fd_, FALSE);
+//  drv_dxl_tx_enable(socket_fd_, FALSE);
 #endif
 }
 

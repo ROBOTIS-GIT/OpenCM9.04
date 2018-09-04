@@ -156,6 +156,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
+#include "variant.h"
+//#define DEBUGPIN_ENABLE
+#ifdef DEBUGPIN_ENABLE
+#define DEBUGPINHIGH(pin)        g_Pin2PortMapArray[pin].GPIOx_Port->BSRR = g_Pin2PortMapArray[pin].Pin_abstraction
+#define DEBUGPINLOW(pin)         g_Pin2PortMapArray[pin].GPIOx_Port->BSRR = (g_Pin2PortMapArray[pin].Pin_abstraction << 16)
+#else
+#define DEBUGPINHIGH(pin)        
+#define DEBUGPINLOW(pin)         
+#endif
 
 /** @addtogroup STM32F1xx_HAL_Driver
   * @{
@@ -814,6 +823,145 @@ HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, ui
   {
     return HAL_BUSY;
   }
+}
+
+/**
+  * @brief  Sends an amount of data in non blocking mode.
+  * @param  huart: Pointer to a UART_HandleTypeDef structure that contains
+  *                the configuration information for the specified UART module.
+  * @param  pData: Pointer to data buffer
+  * @param  Size: Amount of data to be sent
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_UART_Transmit_FIFO(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size)
+{
+  uint32_t tmp_state;
+  tmp_state = huart->State;
+  volatile RingBuffer_Typedef  *tx_buffer = huart->_tx_buffer;
+
+  // Validate the information. 
+  if ((tx_buffer == NULL) || (pData == NULL ) || (Size == 0))
+  {
+    return HAL_ERROR;
+  }
+  
+  DEBUGPINHIGH(0);
+
+  huart->pTxBuffPtr = pData;
+  huart->TxXferSize = Size;
+  huart->TxXferCount = Size;
+
+  /* Process Locked */
+  __HAL_LOCK(huart);
+
+#if 1
+  __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);  // Don't have interrupts while we are processing the new output
+  __HAL_UART_DISABLE_IT(huart, UART_IT_TC);  // Don't have interrupts while we are processing the new output
+#endif
+
+  // If we have a Transmit pin defined set it low to enable the write outputs. 
+  if (huart->_transmit_pin_output)
+  {
+    *(huart->_transmit_pin_output) = 1;  // Set the IO pin HIGH for TX enable
+  }
+
+  while (Size--)
+  {
+    // See if the Queue is empty and if Uart is ready for an input... 
+    if ((tx_buffer->_iHead == tx_buffer->_iTail) && (__HAL_UART_GET_FLAG(huart, UART_FLAG_TXE) != RESET) ) 
+    {
+      // BUGBUG: only handling 8 bit stuff as top level does not appear to be handling others...
+      DEBUGPINHIGH(3);
+      huart->Instance->DR = (uint8_t)(*pData & 0xff);
+      pData++;
+      DEBUGPINLOW(3);
+    }
+    else
+    {
+      // Nope lets save aways the stuff in our buffer
+      // If busy we buffer
+      int nextWrite = (tx_buffer->_iHead + 1) % RING_BUFFER_SIZE;
+
+      // See if the queue is full...  
+      if (tx_buffer->_iTail == nextWrite) 
+      {
+        if(huart->State == HAL_UART_STATE_BUSY_RX) 
+        {
+          huart->State = HAL_UART_STATE_BUSY_TX_RX;
+        }
+        else
+        {
+          huart->State = HAL_UART_STATE_BUSY_TX;
+        }
+
+        /* Process Unlocked */
+        __HAL_UNLOCK(huart);
+
+        /* Enable the UART Transmit data register empty Interrupt */
+        __HAL_UART_ENABLE_IT(huart, UART_IT_TXE);
+
+        while (tx_buffer->_iTail == nextWrite) 
+        {
+            DEBUGPINLOW(0);
+            delayMicroseconds(5);
+            DEBUGPINHIGH(0);
+            // maybe do timeout?
+        }
+
+        /* Process Locked */
+        __HAL_LOCK(huart);
+      }
+      // now lets save away the character. 
+      tx_buffer->_aucBuffer[tx_buffer->_iHead] = *pData++;
+      tx_buffer->_iHead = nextWrite;
+    }
+  }
+ 
+#if 1
+  // If we get to here and we TXE bit is set and we have
+  // something on queue, then we can go ahead and push it...
+  // Maybe keeping from another interrupt.
+  // See if the Queue is empty and if Uart is ready for an input... 
+  if ((tx_buffer->_iHead != tx_buffer->_iTail) && (__HAL_UART_GET_FLAG(huart, UART_FLAG_TXE) != RESET) ) 
+  {
+    // BUGBUG: only handling 8 bit stuff as top level does not appear to be handling others...
+    DEBUGPINHIGH(3);
+    huart->Instance->DR = tx_buffer->_aucBuffer[tx_buffer->_iTail];
+    tx_buffer->_iTail = (unsigned int)(tx_buffer->_iTail + 1) % RING_BUFFER_SIZE;
+    DEBUGPINLOW(3);
+  }
+#endif
+
+  // We will need to enable the TX... 
+  huart->ErrorCode = HAL_UART_ERROR_NONE;
+  if(huart->State == HAL_UART_STATE_BUSY_RX) 
+  {
+    huart->State = HAL_UART_STATE_BUSY_TX_RX;
+  }
+  else
+  {
+    huart->State = HAL_UART_STATE_BUSY_TX;
+  }
+
+  /* Process Unlocked */
+  __HAL_UNLOCK(huart);
+
+  if (tx_buffer->_iHead != tx_buffer->_iTail) 
+  {
+    // Have additional stuff to output... 
+    if (__HAL_UART_GET_IT_SOURCE(huart, UART_IT_TXE) == RESET)
+      __HAL_UART_ENABLE_IT(huart, UART_IT_TXE);
+  }
+  else 
+  {
+    // No data in queue so lets simply unlock
+    // Only interrupt on transmit complete. 
+    __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+    __HAL_UART_ENABLE_IT(huart, UART_IT_TC);
+  }
+  DEBUGPINLOW(0);
+    
+  return HAL_OK;
 }
 
 /**
@@ -1729,32 +1877,54 @@ static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
   tmp_state = huart->State;
   if((tmp_state == HAL_UART_STATE_BUSY_TX) || (tmp_state == HAL_UART_STATE_BUSY_TX_RX))
   {
-    if(huart->Init.WordLength == UART_WORDLENGTH_9B)
-    {
-      tmp = (uint16_t*) huart->pTxBuffPtr;
-      huart->Instance->DR = (uint16_t)(*tmp & (uint16_t)0x01FF);
-      if(huart->Init.Parity == UART_PARITY_NONE)
-      {
-        huart->pTxBuffPtr += 2;
+    DEBUGPINHIGH(1);
+    if ( huart->_tx_buffer) {
+      RingBuffer_Typedef  *tx_buffer = huart->_tx_buffer;
+      // Only going to handle 8 bits as nothing in system does differently... (I think)
+      if (tx_buffer->_iTail != tx_buffer->_iHead) {
+        huart->Instance->DR = tx_buffer->_aucBuffer[tx_buffer->_iTail];
+        tx_buffer->_iTail = (unsigned int)(tx_buffer->_iTail + 1) % RING_BUFFER_SIZE;
       }
+      // See if that was the last data. 
+      if (tx_buffer->_iTail == tx_buffer->_iHead) {
+        /* Disable the UART Transmit Complete Interrupt */
+        __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+
+        /* Enable the UART Transmit Complete Interrupt */    
+        __HAL_UART_ENABLE_IT(huart, UART_IT_TC);
+      }
+
+    }
+    else 
+    {
+      if(huart->Init.WordLength == UART_WORDLENGTH_9B)
+      {
+        tmp = (uint16_t*) huart->pTxBuffPtr;
+        huart->Instance->DR = (uint16_t)(*tmp & (uint16_t)0x01FF);
+        if(huart->Init.Parity == UART_PARITY_NONE)
+        {
+          huart->pTxBuffPtr += 2;
+        }
+        else
+        {
+          huart->pTxBuffPtr += 1;
+        }
+      } 
       else
       {
-        huart->pTxBuffPtr += 1;
+        huart->Instance->DR = (uint8_t)(*huart->pTxBuffPtr++ & (uint8_t)0x00FF);
       }
-    } 
-    else
-    {
-      huart->Instance->DR = (uint8_t)(*huart->pTxBuffPtr++ & (uint8_t)0x00FF);
-    }
 
-    if(--huart->TxXferCount == 0)
-    {
-      /* Disable the UART Transmit Complete Interrupt */
-      __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
+      if(--huart->TxXferCount == 0)
+      {
+        /* Disable the UART Transmit Complete Interrupt */
+        __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);
 
-      /* Enable the UART Transmit Complete Interrupt */    
-      __HAL_UART_ENABLE_IT(huart, UART_IT_TC);
+        /* Enable the UART Transmit Complete Interrupt */    
+        __HAL_UART_ENABLE_IT(huart, UART_IT_TC);
+      }
     }
+    DEBUGPINLOW(1);
     return HAL_OK;
   }
   else
@@ -1773,6 +1943,7 @@ static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
 static HAL_StatusTypeDef UART_EndTransmit_IT(UART_HandleTypeDef *huart)
 {
   /* Disable the UART Transmit Complete Interrupt */    
+  DEBUGPINHIGH(2);
   __HAL_UART_DISABLE_IT(huart, UART_IT_TC);
   
   /* Check if a receive process is ongoing or not */
@@ -1787,6 +1958,7 @@ static HAL_StatusTypeDef UART_EndTransmit_IT(UART_HandleTypeDef *huart)
   
   HAL_UART_TxCpltCallback(huart);
   
+  DEBUGPINLOW(2);
   return HAL_OK;
 }
 

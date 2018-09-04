@@ -22,8 +22,6 @@
 #include "Arduino.h"
 
 
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -132,9 +130,12 @@ void serialEvent3() { }
 
 
 USBSerial Serial;
-UARTClass Serial1(DRV_UART_NUM_1, DRV_UART_DMA_MODE);
-UARTClass Serial2(DRV_UART_NUM_2, DRV_UART_DMA_MODE);
-UARTClass Serial3(DRV_UART_NUM_3, DRV_UART_DMA_MODE);
+RingBuffer_Typedef Serial1_TX_Buffer;
+UARTClass Serial1(DRV_UART_NUM_1, DRV_UART_DMA_MODE, &Serial1_TX_Buffer);
+RingBuffer_Typedef Serial2_TX_Buffer;
+UARTClass Serial2(DRV_UART_NUM_2, DRV_UART_DMA_MODE, &Serial2_TX_Buffer);
+RingBuffer_Typedef Serial3_TX_Buffer;
+UARTClass Serial3(DRV_UART_NUM_3, DRV_UART_DMA_MODE, &Serial3_TX_Buffer);
 
 
 

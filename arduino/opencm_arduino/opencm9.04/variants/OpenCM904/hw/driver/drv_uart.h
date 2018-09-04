@@ -32,7 +32,7 @@
 
 
 int      drv_uart_init();
-void     drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate);
+void     drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, RingBuffer_Typedef* tx_buffer, uint32_t baudrate);
 uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data);
 uint32_t drv_uart_write_buf(uint8_t uart_num, const uint8_t *p_buf, uint32_t length);
 void     drv_uart_flush(uint8_t uart_num);
@@ -46,7 +46,8 @@ int      drv_uart_read(uint8_t uart_num);
 int      drv_uart_peek(uint8_t uart_num);
 
 
-void drv_uart_set_dxl_mode(uint8_t uart_num, BOOL dxl_mode);
+void 	 drv_uart_set_dxl_mode(uint8_t uart_num, BOOL dxl_mode);
+void	 drv_uart_set_transmit_enable_pin(uint8_t uart_num, uint8_t pin);
 
 
 #ifdef __cplusplus
