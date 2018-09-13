@@ -52,7 +52,11 @@ void drv_dxl_tx_enable(uint8_t channel, BOOL enable )
   {
     case 0:
       if( enable == TRUE )  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
-      else                  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+      else
+      {
+        drv_uart_flush(DRV_UART_NUM_1);  // make sure any pending writes complete first
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_RESET);
+      }
       break;
 
     case 1:
@@ -60,7 +64,11 @@ void drv_dxl_tx_enable(uint8_t channel, BOOL enable )
 
     case 2:
       if( enable == TRUE )  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);
-      else                  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
+      else 
+      {
+        drv_uart_flush(DRV_UART_NUM_3);  // make sure any pending writes complete first
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);
+      } 
       break;
   }
 }

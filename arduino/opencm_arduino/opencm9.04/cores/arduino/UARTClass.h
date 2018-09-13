@@ -41,7 +41,7 @@ class UARTClass : public HardwareSerial
       Mode_8M1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_MARK,
       Mode_8S1      // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_SPACE,
     };
-    UARTClass(uint8_t uart_num, uint8_t uart_mode);
+    UARTClass(uint8_t uart_num, uint8_t uart_mode, RingBuffer_Typedef* tx_buffer = NULL);
     UARTClass(void);
 
     void begin(const uint32_t dwBaudRate);
@@ -54,9 +54,10 @@ class UARTClass : public HardwareSerial
     void flush(void);
     void flushRx( uint32_t timeout_ms );
     size_t write(const uint8_t c);
+    size_t write(const uint8_t *buffer, size_t size); 
     using Print::write; // pull in write(str) and write(buf, size) from Print
 
-
+    void     transmitterEnable(uint8_t pin);
     void     setDxlMode(bool dxl_mode);
     uint32_t getBaudRate(void);
     uint32_t getRxCnt(void);
@@ -71,6 +72,7 @@ class UARTClass : public HardwareSerial
     uint8_t  _uart_num;
     uint8_t  _uart_mode;
     uint32_t _uart_baudrate;
+    RingBuffer_Typedef *_uart_tx_buffer;
 
     uint8_t r_byte;
 

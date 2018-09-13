@@ -467,6 +467,7 @@ int Protocol2PacketHandler::txRxPacket(PortHandler *port, uint8_t *txpacket, uin
   }
 
   // set packet timeout
+  port->flushPort();  // make sure the write completes first. 
   if (txpacket[PKT_INSTRUCTION] == INST_READ)
   {
     port->setPacketTimeout((uint16_t)(DXL_MAKEWORD(txpacket[PKT_PARAMETER0+2], txpacket[PKT_PARAMETER0+3]) + 11));
@@ -513,8 +514,9 @@ int Protocol2PacketHandler::ping(PortHandler *port, uint8_t id, uint16_t *model_
   txpacket[PKT_INSTRUCTION]   = INST_PING;
 
   result = txRxPacket(port, txpacket, rxpacket, error);
-  if (result == COMM_SUCCESS && model_number != 0)
+  if (result == COMM_SUCCESS && model_number != 0) {
     *model_number = DXL_MAKEWORD(rxpacket[PKT_PARAMETER0+1], rxpacket[PKT_PARAMETER0+2]);
+  }
 
   return result;
 }
