@@ -74,6 +74,8 @@ uint8_t  CDC_Itf_Getch( void );
 uint8_t  CDC_Itf_Read( void );
 bool     CDC_Itf_IsConnected(void);
 int32_t  CDC_Itf_Peek( void );
+void     CDC_Itf_flush_tx ( void );
+
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */

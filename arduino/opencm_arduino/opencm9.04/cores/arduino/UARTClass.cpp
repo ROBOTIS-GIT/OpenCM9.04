@@ -90,6 +90,13 @@ size_t UARTClass::write( const uint8_t uc_data )
   return drv_uart_write(_uart_num, uc_data);
 }
 
+size_t UARTClass::write( const uint8_t *buffer, size_t size )
+{
+  tx_cnt += size;
+  return drv_uart_write_buf(_uart_num, buffer, size);
+
+}
+
 uint32_t UARTClass::getBaudRate( void )
 {
   return _uart_baudrate;

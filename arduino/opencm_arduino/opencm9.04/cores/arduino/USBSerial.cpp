@@ -35,6 +35,7 @@
 
 
 extern uint32_t usb_cdc_bitrate;
+extern USBD_CDC_LineCodingTypeDef LineCoding;
 
 
 
@@ -77,8 +78,9 @@ int USBSerial::read(void)
   return vcp_getch();
 }
 
-void USBSerial::flush(void){
-
+void USBSerial::flush(void)
+{
+  vcp_flush_tx();
 }
 
 size_t USBSerial::write(const uint8_t *buffer, size_t size)
@@ -99,7 +101,7 @@ size_t USBSerial::write(uint8_t c) {
 
 uint32_t USBSerial::getBaudRate(void)
 {
-  return usb_cdc_bitrate;
+  return LineCoding.bitrate;
 }
 
 uint32_t USBSerial::getRxCnt(void)

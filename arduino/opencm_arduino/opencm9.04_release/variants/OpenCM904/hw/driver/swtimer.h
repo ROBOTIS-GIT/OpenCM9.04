@@ -57,6 +57,7 @@ typedef struct
 
 bool swtimerInit(void);
 void swtimerSet  (uint8_t TmrNum, uint32_t TmrData, uint8_t TmrMode, void (*Fnct)(void *),void *arg);
+void swTimerSetCnt (uint8_t TmrNum, uint32_t TmrCnt);
 void swtimerStart(uint8_t TmrNum);
 void swtimerStop (uint8_t TmrNum);
 void swtimerReset(uint8_t TmrNum);

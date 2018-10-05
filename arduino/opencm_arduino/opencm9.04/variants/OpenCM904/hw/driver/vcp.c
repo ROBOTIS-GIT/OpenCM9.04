@@ -106,6 +106,10 @@ void vcp_detach_rx_interrupt(void)
 
 }
 
+void vcp_flush_tx( void ) 
+{
+  CDC_Itf_flush_tx();
+}
 
 int32_t vcp_printf( const char *fmt, ...)
 {
