@@ -300,8 +300,10 @@ void PortHandlerArduino::setTxEnable()
 void PortHandlerArduino::setTxDisable()
 {
 #if defined(__OPENCR__)
+  DYNAMIXEL_SERIAL.flush(); // make sure it completes before we disable... 
   drv_dxl_tx_enable(FALSE);
 #elif defined(__OPENCM904__)
+  p_dxl_serial->flush();
   drv_dxl_tx_enable(socket_fd_, FALSE);
 #endif
 }

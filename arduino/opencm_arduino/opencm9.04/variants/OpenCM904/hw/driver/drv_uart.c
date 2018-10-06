@@ -43,6 +43,7 @@ static BOOL is_dxl_port[DRV_UART_NUM_MAX];
 
 UART_HandleTypeDef huart[DRV_UART_NUM_MAX];
 DMA_HandleTypeDef  hdma_rx[DRV_UART_NUM_MAX];
+DMA_HandleTypeDef  hdma_tx[DRV_UART_NUM_MAX];
 USART_TypeDef     *huart_inst[DRV_UART_NUM_MAX] = { USART1, USART2, USART3 };
 
 
@@ -85,12 +86,11 @@ void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate)
     huart[uart_num].Init.OverSampling = UART_OVERSAMPLING_16;
 
     drv_uart_num = uart_num;
-
-
+    is_uart_mode[uart_num] = uart_mode;
+    
     HAL_UART_DeInit(&huart[uart_num]);
     HAL_UART_Init(&huart[uart_num]);
 
-    is_uart_mode[uart_num] = uart_mode;
     is_init[uart_num] = TRUE;
 
     drv_uart_start_rx(uart_num);
@@ -114,9 +114,20 @@ uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data)
   return 1;
 }
 
+HAL_StatusTypeDef drv_uart_write_dma_it(uint8_t uart_num, const uint8_t *wr_data, uint16_t Size)
+{
+  // call the DMA or IT function depending on if configured for DMA or not.
+  if (is_uart_mode[uart_num]) 
+  {
+    return HAL_UART_Transmit_DMA(&huart[uart_num], (uint8_t *)wr_data, Size);  
+  }
+  return HAL_UART_Transmit_IT(&huart[uart_num], (uint8_t *)wr_data, Size);  
+}
+
+
 void drv_uart_flush(uint8_t uart_num)
 {
-  (void)(uart_num); //Currently uart just transmit using polling method.
+  UNUSED(uart_num);
 }
 
 void drv_uart_rx_flush(uint8_t uart_num, uint32_t timeout_ms)
@@ -194,11 +205,13 @@ int drv_uart_peek(uint8_t uart_num)
 
   index = drv_uart_rx_buf_tail[uart_num];
 
+  // Update the head to current state of DMA
+  drv_uart_rx_buf_head[uart_num] = DRV_UART_RX_BUF_LENGTH - hdma_rx[uart_num].Instance->CNDTR;
 
-  if (drv_uart_available(uart_num) == 0)
+  if (drv_uart_rx_buf_head[uart_num] == index)
   {
     return -1;
-  }
+  }    
 
   return drv_uart_rx_buf[uart_num][index];
 }
@@ -208,7 +221,10 @@ int drv_uart_read(uint8_t uart_num)
     int ret   = -1;
     int index = drv_uart_rx_buf_tail[uart_num];
 
-    if((drv_uart_rx_buf_head[uart_num] - index) > 0 )
+    // Update the head to current state of DMA
+    drv_uart_rx_buf_head[uart_num] = DRV_UART_RX_BUF_LENGTH - hdma_rx[uart_num].Instance->CNDTR;
+
+    if (drv_uart_rx_buf_head[uart_num] != index)
     {
       ret = drv_uart_rx_buf[uart_num][index];
       drv_uart_rx_buf_tail[uart_num] = (drv_uart_rx_buf_tail[uart_num] + 1) % DRV_UART_RX_BUF_LENGTH;
@@ -245,6 +261,10 @@ void USART3_IRQHandler(void)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
+  if( UartHandle->Instance == huart_inst[DRV_UART_NUM_1] ) Tx1_Handler();
+  if( UartHandle->Instance == huart_inst[DRV_UART_NUM_2] ) Tx2_Handler();
+  if( UartHandle->Instance == huart_inst[DRV_UART_NUM_3] ) Tx3_Handler();
+
 }
 
 
@@ -277,6 +297,25 @@ void DMA1_Channel6_IRQHandler(void)
 void DMA1_Channel3_IRQHandler(void)
 {
   HAL_DMA_IRQHandler(huart[DRV_UART_NUM_3].hdmarx);
+}
+
+// TX handlers
+// UART1 DMA IRQ
+void DMA1_Channel4_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(huart[DRV_UART_NUM_1].hdmatx);
+}
+
+// UART2 DMA IRQ
+void DMA1_Channel7_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(huart[DRV_UART_NUM_2].hdmatx);
+}
+
+// UART3 DMA IRQ
+void DMA1_Channel2_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(huart[DRV_UART_NUM_3].hdmatx);
 }
 
 
@@ -346,6 +385,26 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
+    // Now see if we configured for TX to be DMA...
+    if(is_uart_mode[DRV_UART_NUM_1] == DRV_UART_DMA_MODE) 
+    {
+      hdma_tx[DRV_UART_NUM_1].Instance                 = DMA1_Channel4;
+      hdma_tx[DRV_UART_NUM_1].Init.Direction           = DMA_MEMORY_TO_PERIPH;
+      hdma_tx[DRV_UART_NUM_1].Init.PeriphInc           = DMA_PINC_DISABLE;
+      hdma_tx[DRV_UART_NUM_1].Init.MemInc              = DMA_MINC_ENABLE;
+      hdma_tx[DRV_UART_NUM_1].Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_1].Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_1].Init.Mode                = DMA_NORMAL;
+      hdma_tx[DRV_UART_NUM_1].Init.Priority            = DMA_PRIORITY_MEDIUM;
+
+      HAL_DMA_Init(&hdma_tx[DRV_UART_NUM_1]);
+
+      /* Associate the initialized DMA handle to the the UART handle */
+      __HAL_LINKDMA(huart, hdmatx, hdma_tx[DRV_UART_NUM_1]);
+
+      HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
+    }
 
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
@@ -392,6 +451,27 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
 
+    // Now see if we configured for TX to be DMA...
+    if(is_uart_mode[DRV_UART_NUM_2] == DRV_UART_DMA_MODE) 
+    {
+
+      hdma_tx[DRV_UART_NUM_2].Instance                 = DMA1_Channel7;
+      hdma_tx[DRV_UART_NUM_2].Init.Direction           = DMA_MEMORY_TO_PERIPH;
+      hdma_tx[DRV_UART_NUM_2].Init.PeriphInc           = DMA_PINC_DISABLE;
+      hdma_tx[DRV_UART_NUM_2].Init.MemInc              = DMA_MINC_ENABLE;
+      hdma_tx[DRV_UART_NUM_2].Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_2].Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_2].Init.Mode                = DMA_NORMAL;
+      hdma_tx[DRV_UART_NUM_2].Init.Priority            = DMA_PRIORITY_MEDIUM;
+
+      HAL_DMA_Init(&hdma_tx[DRV_UART_NUM_2]);
+
+      /* Associate the initialized DMA handle to the the UART handle */
+      __HAL_LINKDMA(huart, hdmatx, hdma_tx[DRV_UART_NUM_2]);
+
+      HAL_NVIC_SetPriority(DMA1_Channel7_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Channel7_IRQn);
+    }
 
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
@@ -437,6 +517,26 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
 
+    // Now see if we configured for TX to be DMA...
+    if(is_uart_mode[DRV_UART_NUM_3] == DRV_UART_DMA_MODE) 
+    {
+      hdma_tx[DRV_UART_NUM_3].Instance                 = DMA1_Channel2;
+      hdma_tx[DRV_UART_NUM_3].Init.Direction           = DMA_MEMORY_TO_PERIPH;
+      hdma_tx[DRV_UART_NUM_3].Init.PeriphInc           = DMA_PINC_DISABLE;
+      hdma_tx[DRV_UART_NUM_3].Init.MemInc              = DMA_MINC_ENABLE;
+      hdma_tx[DRV_UART_NUM_3].Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_3].Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+      hdma_tx[DRV_UART_NUM_3].Init.Mode                = DMA_NORMAL;
+      hdma_tx[DRV_UART_NUM_3].Init.Priority            = DMA_PRIORITY_MEDIUM;
+
+      HAL_DMA_Init(&hdma_tx[DRV_UART_NUM_3]);
+
+      /* Associate the initialized DMA handle to the the UART handle */
+      __HAL_LINKDMA(huart, hdmatx, hdma_tx[DRV_UART_NUM_3]);
+
+      HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+      HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
+    }
 
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
