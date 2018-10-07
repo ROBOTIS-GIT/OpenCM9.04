@@ -124,6 +124,15 @@ HAL_StatusTypeDef drv_uart_write_dma_it(uint8_t uart_num, const uint8_t *wr_data
   return HAL_UART_Transmit_IT(&huart[uart_num], (uint8_t *)wr_data, Size);  
 }
 
+uint32_t drv_uart_write_buf(uint8_t uart_num, const uint8_t *p_buf, uint32_t length)
+{
+  if (HAL_UART_Transmit(&huart[uart_num], (uint8_t*)p_buf, length, 10) == HAL_OK) 
+  {
+    return length;
+  }
+  
+  return 0;
+}
 
 void drv_uart_flush(uint8_t uart_num)
 {
