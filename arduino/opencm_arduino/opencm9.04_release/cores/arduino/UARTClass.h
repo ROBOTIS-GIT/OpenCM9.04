@@ -41,7 +41,7 @@ class UARTClass : public HardwareSerial
       Mode_8M1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_MARK,
       Mode_8S1      // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_SPACE,
     };
-    UARTClass(uint8_t uart_num, uint8_t uart_mode);
+    UARTClass(uint8_t uart_num, uint8_t uart_mode, uint8_t *txBuffer, uint16_t tx_buffer_size);
     UARTClass(void);
 
     void begin(const uint32_t dwBaudRate);
@@ -52,11 +52,14 @@ class UARTClass : public HardwareSerial
     int peek(void);
     int read(void);
     void flush(void);
+    void flushRx( uint32_t timeout_ms );
     size_t write(const uint8_t c);
+    size_t write(const uint8_t *buffer, size_t size); 
     using Print::write; // pull in write(str) and write(buf, size) from Print
 
 
     void     setDxlMode(bool dxl_mode);
+    void TxHandler(void); /* Vassilis Serasidis */
     uint32_t getBaudRate(void);
     uint32_t getRxCnt(void);
     uint32_t getTxCnt(void);
@@ -65,14 +68,22 @@ class UARTClass : public HardwareSerial
 
 
   protected:
-
+    void inline startNextTransmitDMAorIT(void);
+    struct tx_no_cache_buffer 
+    {
+      uint8_t *buffer;
+      uint16_t buffer_size;
+      volatile uint16_t iHead;
+      volatile uint16_t iTail;
+    };
 
     uint8_t  _uart_num;
     uint8_t  _uart_mode;
     uint32_t _uart_baudrate;
 
     uint8_t r_byte;
-
+    volatile uint16_t    tx_write_size;
+    tx_no_cache_buffer tx_buffer;
     uint32_t rx_cnt;
     uint32_t tx_cnt;
 };
