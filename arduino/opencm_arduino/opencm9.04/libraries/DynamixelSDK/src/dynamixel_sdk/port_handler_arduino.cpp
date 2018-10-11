@@ -105,11 +105,17 @@ void PortHandlerArduino::closePort()
 
 void PortHandlerArduino::clearPort()
 {
+  int temp __attribute__((unused));
 #if defined(__OPENCR__)
-  DYNAMIXEL_SERIAL.flush();
+  while (DYNAMIXEL_SERIAL.available()) 
+  {
+      temp = DYNAMIXEL_SERIAL.read();
+  }
 #elif defined(__OPENCM904__)
-  p_dxl_serial->flush();
-  p_dxl_serial->flushRx(0);
+  while (p_dxl_serial->available()) 
+  {
+      temp = p_dxl_serial->read();
+  }
 #endif
 }
 
@@ -220,7 +226,7 @@ bool PortHandlerArduino::isPacketTimeout()
 
 double PortHandlerArduino::getCurrentTime()
 {
-	return (double)millis();
+  return (double)millis();
 }
 
 double PortHandlerArduino::getTimeSinceStart()
@@ -300,10 +306,14 @@ void PortHandlerArduino::setTxEnable()
 void PortHandlerArduino::setTxDisable()
 {
 #if defined(__OPENCR__)
+#ifdef SERIAL_WRITES_NON_BLOCKING
   DYNAMIXEL_SERIAL.flush(); // make sure it completes before we disable... 
+#endif
   drv_dxl_tx_enable(FALSE);
 #elif defined(__OPENCM904__)
+#ifdef SERIAL_WRITES_NON_BLOCKING
   p_dxl_serial->flush();
+#endif
   drv_dxl_tx_enable(socket_fd_, FALSE);
 #endif
 }
