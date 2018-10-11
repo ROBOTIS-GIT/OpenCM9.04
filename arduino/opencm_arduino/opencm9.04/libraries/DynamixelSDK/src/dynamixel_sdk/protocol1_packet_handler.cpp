@@ -349,10 +349,6 @@ int Protocol1PacketHandler::txRxPacket(PortHandler *port, uint8_t *txpacket, uin
 
 int Protocol1PacketHandler::ping(PortHandler *port, uint8_t id, uint8_t *error)
 {
-  UNUSED(port);
-  UNUSED(id);
-  UNUSED(error);
-
   return ping(port, id, 0, error);
 }
 
