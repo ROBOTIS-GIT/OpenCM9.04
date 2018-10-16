@@ -17,7 +17,6 @@
 /* Authors: Taehun Lim (Darby) */
 
 #include "../../include/dynamixel_workbench/dynamixel_tool.h"
-
 DynamixelTool::DynamixelTool() : dxl_info_cnt_(0), the_number_of_item_(0){}
 
 DynamixelTool::~DynamixelTool(){}
@@ -379,9 +378,11 @@ uint8_t DynamixelTool::getTheNumberOfItem(void)
 const ControlTableItem* DynamixelTool::getControlItem(const char* item_name)
 {
   const ControlTableItem* cti = item_ptr_;  
+  uint8_t name_length = strlen(item_name);
   for (int num = 0; num < the_number_of_item_; num++)
   {
-    if (!strncmp(item_name, cti->item_name, strlen(cti->item_name)))
+    if ((name_length == cti->item_name_length) && 
+        (memcmp(item_name, cti->item_name, name_length) == 0) )
     {
       return cti;
     }
