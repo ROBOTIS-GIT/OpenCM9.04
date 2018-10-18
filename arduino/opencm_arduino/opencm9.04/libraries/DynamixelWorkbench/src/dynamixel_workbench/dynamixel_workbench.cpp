@@ -148,6 +148,11 @@ bool DynamixelWorkbench::setPacketHandler(float protocol_version)
   return driver_.setPacketHandler(protocol_version);
 }
 
+float DynamixelWorkbench::getProtocolVersion()
+{
+  return driver_.getProtocolVersion();
+}
+
 char* DynamixelWorkbench::getModelName(uint8_t id)
 {
   return driver_.getModelName(id);
@@ -278,7 +283,7 @@ bool DynamixelWorkbench::currentMode(uint8_t id, uint8_t cur)
   return comm_result;
 }
 
-bool DynamixelWorkbench::goalPosition(uint8_t id, uint16_t goal)
+bool DynamixelWorkbench::goalPosition(uint8_t id, int32_t goal)
 {
   bool comm_result = false;
   
@@ -341,11 +346,29 @@ bool DynamixelWorkbench::itemWrite(uint8_t id, const char* item_name, int32_t va
   return comm_result;
 }
 
+bool DynamixelWorkbench::itemWrite(uint8_t id, uint16_t addr, uint8_t length, int32_t data)
+{
+  bool comm_result = false;
+
+  comm_result = driver_.writeRegister(id, addr, length, data);
+
+  return comm_result;
+}
+
 bool DynamixelWorkbench::syncWrite(const char *item_name, int32_t* value)
 {
   bool isOK = false;
 
   isOK =  driver_.syncWrite(item_name, value);
+
+  return isOK;
+}
+
+bool DynamixelWorkbench::syncWrite(uint8_t *id, uint8_t id_num, const char *item_name, int32_t *data)
+{
+  bool isOK = false;
+
+  isOK =  driver_.syncWrite(id, id_num, item_name, data);
 
   return isOK;
 }
@@ -365,6 +388,16 @@ int32_t DynamixelWorkbench::itemRead(uint8_t id, const char* item_name)
 
   if (driver_.readRegister(id, item_name, &data))
     return data;
+  return 0; // Should decide on error value
+}
+
+int32_t  DynamixelWorkbench::itemRead(uint8_t id, uint16_t addr, uint8_t length)
+{
+  static int32_t data = 0;
+
+  if (driver_.readRegister(id, addr, length, &data))
+    return data; 
+  return 0; // Should decide on error value
 }
 
 int32_t* DynamixelWorkbench::syncRead(const char *item_name)
@@ -372,6 +405,7 @@ int32_t* DynamixelWorkbench::syncRead(const char *item_name)
   static int32_t data[16];
   if (driver_.syncRead(item_name, data))
     return data;
+  return 0; // Should decide on error value
 }
 
 int32_t DynamixelWorkbench::bulkRead(uint8_t id, const char* item_name)
@@ -379,6 +413,7 @@ int32_t DynamixelWorkbench::bulkRead(uint8_t id, const char* item_name)
   static int32_t data;
   if (driver_.bulkRead(id, item_name, &data))
     return data;
+  return 0; // Should decide on error value
 }
 
 void DynamixelWorkbench::addSyncWrite(const char* item_name)
@@ -436,6 +471,16 @@ int32_t DynamixelWorkbench::convertRadian2Value(uint8_t id, float radian)
 float DynamixelWorkbench::convertValue2Radian(uint8_t id, int32_t value)
 {
   return driver_.convertValue2Radian(id, value);
+}
+
+int32_t DynamixelWorkbench::convertRadian2Value(float radian, int32_t max_position, int32_t min_position, float max_radian, float min_radian)
+{
+  return driver_.convertRadian2Value(radian, max_position, min_position, max_radian, min_radian);
+}
+
+float DynamixelWorkbench::convertValue2Radian(int32_t value, int32_t max_position, int32_t min_position, float max_radian, float min_radian)
+{
+  return driver_.convertValue2Radian(value, max_position, min_position, max_radian, min_radian);
 }
 
 int32_t DynamixelWorkbench::convertVelocity2Value(uint8_t id, float velocity)
@@ -580,4 +625,14 @@ void DynamixelWorkbench::millis(uint16_t msec)
 #else
     usleep(1000*msec);
 #endif
+}
+
+const ControlTableItem* DynamixelWorkbench::getControlItemPtr(uint8_t id)
+{
+  return driver_.getControlItemPtr(id);
+}
+
+uint8_t DynamixelWorkbench::getControlItemCount(uint8_t id)
+{
+  return driver_.getTheNumberOfItem(id);
 }

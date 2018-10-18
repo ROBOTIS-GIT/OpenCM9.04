@@ -30,7 +30,7 @@
   #include "dynamixel_sdk/dynamixel_sdk.h"
 #endif
 
-#define MAX_DXL_SERIES_NUM 3
+#define MAX_DXL_SERIES_NUM 5
 #define MAX_HANDLER_NUM 5
 
 #define BYTE  1
@@ -39,13 +39,13 @@
 
 typedef struct 
 {
-  ControlTableItem *cti; 
+  const ControlTableItem *cti; 
   dynamixel::GroupSyncWrite *groupSyncWrite;    
 } SyncWriteHandler;
 
 typedef struct 
 {
-  ControlTableItem *cti;
+  const ControlTableItem *cti;
   dynamixel::GroupSyncRead  *groupSyncRead;     
 } SyncReadHandler;
 
@@ -84,7 +84,7 @@ class DynamixelDriver
   int getBaudrate(void);
   char* getModelName(uint8_t id);
   uint16_t getModelNum(uint8_t id);
-  ControlTableItem* getControlItemPtr(uint8_t id);
+  const ControlTableItem* getControlItemPtr(uint8_t id);
   uint8_t getTheNumberOfItem(uint8_t id);
 
   bool scan(uint8_t *get_id, uint8_t *get_id_num, uint8_t range = 200);
@@ -94,10 +94,14 @@ class DynamixelDriver
   bool reset(uint8_t id);
 
   bool writeRegister(uint8_t id, const char *item_name, int32_t data);
+  bool writeRegister(uint8_t id, uint16_t addr, uint8_t length, int32_t data);
   bool readRegister(uint8_t id, const char *item_name, int32_t *data);
+  bool readRegister(uint8_t id, uint16_t addr, uint8_t length, int32_t *data);
+  bool readRegister(uint8_t id, uint16_t length, uint8_t *data);
 
   void addSyncWrite(const char *item_name);
   bool syncWrite(const char *item_name, int32_t *data);
+  bool syncWrite(uint8_t *id, uint8_t id_num, const char *item_name, int32_t *data);
 
   void addSyncRead(const char *item_name);
   bool syncRead(const char *item_name, int32_t *data);
@@ -113,6 +117,9 @@ class DynamixelDriver
 
   int32_t convertRadian2Value(uint8_t id, float radian);
   float convertValue2Radian(uint8_t id, int32_t value);
+
+  int32_t convertRadian2Value(float radian, int32_t max_position, int32_t min_position, float max_radian = 3.14, float min_radian = -3.14);
+  float convertValue2Radian(int32_t value, int32_t max_position, int32_t min_position, float max_radian = 3.14, float min_radian = -3.14);
 
   int32_t convertVelocity2Value(uint8_t id, float velocity);
   float convertValue2Velocity(uint8_t id, int32_t value);
