@@ -55,6 +55,7 @@ class DynamixelWorkbench
   bool setBaud(uint8_t id, uint32_t new_baud);
   bool setPacketHandler(float protocol_version);
 
+  float getProtocolVersion();
   char* getModelName(uint8_t id);
 
   bool ledOn(uint8_t id);
@@ -64,14 +65,17 @@ class DynamixelWorkbench
   bool wheelMode(uint8_t id, uint16_t vel = 0, uint16_t acc = 0);
   bool currentMode(uint8_t id, uint8_t cur = 50);
 
-  bool goalPosition(uint8_t id, uint16_t goal);
+  bool goalPosition(uint8_t id, int32_t goal);
   bool goalSpeed(uint8_t id, int32_t goal);
 
   bool itemWrite(uint8_t id, const char* item_name, int32_t value);  // write value to item
+  bool itemWrite(uint8_t id, uint16_t addr, uint8_t length, int32_t data);
   bool syncWrite(const char *item_name, int32_t* value);             // sync write
+  bool syncWrite(uint8_t *id, uint8_t id_num, const char *item_name, int32_t *data);
   bool bulkWrite(void);                                              // bulk write
 
   int32_t  itemRead(uint8_t id, const char* item_name);  // read value from item
+  int32_t  itemRead(uint8_t id, uint16_t addr, uint8_t length);
   int32_t* syncRead(const char* item_name);              // sync read
   int32_t  bulkRead(uint8_t id, const char* item_name);  // bulk read
 
@@ -88,11 +92,20 @@ class DynamixelWorkbench
   int32_t convertRadian2Value(uint8_t id, float radian);
   float convertValue2Radian(uint8_t id, int32_t value);
 
+  int32_t convertRadian2Value(float radian, int32_t max_position, int32_t min_position, float max_radian = 3.14, float min_radian = -3.14);
+  float convertValue2Radian(int32_t value, int32_t max_position, int32_t min_position, float max_radian = 3.14, float min_radian = -3.14);
+
+
   int32_t convertVelocity2Value(uint8_t id, float velocity);
   float convertValue2Velocity(uint8_t id, int32_t value);
 
   int16_t convertTorque2Value(uint8_t id, float torque);
   float convertValue2Torque(uint8_t id, int16_t value);
+
+  const ControlTableItem* getControlItemPtr(uint8_t id);
+  uint8_t getControlItemCount(uint8_t id);
+
+
 
  private:
   void millis(uint16_t msec);
