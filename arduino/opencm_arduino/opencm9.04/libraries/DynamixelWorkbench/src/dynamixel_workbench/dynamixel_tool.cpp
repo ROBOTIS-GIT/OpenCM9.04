@@ -81,7 +81,7 @@ void DynamixelTool::addTool(const char* model_name, uint8_t id)
 {
   model_name_ = model_name;
   setModelNum(model_name);
-  dxl_info_[dxl_info_cnt_].id = id;
+  dxl_id_[dxl_info_cnt_] = id;
 
   setControlTable(model_name);
   dxl_info_cnt_++;
@@ -91,7 +91,7 @@ void DynamixelTool::addTool(uint16_t model_number, uint8_t id)
 {
   setModelName(model_number);
   model_num_ = model_number;
-  dxl_info_[dxl_info_cnt_].id = id;
+  dxl_id_[dxl_info_cnt_] = id;
 
   setControlTable(model_number);
   dxl_info_cnt_++;
@@ -101,7 +101,7 @@ void DynamixelTool::addDXL(const char* model_name, uint8_t id)
 {
   model_name_ = model_name;
   setModelNum(model_name);
-  dxl_info_[dxl_info_cnt_].id = id;
+  dxl_id_[dxl_info_cnt_] = id;
 
   dxl_info_cnt_++;
 }
@@ -110,7 +110,7 @@ void DynamixelTool::addDXL(uint16_t model_number, uint8_t id)
 {
   setModelName(model_number);
   model_num_ = model_number;
-  dxl_info_[dxl_info_cnt_].id = id;
+  dxl_id_[dxl_info_cnt_] = id;
 
   dxl_info_cnt_++;
 }
