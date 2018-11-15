@@ -54,6 +54,8 @@
   If BAUDRATE is NOT defined, the code will ask the USB Serial object for 
   the hosts requested baud rate and use it.  In addition it will check to
   see if the host baud rate changes and will change accordingly. 
+
+  BaudRate Changes authored by: KurtE
 */
 
 //#define BAUDRATE 57600
