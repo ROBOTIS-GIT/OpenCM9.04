@@ -74,7 +74,9 @@ recipe.objcopy.eep.pattern=
 ## Create hex or binary
 recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
 
-
+## Save binary
+recipe.output.tmp_file={build.project_name}.bin
+recipe.output.save_file={build.project_name}.{build.variant}.bin
 
 ## Compute size
 # ---------------------
@@ -90,6 +92,7 @@ tools.opencm_ld.cmd.windows=opencm9.04_ld.exe
 tools.opencm_ld.path={runtime.tools.opencm_tools.path}/win
 tools.opencm_ld.path.macosx={runtime.tools.opencm_tools.path}/macosx
 tools.opencm_ld.path.linux={runtime.tools.opencm_tools.path}/linux
+tools.opencm_ld.path.arm={runtime.tools.opencm_tools.path}/arm
 
 tools.opencm_ld.upload.params.verbose=-d
 tools.opencm_ld.upload.params.quiet=n
