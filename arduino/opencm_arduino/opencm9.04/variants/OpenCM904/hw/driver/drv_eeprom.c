@@ -26,7 +26,9 @@ uint16_t DataVar = 0;
 /* Variables' number */
 #define NB_OF_VAR             (512)
 
-
+//#define USE_VIRT_ADD_VAR_TAB
+#ifdef USE_VIRT_ADD_VAR_TAB
+#define VIRTADDVARTAB(index)   (VirtAddVarTab[index])
 
 /* Virtual address defined by the user: 0xFFFF value is prohibited */
 static const uint16_t VirtAddVarTab[NB_OF_VAR] = 
@@ -66,6 +68,9 @@ static const uint16_t VirtAddVarTab[NB_OF_VAR] =
   0x1f0, 0x1f1, 0x1f2, 0x1f3, 0x1f4, 0x1f5, 0x1f6, 0x1f7, 0x1f8, 0x1f9, 0x1fa, 0x1fb, 0x1fc, 0x1fd, 0x1fe, 0x1ff
 };
 
+#else
+#define VIRTADDVARTAB(index)   (index)
+#endif
 
 uint16_t EE_Init(void);
 uint16_t EE_ReadVariable(uint16_t VirtAddress, uint16_t* Data);
@@ -77,16 +82,6 @@ uint16_t EE_WriteVariable(uint16_t VirtAddress, uint16_t Data);
 
 int drv_eeprom_init()
 {
-#if 0  
-  uint16_t i;
-
-
-  for( i=0; i<NB_OF_VAR; i++ )
-  {
-    VirtAddVarTab[i] = i;
-  }
-#endif
-
   HAL_FLASH_Unlock();
 
   if( EE_Init() == HAL_OK )
@@ -262,19 +257,19 @@ uint16_t EE_Init(void)
         /* Transfer data from Page1 to Page0 */
         for (varidx = 0; varidx < NB_OF_VAR; varidx++)
         {
-          if (( *(__IO uint16_t*)(PAGE0_BASE_ADDRESS + 6)) == VirtAddVarTab[varidx])
+          if (( *(__IO uint16_t*)(PAGE0_BASE_ADDRESS + 6)) == VIRTADDVARTAB(varidx))
           {
             x = varidx;
           }
           if (varidx != x)
           {
             /* Read the last variables' updates */
-            readstatus = EE_ReadVariable(VirtAddVarTab[varidx], &DataVar);
+            readstatus = EE_ReadVariable(VIRTADDVARTAB(varidx), &DataVar);
             /* In case variable corresponding to the virtual address was found */
             if (readstatus != 0x1)
             {
               /* Transfer the variable to the Page0 */
-              eepromstatus = EE_VerifyPageFullWriteVariable(VirtAddVarTab[varidx], DataVar);
+              eepromstatus = EE_VerifyPageFullWriteVariable(VIRTADDVARTAB(varidx), DataVar);
               /* If program operation was failed, a Flash error code is returned */
               if (eepromstatus != HAL_OK)
               {
@@ -371,19 +366,19 @@ uint16_t EE_Init(void)
         /* Transfer data from Page0 to Page1 */
         for (varidx = 0; varidx < NB_OF_VAR; varidx++)
         {
-          if ((*(__IO uint16_t*)(PAGE1_BASE_ADDRESS + 6)) == VirtAddVarTab[varidx])
+          if ((*(__IO uint16_t*)(PAGE1_BASE_ADDRESS + 6)) == VIRTADDVARTAB(varidx))
           {
             x = varidx;
           }
           if (varidx != x)
           {
             /* Read the last variables' updates */
-            readstatus = EE_ReadVariable(VirtAddVarTab[varidx], &DataVar);
+            readstatus = EE_ReadVariable(VIRTADDVARTAB(varidx), &DataVar);
             /* In case variable corresponding to the virtual address was found */
             if (readstatus != 0x1)
             {
               /* Transfer the variable to the Page1 */
-              eepromstatus = EE_VerifyPageFullWriteVariable(VirtAddVarTab[varidx], DataVar);
+              eepromstatus = EE_VerifyPageFullWriteVariable(VIRTADDVARTAB(varidx), DataVar);
               /* If program operation was failed, a Flash error code is returned */
               if (eepromstatus != HAL_OK)
               {
@@ -797,15 +792,15 @@ static uint16_t EE_PageTransfer(uint16_t VirtAddress, uint16_t Data)
   /* Transfer process: transfer variables from old to the new active page */
   for (varidx = 0; varidx < NB_OF_VAR; varidx++)
   {
-    if (VirtAddVarTab[varidx] != VirtAddress)  /* Check each variable except the one passed as parameter */
+    if (VIRTADDVARTAB(varidx) != VirtAddress)  /* Check each variable except the one passed as parameter */
     {
       /* Read the other last variable updates */
-      readstatus = EE_ReadVariable(VirtAddVarTab[varidx], &DataVar);
+      readstatus = EE_ReadVariable(VIRTADDVARTAB(varidx), &DataVar);
       /* In case variable corresponding to the virtual address was found */
       if (readstatus != 0x1)
       {
         /* Transfer the variable to the new active page */
-        eepromstatus = EE_VerifyPageFullWriteVariable(VirtAddVarTab[varidx], DataVar);
+        eepromstatus = EE_VerifyPageFullWriteVariable(VIRTADDVARTAB(varidx), DataVar);
         /* If program operation was failed, a Flash error code is returned */
         if (eepromstatus != HAL_OK)
         {
