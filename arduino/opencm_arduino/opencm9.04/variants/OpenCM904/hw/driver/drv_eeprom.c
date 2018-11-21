@@ -24,7 +24,7 @@ uint16_t DataVar = 0;
 
 
 /* Variables' number */
-#define NB_OF_VAR             (512)
+#define NB_OF_VAR             (255)
 
 //#define USE_VIRT_ADD_VAR_TAB
 #ifdef USE_VIRT_ADD_VAR_TAB
@@ -535,6 +535,11 @@ uint16_t EE_WriteVariable(uint16_t VirtAddress, uint16_t Data)
 {
   uint16_t Status = 0;
 
+  if (VirtAddress >= NB_OF_VAR)
+  {
+    return Status;  // Bail if address exceeds are max... 
+  }
+
   /* Write the variable virtual address and value in the EEPROM */
   Status = EE_VerifyPageFullWriteVariable(VirtAddress, Data);
 
@@ -683,6 +688,8 @@ static uint16_t EE_VerifyPageFullWriteVariable(uint16_t VirtAddress, uint16_t Da
   HAL_StatusTypeDef flashstatus = HAL_OK;
   uint16_t validpage = PAGE0;
   uint32_t address = EEPROM_START_ADDRESS, pageendaddress = EEPROM_START_ADDRESS+PAGE_SIZE;
+  uint16_t addressvalue = 0x5555;
+  uint16_t cur_Data = !Data;  // initialize to make sure it does not match...
 
   /* Get valid Page for write operation */
   validpage = EE_FindValidPage(WRITE_IN_VALID_PAGE);
@@ -705,6 +712,12 @@ static uint16_t EE_VerifyPageFullWriteVariable(uint16_t VirtAddress, uint16_t Da
     /* Verify if address and address+2 contents are 0xFFFFFFFF */
     if ((*(__IO uint32_t*)address) == 0xFFFFFFFF)
     {
+      /* Found an empty slot, see if our index is in the list and the last */
+      /* Instance has the value we are trying to store, we can bypass this. */
+      if (cur_Data == Data)
+      {
+        return HAL_OK;  // Value is already set to our value
+      }
       /* Set variable data */
       flashstatus = HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, address, Data);
       /* If program operation was failed, a Flash error code is returned */
@@ -719,13 +732,23 @@ static uint16_t EE_VerifyPageFullWriteVariable(uint16_t VirtAddress, uint16_t Da
     }
     else
     {
+      addressvalue = (*(__IO uint16_t*)(address+2));
+
+      /* Compare the read address with the virtual address */
+      if (addressvalue == VirtAddress)
+      {
+        /* Get content of Address-2 which is variable value */
+        cur_Data = (*(__IO uint16_t*)(address));
+
+      }
       /* Next address location */
       address = address + 4;
     }
   }
 
+  /* We did not find any open slots, so if we did not find oru value */
   /* Return PAGE_FULL in case the valid page is full */
-  return PAGE_FULL;
+  return (cur_Data == Data)? HAL_OK : PAGE_FULL;
 }
 
 /**
