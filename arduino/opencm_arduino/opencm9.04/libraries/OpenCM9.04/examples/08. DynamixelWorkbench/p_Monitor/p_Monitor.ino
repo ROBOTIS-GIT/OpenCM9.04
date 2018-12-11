@@ -533,7 +533,7 @@ void loop()
       else if (cmd[0] == "write")
       {
         uint8_t id = cmd[1].toInt();      
-        uint32_t value = cmd[3].toInt(); 
+        int32_t value = cmd[3].toInt(); 
 
         result = dxl_wb.writeRegister(id, cmd[2].c_str(), value, &log);
         if (result == false)
@@ -551,7 +551,7 @@ void loop()
       {
         uint8_t id = cmd[1].toInt();
 
-        uint32_t data = 0;
+        int32_t data = 0;
         
         result = dxl_wb.readRegister(id, cmd[2].c_str(), &data, &log);
         if (result == false)
