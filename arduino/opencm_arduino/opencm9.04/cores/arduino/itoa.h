@@ -33,6 +33,10 @@ extern char* itoa( int value, char *string, int radix ) ;
 extern char* ltoa( long value, char *string, int radix ) ;
 //extern char* utoa( unsigned long value, char *string, int radix ) ;
 extern char* ultoa( unsigned long value, char *string, int radix ) ;
+#if defined(_NEWLIB_VERSION) && (__NEWLIB__ < 2 || __NEWLIB__ == 2 && __NEWLIB_MINOR__ < 2)
+static inline char * utoa(unsigned int val, char *buf, int radix) __attribute__((always_inline, unused));
+static inline char * utoa(unsigned int val, char *buf, int radix) { return ultoa(val, buf, radix); }
+#endif
 #endif /* 0 */
 
 #ifdef __cplusplus

@@ -132,9 +132,18 @@ void serialEvent3() { }
 
 
 USBSerial Serial;
-UARTClass Serial1(DRV_UART_NUM_1, DRV_UART_DMA_MODE);
-UARTClass Serial2(DRV_UART_NUM_2, DRV_UART_DMA_MODE);
-UARTClass Serial3(DRV_UART_NUM_3, DRV_UART_DMA_MODE);
+
+uint8_t serial1_tx_buffer[SERIAL_BUFFER_SIZE];
+uint8_t serial2_tx_buffer[SERIAL_BUFFER_SIZE];
+uint8_t serial3_tx_buffer[SERIAL_BUFFER_SIZE];
+
+UARTClass Serial1(DRV_UART_NUM_1, DRV_UART_DMA_MODE, serial1_tx_buffer, sizeof(serial1_tx_buffer));
+UARTClass Serial2(DRV_UART_NUM_2, DRV_UART_DMA_MODE, serial2_tx_buffer, sizeof(serial2_tx_buffer));
+UARTClass Serial3(DRV_UART_NUM_3, DRV_UART_DMA_MODE, serial3_tx_buffer, sizeof(serial3_tx_buffer));
+
+void Tx1_Handler(void){ Serial1.TxHandler(); }
+void Tx2_Handler(void){ Serial2.TxHandler(); }
+void Tx3_Handler(void){ Serial3.TxHandler(); }
 
 
 

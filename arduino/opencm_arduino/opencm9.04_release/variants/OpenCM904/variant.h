@@ -88,6 +88,23 @@ typedef struct _Pin2PortMapArray
 
 extern const Pin2PortMapArray g_Pin2PortMapArray[];
 
+// Arm M3 standard bit band definitions. 
+#define GPIO_BITBAND_ADDR(reg, bit) (((uint32_t)&(reg) - 0x40000000) * 32 + (bit) * 4 + 0x42000000)
+#define GPIO_BITBAND_PTR(reg, bit) ((uint32_t *)GPIO_BITBAND_ADDR((reg), (bit)))
+
+extern const uint32_t *digital_pin_bitband_table[];
+// compatibility macros
+#define digitalPinToPort(pin) (pin)
+#define digitalPinToBitMask(pin) (1)
+#define portOutputRegister(pin) ((volatile uint32_t *)(digital_pin_bitband_table[(pin)] + 0))    // We point to ODR so 0 offset
+#define portInputRegister(pin)  ((volatile uint32_t *)(digital_pin_bitband_table[(pin)] - 32))  // ODR offset(0xc) IDR Offset(0x8) so offset -4*32
+
+#define portSetRegister(pin)    ((volatile uint32_t *)(digital_pin_bitband_table[(pin)] + 32))  // BSRR(0x10) so offset +4*32
+#define portClearRegister(pin)  ((volatile uint32_t *)(digital_pin_bitband_table[(pin)] + 64))  // brr(0X14) so offset +8*32 or could also use BSRR
+#define digitalPinToPortReg(pin) (portOutputRegister(pin))
+#define digitalPinToBit(pin) (1)
+
+
 void Rx1_Handler(void);
 void Tx1_Handler(void);
 void Rx2_Handler(void);
