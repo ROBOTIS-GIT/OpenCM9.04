@@ -87,11 +87,11 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
   else
   {
@@ -116,11 +116,11 @@ void setup() {
     dxl_comm_result = packetHandler->write2ByteTxRx(portHandler, DXL_ID, ADDR_PRO_GOAL_POSITION, dxl_goal_position[index], &dxl_error);
     if (dxl_comm_result != COMM_SUCCESS)
     {
-      packetHandler->printTxRxResult(dxl_comm_result);
+      packetHandler->getTxRxResult(dxl_comm_result);
     }
     else if (dxl_error != 0)
     {
-      packetHandler->printRxPacketError(dxl_error);
+      packetHandler->getRxPacketError(dxl_error);
     }
 
     do
@@ -129,11 +129,11 @@ void setup() {
       dxl_comm_result = packetHandler->read2ByteTxRx(portHandler, DXL_ID, ADDR_PRO_PRESENT_POSITION, (uint16_t*)&dxl_present_position, &dxl_error);
       if (dxl_comm_result != COMM_SUCCESS)
       {
-        packetHandler->printTxRxResult(dxl_comm_result);
+        packetHandler->getTxRxResult(dxl_comm_result);
       }
       else if (dxl_error != 0)
       {
-        packetHandler->printRxPacketError(dxl_error);
+        packetHandler->getRxPacketError(dxl_error);
       }
 
       Serial.print("[ID:");      Serial.print(DXL_ID);
@@ -159,11 +159,11 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Close port

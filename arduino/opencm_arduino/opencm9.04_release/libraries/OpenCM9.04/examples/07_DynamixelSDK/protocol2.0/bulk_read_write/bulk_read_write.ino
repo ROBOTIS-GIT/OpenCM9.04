@@ -95,22 +95,22 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Enable Dynamixel#2 Torque
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Add parameter storage for Dynamixel#1 present position
@@ -146,7 +146,7 @@ void setup() {
 
     // Bulkwrite goal position and LED value
     dxl_comm_result = groupBulkWrite.txPacket();
-    if (dxl_comm_result != COMM_SUCCESS) packetHandler->printTxRxResult(dxl_comm_result);
+    if (dxl_comm_result != COMM_SUCCESS) packetHandler->getTxRxResult(dxl_comm_result);
 
     // Clear bulkwrite parameter storage
     groupBulkWrite.clearParam();
@@ -155,7 +155,7 @@ void setup() {
     {
       // Bulkread present position and LED status
       dxl_comm_result = groupBulkRead.txRxPacket();
-      if (dxl_comm_result != COMM_SUCCESS) packetHandler->printTxRxResult(dxl_comm_result);
+      if (dxl_comm_result != COMM_SUCCESS) packetHandler->getTxRxResult(dxl_comm_result);
 
       // Check if groupbulkread data of Dynamixel#1 is available
       dxl_getdata_result = groupBulkRead.isAvailable(DXL1_ID, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
@@ -193,22 +193,22 @@ void setup() {
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Disable Dynamixel#2 Torque
   dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
-    packetHandler->printTxRxResult(dxl_comm_result);
+    packetHandler->getTxRxResult(dxl_comm_result);
   }
   else if (dxl_error != 0)
   {
-    packetHandler->printRxPacketError(dxl_error);
+    packetHandler->getRxPacketError(dxl_error);
   }
 
   // Close port
