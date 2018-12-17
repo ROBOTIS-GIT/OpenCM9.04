@@ -41,7 +41,7 @@
  http://www.robotis-shop-kr.com/goods_detail.php?goodsIdx=348
 
  You can also find all information about ROBOTIS products
- http://support.robotis.com/
+ http://emanual.robotis.com/
 
  */
 

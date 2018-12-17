@@ -28,6 +28,7 @@
 #define ERROR_PRINT  SerialBT2.print	
 #else	
 #define ERROR_PRINT  printf
+
 #endif
 
 #include <stdio.h>

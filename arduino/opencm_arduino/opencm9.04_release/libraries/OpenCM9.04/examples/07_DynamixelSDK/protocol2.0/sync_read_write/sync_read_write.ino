@@ -1,13 +1,22 @@
+/*
+ * Controller : OpenCM9.04C with 485 EXP board
+ * Dynamixel : X Series(except XL-320)
+ * Power source : 12V SMPS2Dynamixel for 485 EXP board
+ * 
+ * Dynamixels are connected to Dynamixel BUS on 485 EXP board
+ * http://emanual.robotis.com/docs/en/parts/controller/opencm485exp/#layout
+*/
+
 #include <DynamixelSDK.h>
 
-// Control table address
-#define ADDR_PRO_TORQUE_ENABLE          64                 // Control table address is different in Dynamixel model
-#define ADDR_PRO_GOAL_POSITION          116
-#define ADDR_PRO_PRESENT_POSITION       132
+// Control table address could be differ by Dynamixel Series
+#define ADDRESS_TORQUE_ENABLE           64
+#define ADDRESS_GOAL_POSITION           116
+#define ADDRESS_PRESENT_POSITION        132
 
 // Data Byte Length
-#define LEN_PRO_GOAL_POSITION            4
-#define LEN_PRO_PRESENT_POSITION         4
+#define LENGTH_GOAL_POSITION            4
+#define LENGTH_PRESENT_POSITION         4
 
 // Protocol version
 #define PROTOCOL_VERSION                2.0                 // See which protocol version is used in the Dynamixel
@@ -17,7 +26,9 @@
 #define DXL2_ID                         2                   // Dynamixel#2 ID: 2
 #define BAUDRATE                        1000000
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-                                                            // ex) Windows: "COM1"   Linux: "/dev/ttyUSB0"
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 #define TORQUE_ENABLE                   1                   // Value for enabling the torque
 #define TORQUE_DISABLE                  0                   // Value for disabling the torque
@@ -48,10 +59,10 @@ void setup() {
   dynamixel::PacketHandler *packetHandler = dynamixel::PacketHandler::getPacketHandler(PROTOCOL_VERSION);
 
   // Initialize GroupSyncWrite instance
-  dynamixel::GroupSyncWrite groupSyncWrite(portHandler, packetHandler, ADDR_PRO_GOAL_POSITION, LEN_PRO_GOAL_POSITION);
+  dynamixel::GroupSyncWrite groupSyncWrite(portHandler, packetHandler, ADDRESS_GOAL_POSITION, LENGTH_GOAL_POSITION);
 
   // Initialize Groupsyncread instance for Present Position
-  dynamixel::GroupSyncRead groupSyncRead(portHandler, packetHandler, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+  dynamixel::GroupSyncRead groupSyncRead(portHandler, packetHandler, ADDRESS_PRESENT_POSITION, LENGTH_PRESENT_POSITION);
 
   int index = 0;
   int dxl_comm_result = COMM_TX_FAIL;             // Communication result
@@ -88,7 +99,7 @@ void setup() {
   }
 
   // Enable Dynamixel#1 Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDRESS_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);
@@ -99,7 +110,7 @@ void setup() {
   }
 
   // Enable Dynamixel#2 Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDRESS_TORQUE_ENABLE, TORQUE_ENABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);
@@ -154,16 +165,16 @@ void setup() {
       if (dxl_comm_result != COMM_SUCCESS) packetHandler->getTxRxResult(dxl_comm_result);
 
       // Check if groupsyncread data of Dynamixel#1 is available
-      dxl_getdata_result = groupSyncRead.isAvailable(DXL1_ID, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+      dxl_getdata_result = groupSyncRead.isAvailable(DXL1_ID, ADDRESS_PRESENT_POSITION, LENGTH_PRESENT_POSITION);
 
       // Check if groupsyncread data of Dynamixel#2 is available
-      dxl_getdata_result = groupSyncRead.isAvailable(DXL2_ID, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+      dxl_getdata_result = groupSyncRead.isAvailable(DXL2_ID, ADDRESS_PRESENT_POSITION, LENGTH_PRESENT_POSITION);
 
       // Get Dynamixel#1 present position value
-      dxl1_present_position = groupSyncRead.getData(DXL1_ID, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+      dxl1_present_position = groupSyncRead.getData(DXL1_ID, ADDRESS_PRESENT_POSITION, LENGTH_PRESENT_POSITION);
 
       // Get Dynamixel#2 present position value
-      dxl2_present_position = groupSyncRead.getData(DXL2_ID, ADDR_PRO_PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+      dxl2_present_position = groupSyncRead.getData(DXL2_ID, ADDRESS_PRESENT_POSITION, LENGTH_PRESENT_POSITION);
 
       Serial.print("[ID:");      Serial.print(DXL1_ID);
       Serial.print(" GoalPos:"); Serial.print(dxl_goal_position[index]);
@@ -188,7 +199,7 @@ void setup() {
   }
 
   // Disable Dynamixel#1 Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL1_ID, ADDRESS_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);
@@ -199,7 +210,7 @@ void setup() {
   }
 
   // Disable Dynamixel#2 Torque
-  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDR_PRO_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
+  dxl_comm_result = packetHandler->write1ByteTxRx(portHandler, DXL2_ID, ADDRESS_TORQUE_ENABLE, TORQUE_DISABLE, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS)
   {
     packetHandler->getTxRxResult(dxl_comm_result);

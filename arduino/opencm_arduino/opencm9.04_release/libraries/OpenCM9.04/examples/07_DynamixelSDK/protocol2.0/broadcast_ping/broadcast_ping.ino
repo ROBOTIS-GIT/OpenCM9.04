@@ -7,7 +7,9 @@
 // Default setting
 #define BAUDRATE                        1000000
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 void setup() {
   // put your setup code here, to run once:

@@ -44,13 +44,35 @@
  http://www.robotis-shop-kr.com/goods_detail.php?goodsIdx=348
 
  You can also find all information about ROBOTIS products
- http://support.robotis.com/
+ http://emanual.robotis.com/
 
  */
+/* BAUDRATE 
+  If BAUDRATE is defined, the converter will use the specified baud rate
+  for Serial2
+
+  If BAUDRATE is NOT defined, the code will ask the USB Serial object for 
+  the hosts requested baud rate and use it.  In addition it will check to
+  see if the host baud rate changes and will change accordingly. 
+
+  BaudRate Changes authored by: KurtE
+*/
+
+//#define BAUDRATE 57600
+
+#ifndef BAUDRATE
+uint32_t g_usb_baudrate;
+#endif
 
 void setup(){
+  while (!Serial && millis() < 5000) ;
   Serial.begin(115200);
-  Serial2.begin(57600);
+#if defined(BAUDRATE)
+  Serial2.begin(BAUDRATE);
+#else
+  g_usb_baudrate = Serial.getBaudRate();
+  Serial2.begin(g_usb_baudrate);
+#endif  
   pinMode(BOARD_LED_PIN, OUTPUT);
 }
 
@@ -63,4 +85,10 @@ void loop(){
     toggleLED();
     Serial.print((char)Serial2.read()); //send data coming from Serial2 to USB(PC)
   }
+#ifndef BAUDRATE
+  if (g_usb_baudrate != Serial.getBaudRate()){
+    g_usb_baudrate = Serial.getBaudRate();
+    Serial2.begin(g_usb_baudrate);
+  }
+#endif  
 }

@@ -8,7 +8,9 @@
 
 // Default setting
 #define DEVICENAME                      "1"                 // Check which port is being used on your controller
-                                                            // ex) Windows: "COM1"   Linux: "/dev/ttyUSB0"
+                                                            // DEVICENAME "1" -> Serial1
+                                                            // DEVICENAME "2" -> Serial2
+                                                            // DEVICENAME "3" -> Serial3(OpenCM 485 EXP)
 
 
 #define CMD_SERIAL    Serial                                // USB Serial

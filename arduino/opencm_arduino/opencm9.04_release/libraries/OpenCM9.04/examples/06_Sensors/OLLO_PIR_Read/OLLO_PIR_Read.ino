@@ -32,11 +32,10 @@
  connect Temperature Sensor Module to port 2.
 
  You can buy PIR Sensor DYNAMIXEL in ROBOTIS-SHOP
- http://www.robotis-shop-en.com/shop/step1.php?number=750&b_code=B20070914051413&c_code=C20100528062452
- //위 링크 수정
+ http://www.robotis-shop-en.com/?act=shop_en.goods_view&GS=2438&GC=GD0B0103
 
  You can also find all information
- http://support.robotis.com/
+ http://emanual.robotis.com/docs/en/parts/sensor/pir-10/
 
  */
 
