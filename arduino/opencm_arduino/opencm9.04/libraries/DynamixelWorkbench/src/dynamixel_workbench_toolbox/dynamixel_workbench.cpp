@@ -667,17 +667,13 @@ bool DynamixelWorkbench::setOperatingMode(uint8_t id, uint8_t index, const char 
   {
     if (index == POSITION_CONTROL_MODE)
     {
-      result = writeRegister(id, "Operating_Mode", POSITION_CONTROL_MODE, log);
-    }
-    else if (index == VELOCITY_CONTROL_MODE)
-    {
-      result = writeRegister(id, "Operating_Mode", VELOCITY_CONTROL_MODE, log);    
-    }
-    else if (index == POSITION_CONTROL_MODE)
-    {
       if (!strncmp(model_name, "XL-320", strlen("XL-320")))
       {
         result = writeRegister(id, "Control_Mode", JOINT_MODE, log);
+      }
+      else
+      {
+        result = writeRegister(id, "Operating_Mode", POSITION_CONTROL_MODE, log);
       }
     }
     else if (index == VELOCITY_CONTROL_MODE)
@@ -685,6 +681,10 @@ bool DynamixelWorkbench::setOperatingMode(uint8_t id, uint8_t index, const char 
       if (!strncmp(model_name, "XL-320", strlen("XL-320")))
       {
         result = writeRegister(id, "Control_Mode", WHEEL_MODE, log);
+      }
+      else
+      {
+        result = writeRegister(id, "Operating_Mode", VELOCITY_CONTROL_MODE, log);    
       }
     }
     else if (index == CURRENT_CONTROL_MODE)
