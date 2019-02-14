@@ -854,7 +854,8 @@ bool DynamixelWorkbench::wheelMode(uint8_t id, int32_t acceleration, const char 
     }
     else
     {
-      result = writeRegister(id, "Profile_Acceleration", acceleration, log);
+      if (strncmp(model_name, "XL-320", strlen("XL-320")))
+        result = writeRegister(id, "Profile_Acceleration", acceleration, log);
     }
   }
 
