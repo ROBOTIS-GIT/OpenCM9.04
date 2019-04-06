@@ -72,18 +72,25 @@ int drv_uart_init()
   return 0;
 }
 
-void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate)
+void drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate, uint8_t config)
 {
   if(uart_num < DRV_UART_NUM_MAX)
   {
     huart[uart_num].Instance          = huart_inst[uart_num];
     huart[uart_num].Init.BaudRate     = baudrate;
     huart[uart_num].Init.WordLength   = UART_WORDLENGTH_8B;
-    huart[uart_num].Init.StopBits     = UART_STOPBITS_1;
-    huart[uart_num].Init.Parity       = UART_PARITY_NONE;
+    // Some of the config settings are encoded in config bits  LSB=0, MSB=7
+    // 0-1 Parity (CR1)
+    // 4-5 Stop bits (CR2 only defined 1=0, 2=2, but .5 and 1.5 are valid as well... )
+    // 8 - Half duplex mode (CR3)
+    huart[uart_num].Init.StopBits     = (uint32_t)(config & 0x30) << 8;    // UART_STOPBITS_1;
+    huart[uart_num].Init.Parity       = (uint32_t)(config & 0x03) << 9;    // UART_PARITY_NONE;
     huart[uart_num].Init.Mode         = UART_MODE_TX_RX;
     huart[uart_num].Init.HwFlowCtl    = UART_HWCONTROL_NONE;
     huart[uart_num].Init.OverSampling = UART_OVERSAMPLING_16;
+
+    // Still need to handle the Half duplex mode.
+    vcp_printf("drv_uart_begin: %d %d %x %x\n", uart_num, baudrate, huart[uart_num].Init.StopBits, huart[uart_num].Init.Parity);
 
     drv_uart_num = uart_num;
     is_uart_mode[uart_num] = uart_mode;

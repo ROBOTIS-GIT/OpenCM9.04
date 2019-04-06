@@ -36,12 +36,23 @@ class UARTClass : public HardwareSerial
 {
   public:
     enum UARTModes {
-      Mode_8N1 = 0, // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_NO,
-      Mode_8E1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_EVEN,
-      Mode_8O1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_ODD,
-      Mode_8M1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_MARK,
-      Mode_8S1      // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_SPACE,
+      Mode_8N1 = 0,         // No special options
+      Mode_7E1 = 0x02,      // CR1 PCE=1, PS=0
+      Mode_7O1 = 0x03,      // CR1 PCE=1, PS=1
+      Mode_8N1_HALF=0x80,   // 8N1 but supports Half duplex. 
+      Mode_8N2 = 0x20,      // CR2 STOP=2
+      Mode_7E2 = 0x22,      // CR1 PCE=1, PS=0, CR2 STOP=2
+      Mode_7O2 = 0x23,      // CR1 PCE=1, PS=1, CR2 STOP=2
+      Mode_8N2_HALF=0xA0,   // 8N2 but supports Half duplex. 
+
+//      Mode_8M1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_MARK,
+//      Mode_8S1,      // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_SPACE,
     };
+    // Setup the Modes to be bit settings: Bits LSB=0, MSB=7
+    // 0-1 Parity (CR1)
+    // 4-5 Stop bits (CR2 only defined 1=0, 2=2, but .5 and 1.5 are valid as well... )
+    // 8 - Half duplex mode (CR3)
+
     UARTClass(uint8_t uart_num, uint8_t uart_mode, uint8_t *txBuffer, uint16_t tx_buffer_size);
     UARTClass(void);
 
