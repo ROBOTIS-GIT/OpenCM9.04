@@ -52,13 +52,19 @@ static const DynamixelModel dynamixel_model_table[] = {
 
     {XM430_W210, "XM430-W210"},
     {XM430_W350, "XM430-W350"},
-    {XM540_W150, "XM540-W150"},
-    {XM540_W270, "XM540-W270"},
-
+    
     {XH430_V210, "XH430-V210"},
     {XH430_V350, "XH430-V350"},
     {XH430_W210, "XH430-W210"},
     {XH430_W350, "XH430-W350"},
+
+    {XM540_W150, "XM540-W150"},
+    {XM540_W270, "XM540-W270"},
+    
+    {XH540_W150, "XH540_W150"},
+    {XH540_W270, "XH540_W270"},
+    {XH540_V150, "XH540_V150"},
+    {XH540_V270, "XH540_V270"},
 
     {PRO_L42_10_S300_R, "PRO-L42-10-S300-R"},
     {PRO_L54_30_S400_R, "PRO-L54-30-S400-R"},
@@ -76,7 +82,10 @@ static const DynamixelModel dynamixel_model_table[] = {
 
     {PRO_PLUS_H42P_020_S300_R, "PRO-PLUS-H42P-020-S300-R"},
     {PRO_PLUS_H54P_100_S500_R, "PRO-PLUS-H54P-100-S500-R"},
-    {PRO_PLUS_H54P_200_S500_R, "PRO-PLUS-H54P-200-S500-R"}
+    {PRO_PLUS_H54P_200_S500_R, "PRO-PLUS-H54P-200-S500-R"},
+    {PRO_PLUS_M42P_010_S260_R, "PRO-PLUS-M42P-010-S260-R"},
+    {PRO_PLUS_M54P_040_S250_R, "PRO-PLUS-M54P-040-S250-R"},
+    {PRO_PLUS_M54P_060_S250_R, "PRO-PLUS-M54P-060-S250-R"}
 };
 #define COUNT_DYNAMIXEL_MODEL  (sizeof(dynamixel_model_table)/sizeof(dynamixel_model_table[0]))
 

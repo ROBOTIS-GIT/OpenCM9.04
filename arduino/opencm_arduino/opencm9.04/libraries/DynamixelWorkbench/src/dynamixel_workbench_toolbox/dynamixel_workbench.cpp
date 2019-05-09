@@ -790,6 +790,11 @@ bool DynamixelWorkbench::jointMode(uint8_t id, int32_t velocity, int32_t acceler
     {
       result = writeRegister(id, "Moving_Speed", velocity, log);
     }
+    else if (!strncmp(model_name, "PRO-PLUS", strlen("PRO-PLUS")))
+    {
+      result = writeRegister(id, "Profile_Velocity", velocity, log);
+      result = writeRegister(id, "Profile_Acceleration", acceleration, log);
+    }
     else if (!strncmp(model_name, "PRO", strlen("PRO")))
     {
       result = writeRegister(id, "Goal_Velocity", velocity, log);
@@ -848,7 +853,11 @@ bool DynamixelWorkbench::wheelMode(uint8_t id, int32_t acceleration, const char 
   }
   else if (getProtocolVersion() == 2.0)
   {
-    if (!strncmp(model_name, "PRO", strlen("PRO")))
+    if (!strncmp(model_name, "PRO-PLUS", strlen("PRO-PLUS")))
+    {
+      result = writeRegister(id, "Profile_Acceleration", acceleration, log);
+    }
+    else if (!strncmp(model_name, "PRO", strlen("PRO")))
     {
       result = writeRegister(id, "Goal_Acceleration", acceleration, log);
     }

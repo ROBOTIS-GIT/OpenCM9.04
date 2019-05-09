@@ -798,6 +798,75 @@ static const ModelInfo info_XH = {0.229,
                                   3.14159265};
 
 //---------------------------------------------------------
+// EXTXH - (num == XH540_W150 || num == XH540_W270 || num == XH540_V150 || num == XH540_V270)
+//---------------------------------------------------------
+static const ControlItem items_EXTXH[]{
+    {s_Model_Number, 0, sizeof(s_Model_Number) - 1, 2},
+    {s_Firmware_Version, 6, sizeof(s_Firmware_Version) - 1, 1},
+    {s_ID, 7, sizeof(s_ID) - 1, 1},
+    {s_Baud_Rate, 8, sizeof(s_Baud_Rate) - 1, 1},
+    {s_Return_Delay_Time, 9, sizeof(s_Return_Delay_Time) - 1, 1},
+    {s_Drive_Mode, 10, sizeof(s_Drive_Mode) - 1, 1},
+    {s_Operating_Mode, 11, sizeof(s_Operating_Mode) - 1, 1},
+    {s_Secondary_ID, 12, sizeof(s_Secondary_ID) - 1, 1},
+    {s_Protocol_Version, 13, sizeof(s_Protocol_Version) - 1, 1},
+    {s_Homing_Offset, 20, sizeof(s_Homing_Offset) - 1, 4},
+    {s_Moving_Threshold, 24, sizeof(s_Moving_Threshold) - 1, 4},
+    {s_Temperature_Limit, 31, sizeof(s_Temperature_Limit) - 1, 1},
+    {s_Max_Voltage_Limit, 32, sizeof(s_Max_Voltage_Limit) - 1, 2},
+    {s_Min_Voltage_Limit, 34, sizeof(s_Min_Voltage_Limit) - 1, 2},
+    {s_PWM_Limit, 36, sizeof(s_PWM_Limit) - 1, 2},
+    {s_Current_Limit, 38, sizeof(s_Current_Limit) - 1, 2},
+    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
+    {s_Velocity_Limit, 44, sizeof(s_Velocity_Limit) - 1, 4},
+    {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
+    {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
+    {s_External_Port_Mode_1, 56, sizeof(s_External_Port_Mode_1) - 1, 1},
+    {s_External_Port_Mode_2, 57, sizeof(s_External_Port_Mode_2) - 1, 1},
+    {s_External_Port_Mode_3, 58, sizeof(s_External_Port_Mode_3) - 1, 1},
+    {s_Shutdown, 63, sizeof(s_Shutdown) - 1, 1},
+
+    {s_Torque_Enable, 64, sizeof(s_Torque_Enable) - 1, 1},
+    {s_LED, 65, sizeof(s_LED) - 1, 1},
+    {s_Status_Return_Level, 68, sizeof(s_Status_Return_Level) - 1, 1},
+    {s_Registered_Instruction, 69, sizeof(s_Registered_Instruction) - 1, 1},
+    {s_Hardware_Error_Status, 70, sizeof(s_Hardware_Error_Status) - 1, 1},
+    {s_Velocity_I_Gain, 76, sizeof(s_Velocity_I_Gain) - 1, 2},
+    {s_Velocity_P_Gain, 78, sizeof(s_Velocity_P_Gain) - 1, 2},
+    {s_Position_D_Gain, 80, sizeof(s_Position_D_Gain) - 1, 2},
+    {s_Position_I_Gain, 82, sizeof(s_Position_I_Gain) - 1, 2},
+    {s_Position_P_Gain, 84, sizeof(s_Position_P_Gain) - 1, 2},
+    {s_Feedforward_2nd_Gain, 88, sizeof(s_Feedforward_2nd_Gain) - 1, 2},
+    {s_Feedforward_1st_Gain, 90, sizeof(s_Feedforward_1st_Gain) - 1, 2},
+    {s_Bus_Watchdog, 98, sizeof(s_Bus_Watchdog) - 1, 1},
+    {s_Goal_PWM, 100, sizeof(s_Goal_PWM) - 1, 2},
+    {s_Goal_Current, 102, sizeof(s_Goal_Current) - 1, 2},
+    {s_Goal_Velocity, 104, sizeof(s_Goal_Velocity) - 1, 4},
+    {s_Profile_Acceleration, 108, sizeof(s_Profile_Acceleration) - 1, 4},
+    {s_Profile_Velocity, 112, sizeof(s_Profile_Velocity) - 1, 4},
+    {s_Goal_Position, 116, sizeof(s_Goal_Position) - 1, 4},
+    {s_Realtime_Tick, 120, sizeof(s_Realtime_Tick) - 1, 2},
+    {s_Moving, 122, sizeof(s_Moving) - 1, 1},
+    {s_Moving_Status, 123, sizeof(s_Moving_Status) - 1, 1},
+    {s_Present_PWM, 124, sizeof(s_Present_PWM) - 1, 2},
+    {s_Present_Current, 126, sizeof(s_Present_Current) - 1, 2},
+    {s_Present_Velocity, 128, sizeof(s_Present_Velocity) - 1, 4},
+    {s_Present_Position, 132, sizeof(s_Present_Position) - 1, 4},
+    {s_Velocity_Trajectory, 136, sizeof(s_Velocity_Trajectory) - 1, 4},
+    {s_Position_Trajectory, 140, sizeof(s_Position_Trajectory) - 1, 4},
+    {s_Present_Input_Voltage, 144, sizeof(s_Present_Input_Voltage) - 1, 2},
+    {s_Present_Temperature, 146, sizeof(s_Present_Temperature) - 1, 1}};
+
+#define COUNT_EXTXH_ITEMS (sizeof(items_EXTXH) / sizeof(items_EXTXH[0]))
+
+static const ModelInfo info_EXTXH = {0.229,
+                                  0,
+                                  2048,
+                                  4096,
+                                  -3.14159265, 
+                                  3.14159265};
+
+//---------------------------------------------------------
 // PRO - (num == PRO_L42_10_S300_R)
 //---------------------------------------------------------
 static const ControlItem items_PRO[]{
@@ -1050,15 +1119,20 @@ const ControlItem *DynamixelItem::getControlTable(uint16_t model_number)
     control_table = items_XM;
     the_number_of_item = COUNT_XM_ITEMS;
   }
+  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
+  {
+    control_table = items_XH;
+    the_number_of_item = COUNT_XH_ITEMS;
+  }
   else if (num == XM540_W150 || num == XM540_W270)
   {
     control_table = items_EXTXM;
     the_number_of_item = COUNT_EXTXM_ITEMS;
   }
-  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
+  else if (num == XH540_W150 || num == XH540_W270 || num == XH540_V150 || num == XH540_V270)
   {
-    control_table = items_XH;
-    the_number_of_item = COUNT_XH_ITEMS;
+    control_table = items_EXTXH;
+    the_number_of_item = COUNT_EXTXH_ITEMS;
   }
   else if (num == PRO_L54_30_S400_R || num == PRO_L54_30_S500_R || num == PRO_L54_50_S290_R || num == PRO_L54_50_S500_R ||
            num == PRO_M42_10_S260_R || num == PRO_M54_40_S250_R || num == PRO_M54_60_S250_R ||
@@ -1072,7 +1146,7 @@ const ControlItem *DynamixelItem::getControlTable(uint16_t model_number)
     control_table = items_PRO;
     the_number_of_item = COUNT_PRO_ITEMS;
   }
-  else if (num == PRO_PLUS_H42P_020_S300_R || num == PRO_PLUS_H54P_100_S500_R || num == PRO_PLUS_H54P_200_S500_R)
+  else if (num == PRO_PLUS_H42P_020_S300_R || num == PRO_PLUS_H54P_100_S500_R || num == PRO_PLUS_H54P_200_S500_R || num == PRO_PLUS_M42P_010_S260_R || num == PRO_PLUS_M54P_040_S250_R || num == PRO_PLUS_M54P_060_S250_R)
   {
     control_table = items_PRO_PLUS;
     the_number_of_item = COUNT_EXTPRO_PLUS_ITEMS;
@@ -1135,6 +1209,10 @@ const ModelInfo *DynamixelItem::getModelInfo(uint16_t model_number)
   else if (num == XM540_W150 || num == XM540_W270)
   {
     info = &info_EXTXM;
+  }
+  else if (num == XH540_W150 || num == XH540_W270 || num == XH540_V150 || num == XH540_V270)
+  {
+    info = &info_EXTXH;
   }
   else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
   {
