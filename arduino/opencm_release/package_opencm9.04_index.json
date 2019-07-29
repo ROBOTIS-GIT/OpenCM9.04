@@ -403,8 +403,8 @@
           },
           "url": "https://github.com/ROBOTIS-GIT/OpenCM9.04/releases/download/1.4.2/opencm9.04_core_1.4.2.tar.bz2",
           "archiveFileName": "opencm9.04_core_1.4.2.tar.bz2",
-          "checksum": "SHA-256:BDF059F3D087518208A9D4EA51FECB1D6C1D130813D56262999781ECB44867C1",
-          "size": "18003602",
+          "checksum": "SHA-256:EFA9B0ED7A0F2E8126CCA8C56AD15A9BF0E225555DEF252DA9A34F1FD9EE7FB8",
+          "size": "18003629",
           "help": {
                     "online": "http://emanual.robotis.com/docs/en/parts/controller/opencm904/"
           },
