@@ -512,7 +512,7 @@ static const ControlItem items_XL320[]{
     {s_P_gain, 29, sizeof(s_P_gain) - 1, 1},
     {s_Goal_Position, 30, sizeof(s_Goal_Position) - 1, 2},
     {s_Moving_Speed, 32, sizeof(s_Moving_Speed) - 1, 2},
-    {s_Torque_Limit, 34, sizeof(s_Torque_Limit) - 1, 2},
+    {s_Torque_Limit, 35, sizeof(s_Torque_Limit) - 1, 2},
     {s_Present_Position, 37, sizeof(s_Present_Position) - 1, 2},
     {s_Present_Speed, 39, sizeof(s_Present_Speed) - 1, 2},
     {s_Present_Load, 41, sizeof(s_Present_Load) - 1, 2},
@@ -551,7 +551,6 @@ static const ControlItem items_XL[]{
     {s_Max_Voltage_Limit, 32, sizeof(s_Max_Voltage_Limit) - 1, 2},
     {s_Min_Voltage_Limit, 34, sizeof(s_Min_Voltage_Limit) - 1, 2},
     {s_PWM_Limit, 36, sizeof(s_PWM_Limit) - 1, 2},
-    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
     {s_Velocity_Limit, 44, sizeof(s_Velocity_Limit) - 1, 4},
     {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
     {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
@@ -597,7 +596,7 @@ static const ModelInfo info_XL = {0.229,
                                   3.14159265};
 
 //---------------------------------------------------------
-// XM - (num == XM430_W210 || num == XM430_W350)
+// XM - (num == XM430_W210 || num == XM430_W350 || num == XL330_M077 || num == XL330_M288)
 //---------------------------------------------------------
 static const ControlItem items_XM[]{
     {s_Model_Number, 0, sizeof(s_Model_Number) - 1, 2},
@@ -616,7 +615,6 @@ static const ControlItem items_XM[]{
     {s_Min_Voltage_Limit, 34, sizeof(s_Min_Voltage_Limit) - 1, 2},
     {s_PWM_Limit, 36, sizeof(s_PWM_Limit) - 1, 2},
     {s_Current_Limit, 38, sizeof(s_Current_Limit) - 1, 2},
-    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
     {s_Velocity_Limit, 44, sizeof(s_Velocity_Limit) - 1, 4},
     {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
     {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
@@ -682,7 +680,6 @@ static const ControlItem items_EXTXM[]{
     {s_Min_Voltage_Limit, 34, sizeof(s_Min_Voltage_Limit) - 1, 2},
     {s_PWM_Limit, 36, sizeof(s_PWM_Limit) - 1, 2},
     {s_Current_Limit, 38, sizeof(s_Current_Limit) - 1, 2},
-    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
     {s_Velocity_Limit, 44, sizeof(s_Velocity_Limit) - 1, 4},
     {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
     {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
@@ -732,7 +729,7 @@ static const ModelInfo info_EXTXM = {0.229,
                                   3.14159265};
 
 //---------------------------------------------------------
-// XH - (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
+// XH - (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350 || num == XW540_T140 || num == XW540_T260)
 //---------------------------------------------------------
 static const ControlItem items_XH[]{
     {s_Model_Number, 0, sizeof(s_Model_Number) - 1, 2},
@@ -751,7 +748,6 @@ static const ControlItem items_XH[]{
     {s_Min_Voltage_Limit, 34, sizeof(s_Min_Voltage_Limit) - 1, 2},
     {s_PWM_Limit, 36, sizeof(s_PWM_Limit) - 1, 2},
     {s_Current_Limit, 38, sizeof(s_Current_Limit) - 1, 2},
-    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
     {s_Velocity_Limit, 44, sizeof(s_Velocity_Limit) - 1, 4},
     {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
     {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
@@ -817,7 +813,6 @@ static const ControlItem items_EXTXH[]{
     {s_Min_Voltage_Limit,  34, sizeof(s_Min_Voltage_Limit) - 1,  2},
     {s_PWM_Limit,          36, sizeof(s_PWM_Limit) - 1,          2},
     {s_Current_Limit,      38, sizeof(s_Current_Limit) - 1,      2},
-    {s_Acceleration_Limit, 40, sizeof(s_Acceleration_Limit) - 1, 4},
     {s_Velocity_Limit,     44, sizeof(s_Velocity_Limit) - 1,     4},
     {s_Max_Position_Limit, 48, sizeof(s_Max_Position_Limit) - 1, 4},
     {s_Min_Position_Limit, 52, sizeof(s_Min_Position_Limit) - 1, 4},
@@ -1306,7 +1301,7 @@ const ControlItem *DynamixelItem::getControlTable(uint16_t model_number)
     control_table = items_XL;
     the_number_of_item = COUNT_XL_ITEMS;
   }
-  else if (num == XM430_W210 || num == XM430_W350)
+  else if (num == XM430_W210 || num == XM430_W350 || num == XL330_M077 || num == XL330_M288)
   {
     control_table = items_XM;
     the_number_of_item = COUNT_XM_ITEMS;
@@ -1316,7 +1311,7 @@ const ControlItem *DynamixelItem::getControlTable(uint16_t model_number)
     control_table = items_EXTXM;
     the_number_of_item = COUNT_EXTXM_ITEMS;
   }
-  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
+  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350 || num == XW540_T140 || num == XW540_T260)
   {
     control_table = items_XH;
     the_number_of_item = COUNT_XH_ITEMS;
@@ -1411,7 +1406,7 @@ const ModelInfo *DynamixelItem::getModelInfo(uint16_t model_number)
   {
     info = &info_XL;
   }
-  else if (num == XM430_W210 || num == XM430_W350)
+  else if (num == XM430_W210 || num == XM430_W350 || num == XL330_M077 || num == XL330_M288)
   {
     info = &info_XM;
   }
@@ -1419,7 +1414,7 @@ const ModelInfo *DynamixelItem::getModelInfo(uint16_t model_number)
   {
     info = &info_EXTXM;
   }
-  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350)
+  else if (num == XH430_V210 || num == XH430_V350 || num == XH430_W210 || num == XH430_W350 || num == XW540_T140 || num == XW540_T260)
   {
     info = &info_XH;
   }
