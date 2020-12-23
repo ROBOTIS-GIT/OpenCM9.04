@@ -16,10 +16,17 @@
 
 /* Authors: Taehun Lim (Darby) */
 
+/*******************************************************************************
+* WARNING
+* DYNAMIXEL Workbench library is deprecated and will not be updated after 2020.
+* Please use DYNAMIXEL2Arduino or DYNAMIXEL SDK instead.
+* https://emanual.robotis.com/docs/en/parts/controller/opencm904/#library-api
+*******************************************************************************/
+
 #include <DynamixelWorkbench.h>
 
 #if defined(__OPENCM904__)
-  #define DEVICE_NAME "3" //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
+  #define DEVICE_NAME "1" //Dynamixel on Serial3(USART3)  <-OpenCM 485EXP
 #elif defined(__OPENCR__)
   #define DEVICE_NAME ""
 #endif   
@@ -164,47 +171,36 @@ void loop()
             {
               uint32_t data = 0;
 
-              if (dxl_wb.getProtocolVersion() == 2.0f)
+              switch (control_item[index].data_length)
               {
-                data = getAllRegisteredData[control_item[index].address];
-                Serial.print("\t");
-                Serial.print(control_item[index].item_name);
-                Serial.print(" : ");
-                Serial.println(data);
-              }
-              else if (dxl_wb.getProtocolVersion() == 1.0f)
-              {
-                switch (control_item[index].data_length)
-                {
-                  case BYTE:
-                    data = getAllRegisteredData[control_item[index].address];
-                    Serial.print("\t");
-                    Serial.print(control_item[index].item_name);
-                    Serial.print(" : ");
-                    Serial.println(data);
-                    break;
+                case BYTE:
+                  data = getAllRegisteredData[control_item[index].address];
+                  Serial.print("\t");
+                  Serial.print(control_item[index].item_name);
+                  Serial.print(" : ");
+                  Serial.println(data);
+                  break;
 
-                  case WORD:
-                    data = DXL_MAKEWORD(getAllRegisteredData[control_item[index].address], getAllRegisteredData[control_item[index].address+1]);
-                    Serial.print("\t");
-                    Serial.print(control_item[index].item_name);
-                    Serial.print(" : ");
-                    Serial.println(data);
-                    break;
+                case WORD:
+                  data = DXL_MAKEWORD(getAllRegisteredData[control_item[index].address], getAllRegisteredData[control_item[index].address+1]);
+                  Serial.print("\t");
+                  Serial.print(control_item[index].item_name);
+                  Serial.print(" : ");
+                  Serial.println(data);
+                  break;
 
-                  case DWORD:
-                    data = DXL_MAKEDWORD(DXL_MAKEWORD(getAllRegisteredData[control_item[index].address],   getAllRegisteredData[control_item[index].address+1]),
-                                          DXL_MAKEWORD(getAllRegisteredData[control_item[index].address+2], getAllRegisteredData[control_item[index].address+3]));
-                    Serial.print("\t");
-                    Serial.print(control_item[index].item_name);
-                    Serial.print(" : ");
-                    Serial.println(data);
-                    break;
+                case DWORD:
+                  data = DXL_MAKEDWORD(DXL_MAKEWORD(getAllRegisteredData[control_item[index].address],   getAllRegisteredData[control_item[index].address+1]),
+                                        DXL_MAKEWORD(getAllRegisteredData[control_item[index].address+2], getAllRegisteredData[control_item[index].address+3]));
+                  Serial.print("\t");
+                  Serial.print(control_item[index].item_name);
+                  Serial.print(" : ");
+                  Serial.println(data);
+                  break;
 
-                  default:
-                    data = getAllRegisteredData[control_item[index].address];
-                    break;
-                } 
+                default:
+                  data = getAllRegisteredData[control_item[index].address];
+                  break;
               }
             }
           }

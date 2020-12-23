@@ -16,6 +16,13 @@
 
 /* Authors: Taehun Lim (Darby) */
 
+/*******************************************************************************
+* WARNING
+* DYNAMIXEL Workbench library is deprecated and will not be updated after 2020.
+* Please use DYNAMIXEL2Arduino or DYNAMIXEL SDK instead.
+* https://emanual.robotis.com/docs/en/parts/controller/opencm904/#library-api
+*******************************************************************************/
+
 #include <DynamixelWorkbench.h>
 
 #if defined(__OPENCM904__)

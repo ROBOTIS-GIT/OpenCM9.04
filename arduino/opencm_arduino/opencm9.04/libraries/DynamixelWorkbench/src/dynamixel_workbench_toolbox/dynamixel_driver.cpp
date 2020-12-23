@@ -498,6 +498,7 @@ bool DynamixelDriver::reset(uint8_t id, const char **log)
             !strncmp(model_name, "XL", strlen("XL"))  ||
             !strncmp(model_name, "XM", strlen("XM"))  ||
             !strncmp(model_name, "XH", strlen("XH"))  ||
+            !strncmp(model_name, "XW", strlen("XW"))  ||
             !strncmp(model_name, "PRO", strlen("PRO"))||
             !strncmp(model_name, "RH", strlen("RH")))
         {
@@ -789,6 +790,27 @@ bool DynamixelDriver::readRegister(uint8_t id, uint16_t address, uint16_t length
   else if (sdk_error.dxl_error != 0)
   {
     if (log != NULL) *log = packetHandler_->getRxPacketError(sdk_error.dxl_error);
+    switch (length)
+    {
+      case BYTE:
+        *data = data_read[0];
+       break;
+
+      case WORD:
+        *data = DXL_MAKEWORD(data_read[0], data_read[1]);
+       break;
+
+      case DWORD:
+        *data = DXL_MAKEDWORD(DXL_MAKEWORD(data_read[0], data_read[1]), DXL_MAKEWORD(data_read[2], data_read[3]));
+       break;
+
+      default:
+        for (uint16_t index = 0; index < length; index++)
+        {
+          data[index] = (uint32_t)data_read[index];
+        }
+       break;
+    }
     return false;
   }
   else

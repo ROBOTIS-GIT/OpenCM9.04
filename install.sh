@@ -15,10 +15,10 @@ export MAIN_PLATFORMS='declare -A main_platforms=([opencm904]="OpenCM904:OpenCM9
 sleep 3
 export DISPLAY=:1.0
 
-# download and install arduino 1.8.5
-wget https://downloads.arduino.cc/arduino-1.8.5-linux64.tar.xz
-tar xf arduino-1.8.5-linux64.tar.xz
-mv arduino-1.8.5 $HOME/arduino_ide
+# download and install arduino 1.8.13
+wget https://downloads.arduino.cc/arduino-1.8.13-linux64.tar.xz
+tar xf arduino-1.8.13-linux64.tar.xz
+mv arduino-1.8.13 $HOME/arduino_ide
 
 # add the arduino CLI to our PATH
 export PATH="$HOME/arduino_ide:$PATH"
