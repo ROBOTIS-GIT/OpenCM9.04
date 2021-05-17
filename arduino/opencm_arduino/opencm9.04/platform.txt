@@ -52,11 +52,11 @@ compiler.libs.c.flags= "-I{build.variant.path}/{build.inc1}" "-I{build.variant.p
 # ---------------------
 
 ## Compile c files
-recipe.c.o.pattern=		"{compiler.path}{compiler.c.cmd}" 	{compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {build.cpu_flags} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {build.cpu_flags} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
 ###
 
 ## Compile c++ files
-recipe.cpp.o.pattern=	"{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {build.cpu_flags} {build.hs_flag} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {build.cpu_flags} {build.hs_flag} {build.common_flags} {compiler.libs.c.flags} {includes} "{source_file}" -o "{object_file}"
 #### {compiler.libs.c.flags}  before includes
 
 ## Compile S files
@@ -66,7 +66,7 @@ recipe.s.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mcpu={b
 
 ## Create archives
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
-recipe.c.combine.pattern= "{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" --specs=nano.specs -u _printf_float -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-unresolved-symbols -Wl,--start-group {object_files} "{build.variant.path}/{build.variant_system_lib}" -Wl,--whole-archive "{build.path}/{archive_file}" -Wl,--no-whole-archive -Wl,--end-group
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" --specs=nano.specs -u _printf_float -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-unresolved-symbols -Wl,--start-group {object_files} "{build.variant.path}/{build.variant_system_lib}" -Wl,--whole-archive "{build.path}/{archive_file}" -Wl,--no-whole-archive -Wl,--end-group
 
 ## Create eeprom
 recipe.objcopy.eep.pattern=
@@ -92,6 +92,7 @@ tools.opencm_ld.cmd.windows=opencm9.04_ld.exe
 tools.opencm_ld.path={runtime.tools.opencm_tools.path}/win
 tools.opencm_ld.path.macosx={runtime.tools.opencm_tools.path}/macosx
 tools.opencm_ld.path.linux={runtime.tools.opencm_tools.path}/linux
+tools.opencm_ld.path.arm={runtime.tools.opencm_tools.path}/arm
 
 tools.opencm_ld.upload.params.verbose=-d
 tools.opencm_ld.upload.params.quiet=n
