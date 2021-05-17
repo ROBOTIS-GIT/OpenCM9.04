@@ -42,7 +42,14 @@ DEPENDENCY_OUTPUT=$(arduino --install-boards OpenCM904:OpenCM904 2>&1)
 if [ $? -ne 0 ]; then echo -e "\xe2\x9c\x96"; else echo -e "\xe2\x9c\x93"; fi
 
 # Update OpenCR package manually
-git clone --recursive https://github.com/ROBOTIS-GIT/OpenCM9.04.git --branch develop --single-branch
+if [ $1 == "refs/heads/master" ]; then
+  git clone --recursive https://github.com/ROBOTIS-GIT/OpenCM9.04.git --branch master --single-branch
+elif [ $1 == "refs/heads/develop" ]; then
+  git clone --recursive https://github.com/ROBOTIS-GIT/OpenCM9.04.git --branch develop --single-branch
+else
+  echo -e "\xe2\x9c\x93";
+fi
+
 rm -rf $HOME/.arduino15/packages/OpenCM904/hardware
 mkdir $HOME/Arduino/hardware
 mkdir $HOME/Arduino/hardware/OpenCM904
