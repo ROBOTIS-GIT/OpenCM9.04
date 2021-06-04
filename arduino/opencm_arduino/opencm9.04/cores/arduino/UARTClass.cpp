@@ -48,14 +48,13 @@ void UARTClass::begin(const uint32_t dwBaudRate)
 
 void UARTClass::begin(const uint32_t dwBaudRate, const UARTModes config)
 {
-  UNUSED(config);
 
   tx_buffer.iHead = 0;
   tx_buffer.iTail = 0;
 
   _uart_baudrate = dwBaudRate;
 
-  drv_uart_begin(_uart_num, _uart_mode, dwBaudRate);
+  drv_uart_begin(_uart_num, _uart_mode, dwBaudRate, (uint8_t)config);
 }
 
 void UARTClass::end( void )

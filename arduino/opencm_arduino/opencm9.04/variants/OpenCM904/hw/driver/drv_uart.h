@@ -32,7 +32,7 @@
 
 
 int      drv_uart_init();
-void     drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate);
+void     drv_uart_begin(uint8_t uart_num, uint8_t uart_mode, uint32_t baudrate, uint8_t config);
 uint32_t drv_uart_write(uint8_t uart_num, const uint8_t wr_data);
 uint32_t drv_uart_write_dma_it(uint8_t uart_num, const uint8_t *wr_data, uint16_t Size);
 void     drv_uart_flush(uint8_t uart_num);
