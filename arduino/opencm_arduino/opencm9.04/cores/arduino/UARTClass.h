@@ -39,7 +39,7 @@ class UARTClass : public HardwareSerial
     enum UARTModes {
       Mode_8N1 = 0, // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_NO,
       Mode_8E1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_EVEN,
-	  Mode_8E2,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_2_BIT | UART_MR_PAR_EVEN,
+      Mode_8E2,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_2_BIT | UART_MR_PAR_EVEN,
       Mode_8O1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_ODD,
       Mode_8M1,     // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_MARK,
       Mode_8S1      // = US_MR_CHRL_8_BIT | US_MR_NBSTOP_1_BIT | UART_MR_PAR_SPACE,
